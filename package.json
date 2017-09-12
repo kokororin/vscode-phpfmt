@@ -79,6 +79,16 @@
           "type": "array",
           "default": [],
           "description": "call specific compiler pass"
+        },
+        "phpfmt.smart_linebreak_after_curly": {
+          "type": "boolean",
+          "default": false,
+          "description": "convert multistatement blocks into multiline blocks"
+        },
+        "phpfmt.yoda": {
+          "type": "boolean",
+          "default": false,
+          "description": "yoda-style comparisons"
         }
       }
     }

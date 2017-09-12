@@ -21,7 +21,7 @@ class PHPFmt {
   loadSettings() {
     const config = workspace.getConfiguration('phpfmt');
 
-    this.executablePath = config.get('php_bin');
+    this.phpBin = config.get('php_bin');
 
     if (config.get('psr1')) {
       this.args.push('--psr1');
@@ -54,6 +54,14 @@ class PHPFmt {
     if (passes.length > 0) {
       this.args.push(`--passes=${passes.join(',')}`);
     }
+
+    if (config.get('smart_linebreak_after_curly')) {
+      this.args.push('--smart_linebreak_after_curly');
+    }
+
+    if (config.get('yoda')) {
+      this.args.push('--yoda');
+    }
   }
 
   getArgs(fileName) {
@@ -63,37 +71,55 @@ class PHPFmt {
   }
 
   format(context, text) {
-    const fileName =
-      tmpDir +
-      '/temp-' +
-      Math.random()
-        .toString(36)
-        .replace(/[^a-z]+/g, '')
-        .substr(0, 10) +
-      '.php';
-    fs.writeFileSync(fileName, text);
-
-    const args = this.getArgs(fileName);
-    args.unshift(`${context.extensionPath}/fmt.phar`);
-
-    const exec = cp.spawn(this.executablePath, args);
-
-    exec.stdout.on('data', buffer => {
-      console.log(buffer.toString());
-    });
-    exec.stderr.on('data', buffer => {
-      console.log(buffer.toString());
-    });
-    exec.on('close', code => {
-      console.log(code);
-    });
-
     return new Promise((resolve, reject) => {
+      cp.exec(`${this.phpBin} -r "echo PHP_VERSION_ID;"`, (err, stdout) => {
+        if (err) {
+          window.showErrorMessage('cannot find php bin');
+          reject();
+        } else if (Number(stdout.toString()) < 70000) {
+          window.showErrorMessage('php version < 7.0');
+          reject();
+        }
+      });
+
+      const fileName =
+        tmpDir +
+        '/temp-' +
+        Math.random()
+          .toString(36)
+          .replace(/[^a-z]+/g, '')
+          .substr(0, 10) +
+        '.php';
+      fs.writeFileSync(fileName, text);
+
+      // test whether the php file has syntax error
+      cp.exec(`${this.phpBin} -l ${fileName}`, err => {
+        if (err && err.code && err.code !== 0) {
+          window.showErrorMessage('syntax error in your php file');
+          reject();
+        }
+      });
+
+      const args = this.getArgs(fileName);
+      args.unshift(`${context.extensionPath}/fmt.phar`);
+
+      const exec = cp.spawn(this.phpBin, args);
+
+      exec.stdout.on('data', buffer => {
+        console.log(buffer.toString());
+      });
+      exec.stderr.on('data', buffer => {
+        console.log(buffer.toString());
+      });
+      exec.on('close', code => {
+        console.log(code);
+      });
+
       exec.addListener('error', () => {
+        window.showErrorMessage('run phpfmt failed');
         reject();
       });
       exec.addListener('exit', code => {
-        console.log(code);
         if (code === 0) {
           const formatted = fs.readFileSync(fileName, 'utf-8');
           if (formatted.length > 0) {

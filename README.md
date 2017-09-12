@@ -29,7 +29,9 @@ Default configuration is the following
     "phpfmt.indent_with_space": 4,
     "phpfmt.enable_auto_align": false,
     "phpfmt.visibility_order": false,
-    "phpfmt.passes": []
+    "phpfmt.passes": [],
+    "phpfmt.smart_linebreak_after_curly": false,
+    "phpfmt.yoda": false
 }
 ```
 
