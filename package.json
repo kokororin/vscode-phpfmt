@@ -1,7 +1,7 @@
 {
   "name": "vscode-phpfmt",
   "displayName": "phpfmt",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "phpfmt for Visual Studio Code",
   "main": "extension.js",
   "scripts": {

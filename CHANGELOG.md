@@ -1,3 +1,6 @@
+### 1.0.3
+- Reload configuration on changed
+
 ### 1.0.2
 
 - Add more phpfmt modes

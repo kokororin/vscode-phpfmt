@@ -72,15 +72,16 @@ class PHPFmt {
 
   format(context, text) {
     return new Promise((resolve, reject) => {
-      cp.exec(`${this.phpBin} -r "echo PHP_VERSION_ID;"`, (err, stdout) => {
-        if (err) {
-          window.showErrorMessage('cannot find php bin');
-          reject();
-        } else if (Number(stdout.toString()) < 70000) {
+      try {
+        const stdout = cp.execSync(`${this.phpBin} -r "echo PHP_VERSION_ID;"`);
+        if (Number(stdout.toString()) < 70000) {
           window.showErrorMessage('php version < 7.0');
-          reject();
+          return reject();
         }
-      });
+      } catch (e) {
+        window.showErrorMessage('cannot find php bin');
+        return reject();
+      }
 
       const fileName =
         tmpDir +
@@ -93,12 +94,12 @@ class PHPFmt {
       fs.writeFileSync(fileName, text);
 
       // test whether the php file has syntax error
-      cp.exec(`${this.phpBin} -l ${fileName}`, err => {
-        if (err && err.code && err.code !== 0) {
-          window.showErrorMessage('syntax error in your php file');
-          reject();
-        }
-      });
+      try {
+        cp.execSync(`${this.phpBin} -l ${fileName}`);
+      } catch (e) {
+        window.showErrorMessage('syntax error in your php file');
+        return reject();
+      }
 
       const args = this.getArgs(fileName);
       args.unshift(`${context.extensionPath}/fmt.phar`);
@@ -142,8 +143,6 @@ class PHPFmt {
 }
 
 exports.activate = context => {
-  const phpfmt = new PHPFmt();
-
   context.subscriptions.push(
     commands.registerTextEditorCommand('phpfmt.format', textEditor => {
       if (textEditor.document.languageId === 'php') {
@@ -159,6 +158,8 @@ exports.activate = context => {
           const originalText = document.getText();
           const lastLine = document.lineAt(document.lineCount - 1);
           const range = new Range(new Position(0, 0), lastLine.range.end);
+
+          const phpfmt = new PHPFmt();
 
           phpfmt
             .format(context, originalText)
