@@ -1,26 +1,31 @@
 {
-  "name": "phpfmt",
-  "version": "1.0.0",
-  "description": "",
+  "name": "vscode-phpfmt",
+  "displayName": "phpfmt",
+  "version": "1.0.1",
+  "description": "phpfmt for Visual Studio Code",
   "main": "extension.js",
   "scripts": {
-    "lint": "eslint extension.js"
+    "lint": "eslint extension.js",
+    "postinstall": "node ./node_modules/vscode/bin/install"
   },
-  "keywords": [],
+  "keywords": ["phpfmt", "vscode"],
+  "icon": "logo.png",
   "publisher": "kokororin",
-  "author": "",
+  "author": "kokororin",
   "license": "MIT",
+  "repository": {
+		"type": "git",
+		"url": "https://github.com/kokororin/vscode-phpfmt.git"
+  },
+  "bugs": {
+		"url": "https://github.com/kokororin/vscode-phpfmt/issues"
+  },
+  "homepage": "https://github.com/kokororin/vscode-phpfmt#readme",
   "engines": {
     "vscode": "^1.9.0"
   },
-  "categories": [
-    "Formatters",
-    "Linters",
-    "Other"
-  ],
-  "activationEvents": [
-    "onLanguage:php"
-  ],
+  "categories": ["Formatters", "Linters", "Other"],
+  "activationEvents": ["onLanguage:php"],
   "contributes": {
     "commands": [
       {
@@ -61,7 +66,8 @@
         "phpfmt.visibility_order": {
           "type": "boolean",
           "default": false,
-          "description": "fixes visibiliy order for method in classes - PSR-2 4.2"
+          "description":
+            "fixes visibiliy order for method in classes - PSR-2 4.2"
         },
         "phpfmt.passes": {
           "type": "array",
