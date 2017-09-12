@@ -1,0 +1,80 @@
+{
+  "name": "phpfmt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "extension.js",
+  "scripts": {
+    "lint": "eslint extension.js"
+  },
+  "keywords": [],
+  "publisher": "kokororin",
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.9.0"
+  },
+  "categories": [
+    "Formatters",
+    "Linters",
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:php"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "phpfmt.format",
+        "title": "phpfmt: format this file",
+        "when": "!inOutput && editorFocus && editorLangId == php"
+      }
+    ],
+    "configuration": {
+      "title": "phpfmt Configuration options",
+      "type": "object",
+      "properties": {
+        "phpfmt.php_bin": {
+          "type": "string",
+          "default": "/usr/bin/php",
+          "description": "php executable path"
+        },
+        "phpfmt.psr1": {
+          "type": "boolean",
+          "default": false,
+          "description": "activate PSR1 style"
+        },
+        "phpfmt.psr2": {
+          "type": "boolean",
+          "default": true,
+          "description": "activate PSR2 style"
+        },
+        "phpfmt.indent_with_space": {
+          "type": "integer",
+          "default": 4,
+          "description": "use spaces instead of tabs for indentation. Default 4"
+        },
+        "phpfmt.enable_auto_align": {
+          "type": "boolean",
+          "default": false,
+          "description": "disable auto align of ST_EQUAL and T_DOUBLE_ARROW"
+        },
+        "phpfmt.visibility_order": {
+          "type": "boolean",
+          "default": false,
+          "description": "fixes visibiliy order for method in classes - PSR-2 4.2"
+        },
+        "phpfmt.passes": {
+          "type": "array",
+          "default": [],
+          "description": "call specific compiler pass"
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "^4.6.1",
+    "eslint-config-kotori": "^0.1.3",
+    "vscode": "^0.11.0"
+  }
+}
