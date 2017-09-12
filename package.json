@@ -14,11 +14,11 @@
   "author": "kokororin",
   "license": "MIT",
   "repository": {
-		"type": "git",
-		"url": "https://github.com/kokororin/vscode-phpfmt.git"
+    "type": "git",
+    "url": "https://github.com/kokororin/vscode-phpfmt.git"
   },
   "bugs": {
-		"url": "https://github.com/kokororin/vscode-phpfmt/issues"
+    "url": "https://github.com/kokororin/vscode-phpfmt/issues"
   },
   "homepage": "https://github.com/kokororin/vscode-phpfmt#readme",
   "engines": {
@@ -47,6 +47,12 @@
           "type": "boolean",
           "default": false,
           "description": "activate PSR1 style"
+        },
+        "phpfmt.psr1_naming": {
+          "type": "boolean",
+          "default": false,
+          "description":
+            "activate PSR1 style - Section 3 and 4.3 - Class and method names case."
         },
         "phpfmt.psr2": {
           "type": "boolean",

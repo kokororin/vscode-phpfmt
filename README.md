@@ -24,6 +24,7 @@ Default configuration is the following
 {
     "phpfmt.php_bin": "/usr/bin/php",
     "phpfmt.psr1": false,
+    "phpfmt.psr1_naming": false,
     "phpfmt.psr2": true,
     "phpfmt.indent_with_space": 4,
     "phpfmt.enable_auto_align": false,

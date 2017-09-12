@@ -1,5 +1,12 @@
-const vscode = require('vscode');
-const { commands, workspace, window, languages, Range, Position } = vscode;
+const {
+  commands,
+  workspace,
+  window,
+  languages,
+  Range,
+  Position,
+  TextEdit
+} = require('vscode');
 const fs = require('fs');
 const os = require('os');
 const cp = require('child_process');
@@ -18,6 +25,10 @@ class PHPFmt {
 
     if (config.get('psr1')) {
       this.args.push('--psr1');
+    }
+
+    if (config.get('psr1_naming')) {
+      this.args.push('--psr1-naming');
     }
 
     if (config.get('psr2')) {
@@ -64,9 +75,8 @@ class PHPFmt {
 
     const args = this.getArgs(fileName);
     args.unshift(`${context.extensionPath}/fmt.phar`);
-    console.log(args);
 
-    const exec = cp.spawn('/usr/bin/php', args);
+    const exec = cp.spawn(this.executablePath, args);
 
     exec.stdout.on('data', buffer => {
       console.log(buffer.toString());
@@ -128,7 +138,7 @@ exports.activate = context => {
             .format(context, originalText)
             .then(text => {
               if (text !== originalText) {
-                resolve([new vscode.TextEdit(range, text)]);
+                resolve([new TextEdit(range, text)]);
               } else {
                 reject();
               }
