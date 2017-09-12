@@ -2,7 +2,7 @@
 
 The missing phpfmt plugin for Visual Studio Code.
 
-## Instalation
+## Installation
 
 Open command palette <kbd>F1</kbd> and select `Extensions: Install Extension`, then search for phpfmt.
 
