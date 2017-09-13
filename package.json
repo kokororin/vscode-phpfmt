@@ -1,8 +1,8 @@
 {
   "name": "vscode-phpfmt",
   "displayName": "phpfmt",
-  "version": "1.0.4",
-  "description": "phpfmt for Visual Studio Code",
+  "version": "1.0.5",
+  "description": "Integrates phpfmt into VS Code",
   "main": "extension.js",
   "scripts": {
     "lint": "eslint extension.js",
@@ -12,7 +12,7 @@
   "icon": "logo.png",
   "publisher": "kokororin",
   "author": "kokororin",
-  "license": "MIT",
+  "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
     "url": "https://github.com/kokororin/vscode-phpfmt.git"

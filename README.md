@@ -1,12 +1,14 @@
 # phpfmt for Visual Studio Code
 
-The missing phpfmt plugin for Visual Studio Code.
+[![Build Status](https://travis-ci.org/kokororin/vscode-phpfmt.svg?branch=master)](https://travis-ci.org/kokororin/vscode-phpfmt)
+
+The missing phpfmt extension for Visual Studio Code.
 
 ## Installation
 
 Open command palette <kbd>F1</kbd> and select `Extensions: Install Extension`, then search for phpfmt.
 
-**Note**: PHP > 7.0 is required.  
+**Note**: PHP >= 7.0 is required.  
 **Note**: For Windows users, see [#1](https://github.com/kokororin/vscode-phpfmt/issues/1)
 
 ## Usage
@@ -35,7 +37,3 @@ Default configuration is the following
     "phpfmt.yoda": false
 }
 ```
-
-## License
-
-MIT
