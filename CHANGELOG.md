@@ -1,3 +1,6 @@
+### 1.0.4
+- Add option `format_on_save`
+
 ### 1.0.3
 - Reload configuration on changed
 

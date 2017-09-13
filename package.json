@@ -1,7 +1,7 @@
 {
   "name": "vscode-phpfmt",
   "displayName": "phpfmt",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "phpfmt for Visual Studio Code",
   "main": "extension.js",
   "scripts": {
@@ -42,6 +42,11 @@
           "type": "string",
           "default": "/usr/bin/php",
           "description": "php executable path"
+        },
+        "phpfmt.format_on_save": {
+          "type": "boolean",
+          "default": false,
+          "description": "Execute phpfmt on save"
         },
         "phpfmt.psr1": {
           "type": "boolean",

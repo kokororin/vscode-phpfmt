@@ -15,6 +15,7 @@ const tmpDir = os.tmpdir();
 class PHPFmt {
   constructor() {
     this.args = [];
+    this.formatOnSave = false;
     this.loadSettings();
   }
 
@@ -22,6 +23,10 @@ class PHPFmt {
     const config = workspace.getConfiguration('phpfmt');
 
     this.phpBin = config.get('php_bin');
+
+    if (config.get('format_on_save')) {
+      this.formatOnSave = true;
+    }
 
     if (config.get('psr1')) {
       this.args.push('--psr1');
@@ -75,11 +80,11 @@ class PHPFmt {
       try {
         const stdout = cp.execSync(`${this.phpBin} -r "echo PHP_VERSION_ID;"`);
         if (Number(stdout.toString()) < 70000) {
-          window.showErrorMessage('php version < 7.0');
+          window.showErrorMessage('phpfmt: php version < 7.0');
           return reject();
         }
       } catch (e) {
-        window.showErrorMessage('cannot find php bin');
+        window.showErrorMessage('phpfmt: cannot find php bin');
         return reject();
       }
 
@@ -97,7 +102,7 @@ class PHPFmt {
       try {
         cp.execSync(`${this.phpBin} -l ${fileName}`);
       } catch (e) {
-        window.showErrorMessage('syntax error in your php file');
+        window.setStatusBarMessage('phpfmt: format failed - syntax errors found', 4500);
         return reject();
       }
 
@@ -117,7 +122,7 @@ class PHPFmt {
       });
 
       exec.addListener('error', () => {
-        window.showErrorMessage('run phpfmt failed');
+        window.showErrorMessage('phpfmt: run phpfmt failed');
         reject();
       });
       exec.addListener('exit', code => {
@@ -130,7 +135,7 @@ class PHPFmt {
           }
         } else {
           // TODO Show the error message
-          window.showErrorMessage('phpfmt return a code <> 0');
+          window.showErrorMessage('phpfmt: fmt.phar returns an invalid code');
           reject();
         }
 
@@ -143,6 +148,19 @@ class PHPFmt {
 }
 
 exports.activate = context => {
+  context.subscriptions.push(
+    workspace.onWillSaveTextDocument(event => {
+      if (event.document.languageId === 'php') {
+        const phpfmt = new PHPFmt();
+        if (phpfmt.formatOnSave) {
+          event.waitUntil(
+            commands.executeCommand('editor.action.formatDocument')
+          );
+        }
+      }
+    })
+  );
+
   context.subscriptions.push(
     commands.registerTextEditorCommand('phpfmt.format', textEditor => {
       if (textEditor.document.languageId === 'php') {

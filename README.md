@@ -7,7 +7,7 @@ The missing phpfmt plugin for Visual Studio Code.
 Open command palette <kbd>F1</kbd> and select `Extensions: Install Extension`, then search for phpfmt.
 
 **Note**: PHP > 7.0 is required.  
-**Note**: Only test in Linux and Darwin.
+**Note**: For Windows users, see [#1](https://github.com/kokororin/vscode-phpfmt/issues/1)
 
 ## Usage
 
@@ -23,6 +23,7 @@ Default configuration is the following
 ```JSON
 {
     "phpfmt.php_bin": "/usr/bin/php",
+    "phpfmt.format_on_save": false,
     "phpfmt.psr1": false,
     "phpfmt.psr1_naming": false,
     "phpfmt.psr2": true,
