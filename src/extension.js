@@ -1,4 +1,4 @@
-const {
+import {
   commands,
   workspace,
   window,
@@ -6,18 +6,19 @@ const {
   Range,
   Position,
   TextEdit
-} = require('vscode');
-const fs = require('fs');
-const os = require('os');
-const cp = require('child_process');
-const tmpDir = os.tmpdir();
+} from 'vscode';
+import fs from 'fs';
+import os from 'os';
+import cp from 'child_process';
 
 class PHPFmt {
   constructor() {
-    this.args = [];
-    this.formatOnSave = false;
     this.loadSettings();
   }
+
+  args = [];
+
+  formatOnSave = false;
 
   loadSettings() {
     const config = workspace.getConfiguration('phpfmt');
@@ -88,6 +89,8 @@ class PHPFmt {
         return reject();
       }
 
+      const tmpDir = os.tmpdir();
+
       const fileName =
         tmpDir +
         '/temp-' +
@@ -102,7 +105,10 @@ class PHPFmt {
       try {
         cp.execSync(`${this.phpBin} -l ${fileName}`);
       } catch (e) {
-        window.setStatusBarMessage('phpfmt: format failed - syntax errors found', 4500);
+        window.setStatusBarMessage(
+          'phpfmt: format failed - syntax errors found',
+          4500
+        );
         return reject();
       }
 

@@ -1,3 +1,6 @@
+### 1.0.6
+- Compile with babel
+
 ### 1.0.4 - 1.0.5
 - Add option `format_on_save`
 

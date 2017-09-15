@@ -1,4 +1,6 @@
 .vscode/**
+src/**
+.babelrc
 .gitignore
 .travis.yml
 jsconfig.json
