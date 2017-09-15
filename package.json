@@ -8,7 +8,7 @@
     "build": "npm run trash && babel src --out-dir lib",
     "trash": "trash lib",
     "watch": "babel src --watch --out-dir lib",
-    "lint": "eslint extension.js",
+    "lint": "eslint ./src",
     "postinstall": "node ./node_modules/vscode/bin/install"
   },
   "keywords": [
