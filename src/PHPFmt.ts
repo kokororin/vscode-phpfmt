@@ -5,7 +5,7 @@ import {
 } from 'vscode';
 import * as fs from 'fs';
 import * as os from 'os';
-import * as cp from 'child_process';
+import { execSync, spawn, ChildProcess } from 'child_process';
 import { PHPFmtConfig } from './types.d';
 
 class PHPFmt {
@@ -38,7 +38,7 @@ class PHPFmt {
       this.args.push('--psr2');
     }
 
-    const spaces = config.indent_with_space;
+    const spaces: number = config.indent_with_space;
     if (spaces > 0) {
       this.args.push(`--indent_with_space=${spaces}`);
     } else {
@@ -53,7 +53,7 @@ class PHPFmt {
       this.args.push('--visibility_order');
     }
 
-    const passes = config.passes;
+    const passes: Array<string> = config.passes;
     if (passes.length > 0) {
       this.args.push(`--passes=${passes.join(',')}`);
     }
@@ -76,7 +76,9 @@ class PHPFmt {
   public format(context: ExtensionContext, text: string): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       try {
-        const stdout = cp.execSync(`${this.phpBin} -r "echo PHP_VERSION_ID;"`);
+        const stdout: Buffer = execSync(
+          `${this.phpBin} -r "echo PHP_VERSION_ID;"`
+        );
         if (Number(stdout.toString()) < 70000) {
           Window.showErrorMessage('phpfmt: php version < 7.0');
           return reject();
@@ -97,7 +99,7 @@ class PHPFmt {
 
       // test whether the php file has syntax error
       try {
-        cp.execSync(`${this.phpBin} -l ${fileName}`);
+        execSync(`${this.phpBin} -l ${fileName}`);
       } catch (e) {
         Window.setStatusBarMessage(
           'phpfmt: format failed - syntax errors found',
@@ -109,13 +111,13 @@ class PHPFmt {
       const args: Array<string> = this.getArgs(fileName);
       args.unshift(`${context.extensionPath}/fmt.phar`);
 
-      const exec = cp.spawn(this.phpBin, args);
+      const exec: ChildProcess = spawn(this.phpBin, args);
 
       exec.addListener('error', () => {
         Window.showErrorMessage('phpfmt: run phpfmt failed');
         reject();
       });
-      exec.addListener('exit', code => {
+      exec.addListener('exit', (code: number) => {
         if (code === 0) {
           const formatted: string = fs.readFileSync(fileName, 'utf-8');
           if (formatted.length > 0) {
