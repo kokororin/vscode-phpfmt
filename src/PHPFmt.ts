@@ -1,4 +1,8 @@
-import { workspace, window, ExtensionContext } from 'vscode';
+import {
+  workspace as Workspace,
+  window as Window,
+  ExtensionContext
+} from 'vscode';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as cp from 'child_process';
@@ -14,7 +18,7 @@ class PHPFmt {
   }
 
   private loadSettings(): void {
-    const config: PHPFmtConfig = workspace.getConfiguration('phpfmt') as any;
+    const config: PHPFmtConfig = Workspace.getConfiguration('phpfmt') as any;
 
     this.phpBin = config.php_bin;
 
@@ -74,11 +78,11 @@ class PHPFmt {
       try {
         const stdout = cp.execSync(`${this.phpBin} -r "echo PHP_VERSION_ID;"`);
         if (Number(stdout.toString()) < 70000) {
-          window.showErrorMessage('phpfmt: php version < 7.0');
+          Window.showErrorMessage('phpfmt: php version < 7.0');
           return reject();
         }
       } catch (e) {
-        window.showErrorMessage('phpfmt: cannot find php bin');
+        Window.showErrorMessage('phpfmt: cannot find php bin');
         return reject();
       }
 
@@ -95,7 +99,7 @@ class PHPFmt {
       try {
         cp.execSync(`${this.phpBin} -l ${fileName}`);
       } catch (e) {
-        window.setStatusBarMessage(
+        Window.setStatusBarMessage(
           'phpfmt: format failed - syntax errors found',
           4500
         );
@@ -108,7 +112,7 @@ class PHPFmt {
       const exec = cp.spawn(this.phpBin, args);
 
       exec.addListener('error', () => {
-        window.showErrorMessage('phpfmt: run phpfmt failed');
+        Window.showErrorMessage('phpfmt: run phpfmt failed');
         reject();
       });
       exec.addListener('exit', code => {
@@ -120,7 +124,7 @@ class PHPFmt {
             reject();
           }
         } else {
-          window.showErrorMessage('phpfmt: fmt.phar returns an invalid code');
+          Window.showErrorMessage('phpfmt: fmt.phar returns an invalid code');
           reject();
         }
 
