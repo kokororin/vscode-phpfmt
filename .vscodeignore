@@ -1,9 +1,8 @@
 .vscode/**
 src/**
-.babelrc
+**/*.map
 .gitignore
 .travis.yml
-jsconfig.json
-.eslintrc
+tsconfig.json
 .editorconfig
 yarn.lock

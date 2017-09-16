@@ -1,14 +1,12 @@
 {
   "name": "vscode-phpfmt",
-  "displayName": "phpfmt",
+  "displayName": "phpfmt - PHP formatter",
   "version": "1.0.6",
   "description": "Integrates phpfmt into VS Code",
-  "main": "lib/extension.js",
+  "main": "./out/src/extension",
   "scripts": {
-    "build": "npm run trash && babel src --out-dir lib",
-    "trash": "trash lib",
-    "watch": "babel src --watch --out-dir lib",
-    "lint": "eslint ./src",
+    "vscode:prepublish": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
     "postinstall": "node ./node_modules/vscode/bin/install"
   },
   "keywords": [
@@ -109,14 +107,8 @@
     }
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-eslint": "^7.2.3",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-stage-0": "^6.24.1",
-    "eslint": "^4.6.1",
-    "eslint-config-kotori": "^0.1.3",
-    "trash-cli": "^1.4.0",
-    "vscode": "^0.11.0"
+    "@types/node": "^8.0.28",
+    "typescript": "^2.5.2",
+    "vscode": "^1.1.0"
   }
 }
