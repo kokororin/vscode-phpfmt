@@ -1,4 +1,4 @@
-import * as vscode from 'vscode';
+import { workspace, window, ExtensionContext } from 'vscode';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as cp from 'child_process';
@@ -9,14 +9,12 @@ class PHPFmt {
   private phpBin: string;
   public formatOnSave: boolean = false;
 
-  constructor() {
+  public constructor() {
     this.loadSettings();
   }
 
-  loadSettings(): void {
-    const config: PHPFmtConfig = vscode.workspace.getConfiguration(
-      'phpfmt'
-    ) as any;
+  private loadSettings(): void {
+    const config: PHPFmtConfig = workspace.getConfiguration('phpfmt') as any;
 
     this.phpBin = config.php_bin;
 
@@ -65,42 +63,39 @@ class PHPFmt {
     }
   }
 
-  getArgs(fileName: string): Array<string> {
+  private getArgs(fileName: string): Array<string> {
     const args: Array<string> = this.args.slice(0);
     args.push(fileName);
     return args;
   }
 
-  format(context: vscode.ExtensionContext, text: string): Promise<string> {
+  public format(context: ExtensionContext, text: string): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       try {
         const stdout = cp.execSync(`${this.phpBin} -r "echo PHP_VERSION_ID;"`);
         if (Number(stdout.toString()) < 70000) {
-          vscode.window.showErrorMessage('phpfmt: php version < 7.0');
+          window.showErrorMessage('phpfmt: php version < 7.0');
           return reject();
         }
       } catch (e) {
-        vscode.window.showErrorMessage('phpfmt: cannot find php bin');
+        window.showErrorMessage('phpfmt: cannot find php bin');
         return reject();
       }
 
       const tmpDir: string = os.tmpdir();
 
-      const fileName: string =
-        tmpDir +
-        '/temp-' +
-        Math.random()
-          .toString(36)
-          .replace(/[^a-z]+/g, '')
-          .substr(0, 10) +
-        '.php';
+      const fileName: string = `${tmpDir}/temp-${Math.random()
+        .toString(36)
+        .replace(/[^a-z]+/g, '')
+        .substr(0, 10)}.php`;
+
       fs.writeFileSync(fileName, text);
 
       // test whether the php file has syntax error
       try {
         cp.execSync(`${this.phpBin} -l ${fileName}`);
       } catch (e) {
-        vscode.window.setStatusBarMessage(
+        window.setStatusBarMessage(
           'phpfmt: format failed - syntax errors found',
           4500
         );
@@ -113,7 +108,7 @@ class PHPFmt {
       const exec = cp.spawn(this.phpBin, args);
 
       exec.addListener('error', () => {
-        vscode.window.showErrorMessage('phpfmt: run phpfmt failed');
+        window.showErrorMessage('phpfmt: run phpfmt failed');
         reject();
       });
       exec.addListener('exit', code => {
@@ -125,9 +120,7 @@ class PHPFmt {
             reject();
           }
         } else {
-          vscode.window.showErrorMessage(
-            'phpfmt: fmt.phar returns an invalid code'
-          );
+          window.showErrorMessage('phpfmt: fmt.phar returns an invalid code');
           reject();
         }
 

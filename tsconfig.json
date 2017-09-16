@@ -3,13 +3,14 @@
     "module": "commonjs",
     "target": "es6",
     "outDir": "out",
+    "rootDir": "src",
     "strict": true,
     "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true,
     "removeComments": true,
-    "lib": ["es2016"],
-    "sourceMap": true,
-    "rootDir": "."
+    "lib": ["es6"],
+    "sourceMap": true
   },
+  "include": ["src"],
   "exclude": ["node_modules", ".vscode-test"]
 }
