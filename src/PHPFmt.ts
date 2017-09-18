@@ -6,7 +6,7 @@ import {
 import * as fs from 'fs';
 import * as os from 'os';
 import { execSync, spawn, ChildProcess } from 'child_process';
-import { PHPFmtConfig } from './types.d';
+import IPHPFmtConfig from './IPHPFmtConfig';
 
 class PHPFmt {
   private args: Array<string> = [];
@@ -18,7 +18,7 @@ class PHPFmt {
   }
 
   private loadSettings(): void {
-    const config: PHPFmtConfig = Workspace.getConfiguration('phpfmt') as any;
+    const config: IPHPFmtConfig = Workspace.getConfiguration('phpfmt') as any;
 
     this.phpBin = config.php_bin;
 

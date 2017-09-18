@@ -1,4 +1,4 @@
-export interface PHPFmtConfig {
+export default interface IPHPFmtConfig {
   php_bin: string;
   format_on_save: boolean;
   psr1: boolean;
@@ -10,4 +10,4 @@ export interface PHPFmtConfig {
   passes: Array<string>;
   smart_linebreak_after_curly: boolean;
   yoda: boolean;
-}
+};

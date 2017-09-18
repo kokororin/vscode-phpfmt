@@ -1,3 +1,6 @@
+### 1.0.7
+- Typescriptify
+
 ### 1.0.6
 - Compile with babel
 
