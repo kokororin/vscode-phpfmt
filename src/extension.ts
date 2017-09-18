@@ -1,5 +1,6 @@
 import {
   workspace as Workspace,
+  window as Window,
   commands as Commands,
   languages as Languages,
   Position,
@@ -53,7 +54,10 @@ export function activate(context: ExtensionContext) {
                 reject();
               }
             })
-            .catch(() => {
+            .catch(err => {
+              if (err instanceof Error) {
+                Window.showErrorMessage(err.message);
+              }
               reject();
             });
         });

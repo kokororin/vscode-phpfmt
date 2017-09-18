@@ -80,12 +80,10 @@ class PHPFmt {
           `${this.phpBin} -r "echo PHP_VERSION_ID;"`
         );
         if (Number(stdout.toString()) < 70000) {
-          Window.showErrorMessage('phpfmt: php version < 7.0');
-          return reject();
+          return reject(new Error('phpfmt: php version < 7.0'));
         }
-      } catch (e) {
-        Window.showErrorMessage('phpfmt: cannot find php bin');
-        return reject();
+      } catch (err) {
+        return reject(new Error('phpfmt: cannot find php bin'));
       }
 
       const tmpDir: string = os.tmpdir();
@@ -114,8 +112,7 @@ class PHPFmt {
       const exec: ChildProcess = spawn(this.phpBin, args);
 
       exec.addListener('error', () => {
-        Window.showErrorMessage('phpfmt: run phpfmt failed');
-        reject();
+        reject(new Error('phpfmt: run phpfmt failed'));
       });
       exec.addListener('exit', (code: number) => {
         if (code === 0) {
@@ -126,8 +123,7 @@ class PHPFmt {
             reject();
           }
         } else {
-          Window.showErrorMessage('phpfmt: fmt.phar returns an invalid code');
-          reject();
+          reject(new Error('phpfmt: fmt.phar returns an invalid code'));
         }
 
         try {
