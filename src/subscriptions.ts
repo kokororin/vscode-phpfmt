@@ -6,11 +6,12 @@ import {
   Position,
   Range,
   TextEdit,
+  Disposable,
   ExtensionContext
 } from 'vscode';
 import PHPFmt from './PHPFmt';
 
-export function registerOnWillSaveTextDocument() {
+export function registerOnWillSaveTextDocument(): Disposable {
   return Workspace.onWillSaveTextDocument(event => {
     if (event.document.languageId === 'php') {
       const phpfmt: PHPFmt = new PHPFmt();
@@ -23,7 +24,7 @@ export function registerOnWillSaveTextDocument() {
   });
 }
 
-export function registerTextEditorCommand() {
+export function registerTextEditorCommand(): Disposable {
   return Commands.registerTextEditorCommand('phpfmt.format', textEditor => {
     if (textEditor.document.languageId === 'php') {
       Commands.executeCommand('editor.action.formatDocument');
@@ -33,7 +34,7 @@ export function registerTextEditorCommand() {
 
 export function registerDocumentFormattingEditProvider(
   context: ExtensionContext
-) {
+): Disposable {
   return Languages.registerDocumentFormattingEditProvider('php', {
     provideDocumentFormattingEdits: document => {
       return new Promise<any>((resolve, reject) => {
