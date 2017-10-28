@@ -52,7 +52,7 @@
       "properties": {
         "phpfmt.php_bin": {
           "type": "string",
-          "default": "/usr/bin/php",
+          "default": "php",
           "description": "php executable path"
         },
         "phpfmt.format_on_save": {

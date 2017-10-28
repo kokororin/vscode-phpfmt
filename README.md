@@ -26,7 +26,7 @@ or right mouse context menu `Format Document`
 Default configuration is the following
 ```JSON
 {
-    "phpfmt.php_bin": "/usr/bin/php",
+    "phpfmt.php_bin": "php",
     "phpfmt.format_on_save": false,
     "phpfmt.psr1": false,
     "phpfmt.psr1_naming": false,
