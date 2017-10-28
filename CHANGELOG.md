@@ -1,3 +1,6 @@
+### 1.0.8
+- Option `php_bin` defaults to `php`
+
 ### 1.0.7
 - Typescriptify
 

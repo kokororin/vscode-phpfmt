@@ -1,7 +1,7 @@
 {
   "name": "vscode-phpfmt",
   "displayName": "phpfmt - PHP formatter",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Integrates phpfmt into VS Code",
   "main": "./out/extension",
   "scripts": {
