@@ -1,3 +1,6 @@
+### 1.0.9
+- Add option `cakephp` and `custom_arguments`
+
 ### 1.0.8
 - Option `php_bin` defaults to `php`
 
