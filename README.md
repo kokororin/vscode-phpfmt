@@ -36,6 +36,8 @@ Default configuration is the following
     "phpfmt.visibility_order": false,
     "phpfmt.passes": [],
     "phpfmt.smart_linebreak_after_curly": false,
-    "phpfmt.yoda": false
+    "phpfmt.yoda": false,
+    "phpfmt.cakephp": false,
+    "phpfmt.custom_arguments": ""
 }
 ```

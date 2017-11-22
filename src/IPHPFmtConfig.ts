@@ -10,4 +10,6 @@ export default interface IPHPFmtConfig {
   passes: Array<string>;
   smart_linebreak_after_curly: boolean;
   yoda: boolean;
+  cakephp: boolean;
+  custom_arguments: string;
 };

@@ -26,6 +26,11 @@ class PHPFmt {
       this.formatOnSave = true;
     }
 
+    if (config.custom_arguments !== '') {
+      this.args.push(config.custom_arguments);
+      return;
+    }
+
     if (config.psr1) {
       this.args.push('--psr1');
     }
@@ -64,6 +69,10 @@ class PHPFmt {
 
     if (config.yoda) {
       this.args.push('--yoda');
+    }
+
+    if (config.cakephp) {
+      this.args.push('--cakephp');
     }
   }
 
