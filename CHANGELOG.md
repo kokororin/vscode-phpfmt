@@ -1,3 +1,7 @@
+### 1.0.10
+- Add option `detect_indent` and `exclude`
+- `indent_with_space` accept false
+
 ### 1.0.9
 - Add option `cakephp` and `custom_arguments`
 
