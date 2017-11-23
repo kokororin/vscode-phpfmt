@@ -27,6 +27,7 @@ or right mouse context menu `Format Document`
 | -------- | ----------- | ----------- | ----------- |
 | phpfmt.php_bin | `string` | php executable path | "php" | 
 | phpfmt.format_on_save | `boolean` | Execute phpfmt on save | false | 
+| phpfmt.detect_indent | `boolean` | auto detecting indent type and size | false | 
 | phpfmt.psr1 | `boolean` | activate PSR1 style | false | 
 | phpfmt.psr1_naming | `boolean` | activate PSR1 style - Section 3 and 4.3 - Class and method names case. | false | 
 | phpfmt.psr2 | `boolean` | activate PSR2 style | true | 
@@ -34,6 +35,7 @@ or right mouse context menu `Format Document`
 | phpfmt.enable_auto_align | `boolean` | disable auto align of ST_EQUAL and T_DOUBLE_ARROW | false | 
 | phpfmt.visibility_order | `boolean` | fixes visibiliy order for method in classes - PSR-2 4.2 | false | 
 | phpfmt.passes | `array` | call specific compiler pass | [] | 
+| phpfmt.exclude | `array` | disable specific passes | [] | 
 | phpfmt.smart_linebreak_after_curly | `boolean` | convert multistatement blocks into multiline blocks | false | 
 | phpfmt.yoda | `boolean` | yoda-style comparisons | false | 
 | phpfmt.cakephp | `boolean` | Apply CakePHP coding style | false | 

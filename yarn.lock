@@ -6,6 +6,10 @@
   version "1.0.1"
   resolved "https://registry.npmjs.org/@sindresorhus/df/-/df-1.0.1.tgz#c69b66f52f6fcdd287c807df210305dbaf78500d"
 
+"@types/detect-indent@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.npmjs.org/@types/detect-indent/-/detect-indent-5.0.0.tgz#8b1bbd7891268d5ed20d23ecd23ae333d33934cd"
+
 "@types/node@^8.0.28":
   version "8.0.28"
   resolved "https://registry.npmjs.org/@types/node/-/node-8.0.28.tgz#86206716f8d9251cf41692e384264cbd7058ad60"
@@ -331,6 +335,10 @@ deep-extend@~0.4.0:
 delayed-stream@~1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz#df3ae199acadfb7d440aaae0b29e2272b24ec619"
+
+detect-indent@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npmjs.org/detect-indent/-/detect-indent-5.0.0.tgz#3871cc0a6a002e8c3e5b3cf7f336264675f06b9d"
 
 diff@3.2.0:
   version "3.2.0"
