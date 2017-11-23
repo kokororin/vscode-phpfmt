@@ -43,11 +43,11 @@ class PHPFmt {
       this.args.push('--psr2');
     }
 
-    const spaces: number = config.indent_with_space;
-    if (spaces > 0) {
-      this.args.push(`--indent_with_space=${spaces}`);
-    } else {
+    const spaces: number | boolean = config.indent_with_space;
+    if (config.indent_with_space === true) {
       this.args.push('--indent_with_space');
+    } else if (spaces > 0) {
+      this.args.push(`--indent_with_space=${spaces}`);
     }
 
     if (config.enable_auto_align) {

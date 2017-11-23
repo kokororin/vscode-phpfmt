@@ -76,7 +76,7 @@
           "description": "activate PSR2 style"
         },
         "phpfmt.indent_with_space": {
-          "type": "integer",
+          "type": ["integer", "boolean"],
           "default": 4,
           "description": "use spaces instead of tabs for indentation. Default 4"
         },
