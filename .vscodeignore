@@ -6,3 +6,5 @@ src/**
 tsconfig.json
 .editorconfig
 yarn.lock
+generate
+README.tpl.md

@@ -1,0 +1,42 @@
+#!/usr/bin/env node
+const path = require('path');
+const fs = require('fs');
+const pkg = require('./package.json');
+
+const readmeTpl = String(
+  fs.readFileSync(path.join(__dirname, 'README.tpl.md'))
+);
+const readmeOutPath = path.join(__dirname, 'README.md');
+
+const configuration = pkg.contributes.configuration;
+
+let config = '';
+
+for (const configKey of Object.keys(configuration.properties)) {
+  const configValue = configuration.properties[configKey];
+  config += `| ${configKey} | `;
+
+  if (typeof configValue.type === 'string') {
+    config += `\`${configValue.type}\``;
+  } else if (Array.isArray(configValue.type)) {
+    config += `\`${configValue.type.join(' \\| ')}\``;
+  }
+  config += ` | ${configValue.description}`;
+
+  if (typeof configValue.default === 'string') {
+    config += ` | "${configValue.default}"`;
+  } else if (typeof configValue.default === 'number') {
+    config += ` | ${configValue.default}`;
+  } else if (
+    Array.isArray(configValue.default) ||
+    typeof configValue.default === 'boolean'
+  ) {
+    config += ` | ${JSON.stringify(configValue.default)}`;
+  } else {
+    throw new Error('uncovered type');
+  }
+
+  config += ' | \n';
+}
+
+fs.writeFileSync(readmeOutPath, readmeTpl.replace('%CONFIG%', config));

@@ -7,8 +7,10 @@
   "scripts": {
     "vscode:prepublish": "npm run build",
     "build": "npm run trash && tsc -p ./",
+    "prebuild": "npm run generate",
     "watch": "tsc -watch -p ./",
     "trash": "trash out",
+    "generate": "node generate",
     "postinstall": "node ./node_modules/vscode/bin/install"
   },
   "keywords": [
@@ -76,7 +78,10 @@
           "description": "activate PSR2 style"
         },
         "phpfmt.indent_with_space": {
-          "type": ["integer", "boolean"],
+          "type": [
+            "integer",
+            "boolean"
+          ],
           "default": 4,
           "description": "use spaces instead of tabs for indentation. Default 4"
         },
