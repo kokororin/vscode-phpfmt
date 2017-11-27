@@ -1,3 +1,6 @@
+### 1.0.11
+- Update PHP Formatter (phpF v19.7.5)
+
 ### 1.0.10
 - Add option `detect_indent` and `exclude`
 - `indent_with_space` accept false

@@ -8,7 +8,8 @@ The missing phpfmt extension for Visual Studio Code.
 
 ## Read this first
 
-If you believe you found a bug with [phpF](https://github.com/subins2000/phpF), please **don't open an issue in this repository**. This project is just an extension for [phpF](https://github.com/subins2000/phpF).
+If you believe you found a bug with [phpF](https://github.com/subins2000/phpF), please **don't open an issue in this repository**.  
+This project is just an extension for [phpF](https://github.com/subins2000/phpF).
 
 ## Installation
 
@@ -16,6 +17,7 @@ Open command palette <kbd>F1</kbd> and select `Extensions: Install Extension`, t
 
 **Note**: PHP >= 5.6 is required.  
 (https://github.com/subins2000/phpF#requirements)  
+
 **Note**: For Windows users, see [#1](https://github.com/kokororin/vscode-phpfmt/issues/1)
 
 ## Usage
