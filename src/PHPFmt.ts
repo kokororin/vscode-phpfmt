@@ -105,8 +105,8 @@ class PHPFmt {
         const stdout: Buffer = execSync(
           `${this.phpBin} -r "echo PHP_VERSION_ID;"`
         );
-        if (Number(stdout.toString()) < 70000) {
-          return reject(new Error('phpfmt: php version < 7.0'));
+        if (Number(stdout.toString()) < 56000) {
+          return reject(new Error('phpfmt: php version < 5.6'));
         }
       } catch (err) {
         return reject(new Error('phpfmt: cannot find php bin'));
@@ -133,7 +133,7 @@ class PHPFmt {
       }
 
       const args: Array<string> = this.getArgs(fileName);
-      args.unshift(`${context.extensionPath}/fmt.phar`);
+      args.unshift(`${context.extensionPath}/phpf.phar`);
 
       const exec: ChildProcess = spawn(this.phpBin, args);
 
@@ -149,7 +149,7 @@ class PHPFmt {
             reject();
           }
         } else {
-          reject(new Error('phpfmt: fmt.phar returns an invalid code'));
+          reject(new Error('phpfmt: phpf.phar returns an invalid code'));
         }
 
         try {
