@@ -1,3 +1,6 @@
+### 1.0.12
+- Fix `PHP_VERSION_ID` not correct
+
 ### 1.0.11
 - Update PHP Formatter (phpF v19.7.5)
 
