@@ -26,7 +26,7 @@ Open command palette <kbd>F1</kbd> and select `Extensions: Install Extension`, t
 
 or keyboard shortcut `ctrl+shift+i` which is Visual Studio Code default formatter shortcut
 
-or right mouse context menu `Format Document`
+or right mouse context menu `Format Document` or `Format Selection`
 
 ## Configuration
 

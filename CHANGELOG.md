@@ -1,3 +1,6 @@
+### 1.0.13
+- Support `Format Selection`
+
 ### 1.0.12
 - Fix `PHP_VERSION_ID` not correct
 
