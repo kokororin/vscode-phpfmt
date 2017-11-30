@@ -119,7 +119,13 @@ class PHPFmt {
         .replace(/[^a-z]+/g, '')
         .substr(0, 10)}.php`;
 
-      fs.writeFileSync(fileName, text);
+      try {
+        fs.writeFileSync(fileName, text);
+      } catch (e) {
+        return reject(
+          new Error(`phpfmt: cannot create tmp file in "${tmpDir}"`)
+        );
+      }
 
       // test whether the php file has syntax error
       try {
