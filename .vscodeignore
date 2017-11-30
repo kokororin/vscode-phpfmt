@@ -1,5 +1,9 @@
 .vscode/**
+.vscode-test/**
 src/**
+out/test/**
+test/**
+testProject/**
 **/*.map
 .gitignore
 .travis.yml

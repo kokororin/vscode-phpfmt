@@ -33,3 +33,15 @@ or right mouse context menu `Format Document` or `Format Selection`
 | Key | Type | Description | Default |
 | -------- | ----------- | ----------- | ----------- |
 %CONFIG%
+
+## Contribute
+
+### Running extension
+- Open this repository inside VSCode
+- Debug sidebar
+- `Launch Extension`
+
+### Running tests
+```bash
+$ npm test
+```

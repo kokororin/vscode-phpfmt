@@ -3,7 +3,7 @@
   "displayName": "phpfmt - PHP formatter",
   "version": "1.0.13",
   "description": "Integrates phpfmt into VS Code",
-  "main": "./out/extension",
+  "main": "./out/src/extension",
   "scripts": {
     "vscode:prepublish": "npm run build",
     "build": "npm run trash && tsc -p ./",
@@ -11,7 +11,9 @@
     "watch": "tsc -watch -p ./",
     "trash": "trash out",
     "generate": "node generate",
-    "postinstall": "node ./node_modules/vscode/bin/install"
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "pretest": "npm run build",
+    "test": "cross-env CODE_TESTS_WORKSPACE=testProject node ./node_modules/vscode/bin/test"
   },
   "keywords": [
     "phpfmt",
@@ -135,7 +137,10 @@
   },
   "devDependencies": {
     "@types/detect-indent": "^5.0.0",
+    "@types/mocha": "^2.2.44",
     "@types/node": "^8.0.28",
+    "cross-env": "^5.1.1",
+    "mocha": "^4.0.1",
     "trash-cli": "^1.4.0",
     "typescript": "^2.5.2",
     "vscode": "^1.1.0"
