@@ -105,7 +105,7 @@ class PHPFmt {
         const stdout: Buffer = execSync(
           `${this.phpBin} -r "echo PHP_VERSION_ID;"`
         );
-        if (Number(stdout.toString()) < 56000) {
+        if (Number(stdout.toString()) < 50600) {
           return reject(new Error('phpfmt: php version < 5.6'));
         }
       } catch (err) {
