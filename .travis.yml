@@ -8,7 +8,15 @@ php:
 env:
   - NODE_RELEASE=8.x
 
+addons:
+  apt:
+    packages:
+      - libsecret-1-dev
+
 before_install:
+  - export CXX="g++-4.9" CC="gcc-4.9" DISPLAY=:99.0;
+    sh -e /etc/init.d/xvfb start;
+    sleep 3;
   - sudo rm -rf ~/.nvm - curl -sL "https://deb.nodesource.com/setup_${NODE_RELEASE}" | sudo -E bash -
   - sudo apt-get install -y nodejs
   - npm install -g yarn
