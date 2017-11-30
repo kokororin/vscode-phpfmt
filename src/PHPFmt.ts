@@ -19,7 +19,7 @@ class PHPFmt {
     this.loadSettings();
   }
 
-  private loadSettings(): void {
+  public loadSettings(): void {
     const config: IPHPFmtConfig = Workspace.getConfiguration('phpfmt') as any;
 
     this.phpBin = config.php_bin;

@@ -12,11 +12,22 @@ import {
 import PHPFmt from './PHPFmt';
 
 export default class PHPFmtProvider {
-  static onWillSaveTextDocument(): Disposable {
+  private phpfmt: PHPFmt;
+
+  public constructor(phpfmt: PHPFmt) {
+    this.phpfmt = phpfmt;
+  }
+
+  onDidChangeConfiguration(): Disposable {
+    return Workspace.onDidChangeConfiguration(() => {
+      this.phpfmt.loadSettings();
+    });
+  }
+
+  onWillSaveTextDocument(): Disposable {
     return Workspace.onWillSaveTextDocument(event => {
       if (event.document.languageId === 'php') {
-        const phpfmt: PHPFmt = new PHPFmt();
-        if (phpfmt.formatOnSave) {
+        if (this.phpfmt.formatOnSave) {
           event.waitUntil(
             Commands.executeCommand('editor.action.formatDocument')
           );
@@ -25,7 +36,7 @@ export default class PHPFmtProvider {
     });
   }
 
-  static textEditorCommand(): Disposable {
+  textEditorCommand(): Disposable {
     return Commands.registerTextEditorCommand('phpfmt.format', textEditor => {
       if (textEditor.document.languageId === 'php') {
         Commands.executeCommand('editor.action.formatDocument');
@@ -33,7 +44,7 @@ export default class PHPFmtProvider {
     });
   }
 
-  static documentFormattingEditProvider(context: ExtensionContext): Disposable {
+  documentFormattingEditProvider(context: ExtensionContext): Disposable {
     return Languages.registerDocumentFormattingEditProvider('php', {
       provideDocumentFormattingEdits: document => {
         return new Promise<any>((resolve, reject) => {
@@ -44,9 +55,7 @@ export default class PHPFmtProvider {
             lastLine.range.end
           );
 
-          const phpfmt: PHPFmt = new PHPFmt();
-
-          phpfmt
+          this.phpfmt
             .format(context, originalText)
             .then((text: string) => {
               if (text !== originalText) {
@@ -66,9 +75,7 @@ export default class PHPFmtProvider {
     });
   }
 
-  static documentRangeFormattingEditProvider(
-    context: ExtensionContext
-  ): Disposable {
+  documentRangeFormattingEditProvider(context: ExtensionContext): Disposable {
     return Languages.registerDocumentRangeFormattingEditProvider('php', {
       provideDocumentRangeFormattingEdits: (document, range) => {
         return new Promise<any>((resolve, reject) => {
@@ -82,9 +89,8 @@ export default class PHPFmtProvider {
             originalText = `<?php\n${originalText}`;
             hasModified = true;
           }
-          const phpfmt: PHPFmt = new PHPFmt();
 
-          phpfmt
+          this.phpfmt
             .format(context, originalText)
             .then((text: string) => {
               if (hasModified) {

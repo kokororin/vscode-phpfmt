@@ -1,11 +1,15 @@
 import { ExtensionContext } from 'vscode';
+import PHPFmt from './PHPFmt';
 import PHPFmtProvider from './PHPFmtProvider';
 
 export function activate(context: ExtensionContext) {
+  const provider = new PHPFmtProvider(new PHPFmt());
+
   context.subscriptions.push(
-    PHPFmtProvider.onWillSaveTextDocument(),
-    PHPFmtProvider.textEditorCommand(),
-    PHPFmtProvider.documentFormattingEditProvider(context),
-    PHPFmtProvider.documentRangeFormattingEditProvider(context)
+    provider.onDidChangeConfiguration(),
+    provider.onWillSaveTextDocument(),
+    provider.textEditorCommand(),
+    provider.documentFormattingEditProvider(context),
+    provider.documentRangeFormattingEditProvider(context)
   );
 }
