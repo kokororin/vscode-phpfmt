@@ -1,12 +1,11 @@
 import { ExtensionContext } from 'vscode';
-import {
-  registerOnWillSaveTextDocument,
-  registerTextEditorCommand,
-  registerDocumentFormattingEditProvider
-} from './subscriptions';
+import PHPFmtProvider from './PHPFmtProvider';
 
 export function activate(context: ExtensionContext) {
-  context.subscriptions.push(registerOnWillSaveTextDocument());
-  context.subscriptions.push(registerTextEditorCommand());
-  context.subscriptions.push(registerDocumentFormattingEditProvider(context));
+  context.subscriptions.push(
+    PHPFmtProvider.onWillSaveTextDocument(),
+    PHPFmtProvider.textEditorCommand(),
+    PHPFmtProvider.documentFormattingEditProvider(context),
+    PHPFmtProvider.documentRangeFormattingEditProvider(context)
+  );
 }
