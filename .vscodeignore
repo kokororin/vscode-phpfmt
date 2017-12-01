@@ -1,6 +1,7 @@
 .vscode/**
 .vscode-test/**
 src/**
+out/generate.*
 out/test/**
 test/**
 testProject/**
@@ -10,5 +11,5 @@ testProject/**
 tsconfig.json
 .editorconfig
 yarn.lock
-generate
+generate.ts
 README.tpl.md
