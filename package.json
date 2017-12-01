@@ -10,7 +10,7 @@
     "prebuild": "npm run generate",
     "watch": "tsc -watch -p ./",
     "trash": "trash out",
-    "generate": "node generate",
+    "generate": "ts-node generate.ts",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "pretest": "npm run build",
     "test": "cross-env CODE_TESTS_WORKSPACE=testProject node ./node_modules/vscode/bin/test"
@@ -141,7 +141,9 @@
     "@types/node": "^8.0.28",
     "cross-env": "^5.1.1",
     "mocha": "^4.0.1",
+    "pjson": "^1.0.9",
     "trash-cli": "^1.4.0",
+    "ts-node": "^3.3.0",
     "typescript": "^2.5.2",
     "vscode": "^1.1.0"
   },

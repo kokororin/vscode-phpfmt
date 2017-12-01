@@ -1,16 +1,16 @@
-#!/usr/bin/env node
-const path = require('path');
-const fs = require('fs');
-const pkg = require('./package.json');
+import * as path from 'path';
+import * as fs from 'fs';
 
-const readmeTpl = String(
+const pkg: any = require('pjson');
+
+const readmeTpl: string = String(
   fs.readFileSync(path.join(__dirname, 'README.tpl.md'))
 );
-const readmeOutPath = path.join(__dirname, 'README.md');
+const readmeOutPath: string = path.join(__dirname, 'README.md');
 
-const configuration = pkg.contributes.configuration;
+const configuration: any = pkg.contributes.configuration;
 
-let config = '';
+let config: string = '';
 
 for (const configKey of Object.keys(configuration.properties)) {
   const configValue = configuration.properties[configKey];
