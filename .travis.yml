@@ -3,9 +3,6 @@ sudo: required
 language: php
 php:
   - 7
-os:
-  - osx
-  - linux
 addons:
   apt:
     packages:
