@@ -12,6 +12,7 @@ import IPHPFmtConfig from './IPHPFmtConfig';
 class PHPFmt {
   private args: Array<string> = [];
   private phpBin: string;
+  private debugMode: boolean;
   public formatOnSave: boolean = false;
   private detectIndent: boolean = false;
 
@@ -23,6 +24,7 @@ class PHPFmt {
     const config: IPHPFmtConfig = Workspace.getConfiguration('phpfmt') as any;
 
     this.phpBin = config.php_bin;
+    this.debugMode = config.debug_mode;
     this.formatOnSave = config.format_on_save;
     this.detectIndent = config.detect_indent;
 
@@ -144,6 +146,9 @@ class PHPFmt {
       args.unshift(`${context.extensionPath}/phpf.phar`);
 
       const exec: ChildProcess = spawn(this.phpBin, args);
+      if (this.debugMode) {
+        console.log('phpfmt debug: ', `${this.phpBin} ${args.join(' ')}`);
+      }
 
       exec.addListener('error', () => {
         reject(new Error('phpfmt: run phpfmt failed'));

@@ -59,6 +59,11 @@
           "default": "php",
           "description": "php executable path"
         },
+        "phpfmt.debug_mode": {
+          "type": "boolean",
+          "default": false,
+          "description": "allow debug mode"
+        },
         "phpfmt.format_on_save": {
           "type": "boolean",
           "default": false,
