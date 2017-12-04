@@ -11,14 +11,15 @@ import {
 import * as pkg from 'pjson';
 
 suite('PHPFmt Test', () => {
+  const extension = Extensions.getExtension(
+    `${pkg.author}.${pkg.name}`
+  ) as Extension<any>;
+
   test('extension should be present', () => {
-    assert.ok(Extensions.getExtension(`${pkg.author}.${pkg.name}`));
+    assert.ok(extension);
   });
 
   test('can activate', () => {
-    const extension = Extensions.getExtension(
-      `${pkg.author}.${pkg.name}`
-    ) as Extension<any>;
     return extension.activate().then(() => {
       assert.ok(true);
     });

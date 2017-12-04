@@ -26,6 +26,8 @@ class PHPFmt {
     this.formatOnSave = config.format_on_save;
     this.detectIndent = config.detect_indent;
 
+    this.args.length = 0;
+
     if (config.custom_arguments !== '') {
       this.args.push(config.custom_arguments);
       return;
@@ -45,7 +47,7 @@ class PHPFmt {
 
     if (!this.detectIndent) {
       const spaces: number | boolean = config.indent_with_space;
-      if (config.indent_with_space === true) {
+      if (spaces === true) {
         this.args.push('--indent_with_space');
       } else if (spaces > 0) {
         this.args.push(`--indent_with_space=${spaces}`);
