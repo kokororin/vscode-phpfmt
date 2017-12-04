@@ -33,6 +33,7 @@ or right mouse context menu `Format Document` or `Format Selection`
 | Key | Type | Description | Default |
 | -------- | ----------- | ----------- | ----------- |
 | phpfmt.php_bin | `string` | php executable path | "php" | 
+| phpfmt.debug_mode | `boolean` | allow debug mode | false | 
 | phpfmt.format_on_save | `boolean` | Execute phpfmt on save | false | 
 | phpfmt.detect_indent | `boolean` | auto detecting indent type and size | false | 
 | phpfmt.psr1 | `boolean` | activate PSR1 style | false | 
