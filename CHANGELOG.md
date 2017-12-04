@@ -1,3 +1,7 @@
+### 1.0.14
+- Fix config handled unexpectedly
+- Add option `debug_mode`
+
 ### 1.0.13
 - Support `Format Selection`
 
