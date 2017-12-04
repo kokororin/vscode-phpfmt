@@ -13,8 +13,8 @@ class PHPFmt {
   private args: Array<string> = [];
   private phpBin: string;
   private debugMode: boolean;
-  public formatOnSave: boolean = false;
-  private detectIndent: boolean = false;
+  public formatOnSave: boolean;
+  private detectIndent: boolean;
 
   public constructor() {
     this.loadSettings();
