@@ -1,3 +1,6 @@
+### 1.0.15
+- Output debug to console instead of Developer Tools
+
 ### 1.0.14
 - Fix config handled unexpectedly
 - Add option `debug_mode`

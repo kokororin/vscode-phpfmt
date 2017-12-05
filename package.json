@@ -1,7 +1,7 @@
 {
   "name": "vscode-phpfmt",
   "displayName": "phpfmt - PHP formatter",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Integrates phpfmt into VS Code",
   "main": "./out/src/extension",
   "scripts": {
@@ -75,7 +75,7 @@
         "phpfmt.detect_indent": {
           "type": "boolean",
           "default": false,
-          "description": "auto detecting indent type and size"
+          "description": "auto detecting indent type and size (will ignore indent_with_space)"
         },
         "phpfmt.psr1": {
           "type": "boolean",
