@@ -5,7 +5,6 @@
   "description": "Integrates phpfmt into VS Code",
   "main": "./out/src/extension",
   "scripts": {
-    "vscode:prepublish": "npm run build",
     "build": "npm run trash && tsc -p ./",
     "prebuild": "npm run generate",
     "watch": "tsc -watch -p ./",
@@ -16,7 +15,8 @@
     "test": "./scripts/test.sh",
     "posttest": "npm run hook:restore",
     "hook:backup": "cross-env PHPFMT_TEST_HOOK=backup ts-node scripts/hook.ts",
-    "hook:restore": "cross-env PHPFMT_TEST_HOOK=restore ts-node scripts/hook.ts"
+    "hook:restore": "cross-env PHPFMT_TEST_HOOK=restore ts-node scripts/hook.ts",
+    "prepublishOnly": "npm run build && vsce publish"
   },
   "keywords": [
     "phpfmt",
