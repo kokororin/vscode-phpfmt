@@ -12,5 +12,5 @@
     "lib": ["es6"],
     "sourceMap": true
   },
-  "exclude": ["node_modules", ".vscode-test", "testProject", "generate.ts"]
+  "exclude": ["node_modules", ".vscode-test", "testProject", "scripts"]
 }

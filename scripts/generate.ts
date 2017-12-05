@@ -4,9 +4,9 @@ import * as fs from 'fs';
 const pkg: any = require('pjson');
 
 const readmeTpl: string = String(
-  fs.readFileSync(path.join(__dirname, 'README.tpl.md'))
+  fs.readFileSync(path.join(__dirname, '/../README.tpl.md'))
 );
-const readmeOutPath: string = path.join(__dirname, 'README.md');
+const readmeOutPath: string = path.join(__dirname, '/../README.md');
 
 const configuration: any = pkg.contributes.configuration;
 
