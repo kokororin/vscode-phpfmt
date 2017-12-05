@@ -8,47 +8,41 @@ import * as os from 'os';
 import { execSync, spawn, ChildProcess } from 'child_process';
 import * as detectIndent from 'detect-indent';
 import IPHPFmtConfig from './IPHPFmtConfig';
+import Widget from './Widget';
 
 class PHPFmt {
+  private widget: Widget;
+  private config: IPHPFmtConfig;
   private args: Array<string> = [];
-  private phpBin: string;
-  private debugMode: boolean;
-  public formatOnSave: boolean;
-  private detectIndent: boolean;
 
   public constructor() {
     this.loadSettings();
+    this.widget = Widget.getInstance(this);
   }
 
   public loadSettings(): void {
-    const config: IPHPFmtConfig = Workspace.getConfiguration('phpfmt') as any;
-
-    this.phpBin = config.php_bin;
-    this.debugMode = config.debug_mode;
-    this.formatOnSave = config.format_on_save;
-    this.detectIndent = config.detect_indent;
-
+    this.config = Workspace.getConfiguration('phpfmt') as any;
     this.args.length = 0;
 
-    if (config.custom_arguments !== '') {
-      this.args.push(config.custom_arguments);
+    if (this.config.custom_arguments !== '') {
+      this.args.push(this.config.custom_arguments);
       return;
     }
 
-    if (config.psr1) {
+    if (this.config.psr1) {
       this.args.push('--psr1');
     }
 
-    if (config.psr1_naming) {
+    if (this.config.psr1_naming) {
       this.args.push('--psr1-naming');
     }
 
-    if (config.psr2) {
+    if (this.config.psr2) {
       this.args.push('--psr2');
     }
 
-    if (!this.detectIndent) {
-      const spaces: number | boolean = config.indent_with_space;
+    if (!this.config.detect_indent) {
+      const spaces: number | boolean = this.config.indent_with_space;
       if (spaces === true) {
         this.args.push('--indent_with_space');
       } else if (spaces > 0) {
@@ -56,35 +50,39 @@ class PHPFmt {
       }
     }
 
-    if (config.enable_auto_align) {
+    if (this.config.enable_auto_align) {
       this.args.push('--enable_auto_align');
     }
 
-    if (config.visibility_order) {
+    if (this.config.visibility_order) {
       this.args.push('--visibility_order');
     }
 
-    const passes: Array<string> = config.passes;
+    const passes: Array<string> = this.config.passes;
     if (passes.length > 0) {
       this.args.push(`--passes=${passes.join(',')}`);
     }
 
-    const exclude: Array<string> = config.exclude;
+    const exclude: Array<string> = this.config.exclude;
     if (exclude.length > 0) {
       this.args.push(`--exclude=${exclude.join(',')}`);
     }
 
-    if (config.smart_linebreak_after_curly) {
+    if (this.config.smart_linebreak_after_curly) {
       this.args.push('--smart_linebreak_after_curly');
     }
 
-    if (config.yoda) {
+    if (this.config.yoda) {
       this.args.push('--yoda');
     }
 
-    if (config.cakephp) {
+    if (this.config.cakephp) {
       this.args.push('--cakephp');
     }
+  }
+
+  public getConfig(): IPHPFmtConfig {
+    return this.config;
   }
 
   private getArgs(fileName: string): Array<string> {
@@ -95,7 +93,7 @@ class PHPFmt {
 
   public format(context: ExtensionContext, text: string): Promise<string> {
     return new Promise<string>((resolve, reject) => {
-      if (this.detectIndent) {
+      if (this.config.detect_indent) {
         const indentInfo: detectIndent.IndentInfo = detectIndent(text);
         if (!indentInfo.type) {
           // fallback to default
@@ -107,7 +105,7 @@ class PHPFmt {
 
       try {
         const stdout: Buffer = execSync(
-          `${this.phpBin} -r "echo PHP_VERSION_ID;"`
+          `${this.config.php_bin} -r "echo PHP_VERSION_ID;"`
         );
         if (Number(stdout.toString()) < 50600) {
           return reject(new Error('phpfmt: php version < 5.6'));
@@ -126,6 +124,7 @@ class PHPFmt {
       try {
         fs.writeFileSync(fileName, text);
       } catch (e) {
+        this.widget.addToOutput(e.message);
         return reject(
           new Error(`phpfmt: cannot create tmp file in "${tmpDir}"`)
         );
@@ -133,8 +132,9 @@ class PHPFmt {
 
       // test whether the php file has syntax error
       try {
-        execSync(`${this.phpBin} -l ${fileName}`);
+        execSync(`${this.config.php_bin} -l ${fileName}`);
       } catch (e) {
+        this.widget.addToOutput(e.message);
         Window.setStatusBarMessage(
           'phpfmt: format failed - syntax errors found',
           4500
@@ -145,12 +145,11 @@ class PHPFmt {
       const args: Array<string> = this.getArgs(fileName);
       args.unshift(`${context.extensionPath}/phpf.phar`);
 
-      const exec: ChildProcess = spawn(this.phpBin, args);
-      if (this.debugMode) {
-        console.log('phpfmt debug: ', `${this.phpBin} ${args.join(' ')}`);
-      }
+      const exec: ChildProcess = spawn(this.config.php_bin, args);
+      this.widget.addToOutput(`${this.config.php_bin} ${args.join(' ')}`);
 
-      exec.addListener('error', () => {
+      exec.addListener('error', e => {
+        this.widget.addToOutput(e.message);
         reject(new Error('phpfmt: run phpfmt failed'));
       });
       exec.addListener('exit', (code: number) => {
@@ -162,7 +161,9 @@ class PHPFmt {
             reject();
           }
         } else {
-          reject(new Error('phpfmt: phpf.phar returns an invalid code'));
+          reject(
+            new Error(`phpfmt: phpf.phar returns an invalid code ${code}`)
+          );
         }
 
         try {

@@ -27,7 +27,7 @@ export default class PHPFmtProvider {
   onWillSaveTextDocument(): Disposable {
     return Workspace.onWillSaveTextDocument(event => {
       if (event.document.languageId === 'php') {
-        if (this.phpfmt.formatOnSave) {
+        if (this.phpfmt.getConfig().format_on_save) {
           event.waitUntil(
             Commands.executeCommand('editor.action.formatDocument')
           );
