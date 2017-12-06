@@ -34,7 +34,9 @@ suite('PHPFmt Test', () => {
             const stdout: Buffer = execSync(
               `php ${path.join(
                 Workspace.rootPath!,
-                `/../phpf.phar --psr2 --dry-run -o=- ${filePath}`
+                `/../phpf.phar --psr2 --indent_with_space=4 --dry-run -o=- ${
+                  filePath
+                }`
               )}`
             );
             const phpfmtFormatted: string = stdout.toString();
