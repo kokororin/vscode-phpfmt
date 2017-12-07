@@ -32,13 +32,26 @@ or keyboard shortcut `ctrl+shift+i` which is Visual Studio Code default formatte
 
 or right mouse context menu `Format Document` or `Format Selection`
 
+### Format On Save
+Respects `editor.formatOnSave` setting.
+
+You can turn off format-on-save on a per-language basis by scoping the setting:
+
+```json
+// Set the default
+"editor.formatOnSave": false,
+// Enable per-language
+"[php]": {
+    "editor.formatOnSave": true
+}
+```
+
 ## Configuration
 
 | Key | Type | Description | Default |
 | -------- | ----------- | ----------- | ----------- |
 | phpfmt.php_bin | `string` | php executable path | "php" | 
 | phpfmt.debug_mode | `boolean` | allow debug mode | false | 
-| phpfmt.format_on_save | `boolean` | Execute phpfmt on save | false | 
 | phpfmt.detect_indent | `boolean` | auto detecting indent type and size (will ignore indent_with_space) | false | 
 | phpfmt.psr1 | `boolean` | activate PSR1 style | false | 
 | phpfmt.psr1_naming | `boolean` | activate PSR1 style - Section 3 and 4.3 - Class and method names case. | false | 

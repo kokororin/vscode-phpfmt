@@ -12,7 +12,7 @@
     "generate": "ts-node scripts/generate.ts",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "pretest": "npm run build",
-    "test": "cross-env CODE_TESTS_WORKSPACE=testProject ./node_modules/vscode/bin/test",
+    "test": "cross-env CODE_TESTS_WORKSPACE=testProject node ./node_modules/vscode/bin/test",
     "prepublishOnly": "npm run build && vsce publish"
   },
   "keywords": [
@@ -63,11 +63,6 @@
           "type": "boolean",
           "default": false,
           "description": "allow debug mode"
-        },
-        "phpfmt.format_on_save": {
-          "type": "boolean",
-          "default": false,
-          "description": "Execute phpfmt on save"
         },
         "phpfmt.detect_indent": {
           "type": "boolean",

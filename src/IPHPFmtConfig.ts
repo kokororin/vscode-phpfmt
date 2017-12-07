@@ -1,7 +1,6 @@
 export default interface IPHPFmtConfig {
   php_bin: string;
   debug_mode: boolean;
-  format_on_save: boolean;
   detect_indent: boolean;
   psr1: boolean;
   psr1_naming: boolean;
