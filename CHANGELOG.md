@@ -1,3 +1,6 @@
+### 1.0.16
+- Remove option `format_on_save`
+
 ### 1.0.15
 - Output debug to console instead of Developer Tools
 
