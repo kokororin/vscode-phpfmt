@@ -11,11 +11,8 @@
     "trash": "trash out",
     "generate": "ts-node scripts/generate.ts",
     "postinstall": "node ./node_modules/vscode/bin/install",
-    "pretest": "npm run build && npm run hook:backup",
-    "test": "./scripts/test.sh",
-    "posttest": "npm run hook:restore",
-    "hook:backup": "cross-env PHPFMT_TEST_HOOK=backup ts-node scripts/hook.ts",
-    "hook:restore": "cross-env PHPFMT_TEST_HOOK=restore ts-node scripts/hook.ts",
+    "pretest": "npm run build",
+    "test": "cross-env CODE_TESTS_WORKSPACE=testProject ./node_modules/vscode/bin/test",
     "prepublishOnly": "npm run build && vsce publish"
   },
   "keywords": [
@@ -145,11 +142,9 @@
   },
   "devDependencies": {
     "@types/detect-indent": "^5.0.0",
-    "@types/fs-extra": "^4.0.5",
     "@types/mocha": "^2.2.44",
     "@types/node": "^8.0.28",
     "cross-env": "^5.1.1",
-    "fs-extra": "^4.0.2",
     "mocha": "^4.0.1",
     "pjson": "^1.0.9",
     "trash-cli": "^1.4.0",

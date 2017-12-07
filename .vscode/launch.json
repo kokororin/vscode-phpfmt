@@ -6,8 +6,29 @@
       "type": "extensionHost",
       "request": "launch",
       "runtimeExecutable": "${execPath}",
-      "args": ["--extensionDevelopmentPath=${workspaceRoot}"],
-      "stopOnEntry": false
+      "args": [
+        "${workspaceRoot}/testProject",
+        "--extensions-dir=${workspaceRoot}/.",
+        "--extensionDevelopmentPath=${workspaceRoot}"
+      ],
+      "stopOnEntry": false,
+      "sourceMaps": true,
+      "outFiles": ["${workspaceRoot}/out/src/**/*.js"]
+    },
+    {
+      "name": "Launch Tests",
+      "type": "extensionHost",
+      "request": "launch",
+      "runtimeExecutable": "${execPath}",
+      "args": [
+        "${workspaceRoot}/testProject",
+        "--extensions-dir=${workspaceRoot}/.",
+        "--extensionDevelopmentPath=${workspaceRoot}",
+        "--extensionTestsPath=${workspaceRoot}/out/test"
+      ],
+      "stopOnEntry": false,
+      "sourceMaps": true,
+      "outFiles": ["${workspaceRoot}/out/test/**/*.js"]
     }
   ]
 }

@@ -62,6 +62,6 @@ or right mouse context menu `Format Document` or `Format Selection`
 - `Launch Extension`
 
 ### Running tests
-```bash
-$ npm test
-```
+- Open this repository inside VSCode
+- Debug sidebar
+- `Launch Tests`
