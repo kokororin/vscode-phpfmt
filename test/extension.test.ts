@@ -9,6 +9,7 @@ import {
   Extension
 } from 'vscode';
 import * as pkg from 'pjson';
+import PHPFmt from '../src/PHPFmt';
 
 suite('PHPFmt Test', () => {
   const extension = Extensions.getExtension(
@@ -34,10 +35,9 @@ suite('PHPFmt Test', () => {
             const stdout: Buffer = execSync(
               `php ${path.join(
                 Workspace.rootPath!,
-                `/../phpf.phar --psr2 --indent_with_space=4 --dry-run -o=- ${
-                  filePath
-                }`
-              )}`
+                '/../',
+                PHPFmt.pharRelPath
+              )} --psr2 --indent_with_space=4 --dry-run -o=- ${filePath}`
             );
             const phpfmtFormatted: string = stdout.toString();
             assert.equal(doc.getText(), phpfmtFormatted);

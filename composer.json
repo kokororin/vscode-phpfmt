@@ -1,0 +1,5 @@
+{
+  "require": {
+    "phpfmt-next/fmt": "^19.6"
+  }
+}

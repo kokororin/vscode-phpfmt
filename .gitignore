@@ -1,5 +1,7 @@
 out
 node_modules
 npm-debug.log
+vendor
+composer.lock
 *.vsix
 .vscode-test

@@ -3,6 +3,7 @@ import {
   window as Window,
   ExtensionContext
 } from 'vscode';
+import * as path from 'path';
 import * as fs from 'fs';
 import * as os from 'os';
 import { execSync, spawn, ChildProcess } from 'child_process';
@@ -14,6 +15,8 @@ class PHPFmt {
   private widget: Widget;
   private config: IPHPFmtConfig;
   private args: Array<string> = [];
+
+  public static pharRelPath: string = 'vendor/phpfmt-next/fmt/bin/fmt.phar';
 
   public constructor() {
     this.loadSettings();
@@ -143,7 +146,7 @@ class PHPFmt {
       }
 
       const args: Array<string> = this.getArgs(fileName);
-      args.unshift(`${context.extensionPath}/phpf.phar`);
+      args.unshift(path.join(context.extensionPath, PHPFmt.pharRelPath));
 
       const exec: ChildProcess = spawn(this.config.php_bin, args);
       this.widget.addToOutput(`${this.config.php_bin} ${args.join(' ')}`);
@@ -161,9 +164,7 @@ class PHPFmt {
             reject();
           }
         } else {
-          reject(
-            new Error(`phpfmt: phpf.phar returns an invalid code ${code}`)
-          );
+          reject(new Error(`phpfmt: fmt.phar returns an invalid code ${code}`));
         }
 
         try {
