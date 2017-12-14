@@ -25,6 +25,7 @@ cache:
 
 install:
   - yarn install
+  - composer install
 
 script:
   - npm test
