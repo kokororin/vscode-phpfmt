@@ -8,19 +8,19 @@
 [![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/kokororin/vscode-phpfmt.svg)](https://isitmaintained.com/project/kokororin/vscode-phpfmt "Average time to resolve an issue")
 [![Percentage of issues still open](https://isitmaintained.com/badge/open/kokororin/vscode-phpfmt.svg)](https://isitmaintained.com/project/kokororin/vscode-phpfmt "Percentage of issues still open")
 
-The missing phpfmt extension for Visual Studio Code using [phpF](https://github.com/subins2000/phpF).
+The missing phpfmt extension for Visual Studio Code using [phpfmt](https://github.com/phpfmt-next/fmt).
 
 ## Read this first
 
-If you believe you found a bug or problem with [phpF](https://github.com/subins2000/phpF), please **don't open an issue in this repository**.  
-This project is just an extension for [phpF](https://github.com/subins2000/phpF).
+If you believe you found a bug or problem with [phpfmt](https://github.com/phpfmt-next/fmt), please **don't open an issue in this repository**.  
+This project is just an extension for [phpfmt](https://github.com/phpfmt-next/fmt).
 
 ## Installation
 
 Open command palette <kbd>F1</kbd> and select `Extensions: Install Extension`, then search for phpfmt.
 
 **Note**: PHP >= 5.6 is required.  
-(https://github.com/subins2000/phpF#requirements)  
+(https://github.com/phpfmt-next/fmt#requirements)  
 
 **Note**: For Windows users, see [#1](https://github.com/kokororin/vscode-phpfmt/issues/1)
 

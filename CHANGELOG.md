@@ -1,3 +1,6 @@
+### 1.0.17
+- Use new phpfmt 19.6.6
+
 ### 1.0.16
 - Remove option `format_on_save`
 
