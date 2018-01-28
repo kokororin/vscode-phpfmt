@@ -1,5 +1,5 @@
 {
   "require": {
-    "phpfmt-next/fmt": "^19.6"
+    "phpfmt-next/fmt": "^19.6.7"
   }
 }
