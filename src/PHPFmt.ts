@@ -108,7 +108,10 @@ class PHPFmt {
 
       try {
         const stdout: Buffer = execSync(
-          `${this.config.php_bin} -r "echo PHP_VERSION_ID;"`
+          `${this.config.php_bin} -r "echo PHP_VERSION_ID;"`,
+          {
+             cwd: path.dirname(vscode_1.window.activeTextEditor.document.fileName)
+          }
         );
         if (Number(stdout.toString()) < 50600) {
           return reject(new Error('phpfmt: php version < 5.6'));
