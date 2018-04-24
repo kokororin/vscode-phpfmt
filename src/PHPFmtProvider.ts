@@ -7,9 +7,15 @@ import {
   Range,
   TextEdit,
   Disposable,
+  DocumentSelector,
   ExtensionContext
 } from 'vscode';
 import PHPFmt from './PHPFmt';
+
+const documentSelector: DocumentSelector = [
+  { language: 'php', scheme: 'file' },
+  { language: 'php', scheme: 'untitled' }
+];
 
 export default class PHPFmtProvider {
   private phpfmt: PHPFmt;
@@ -33,7 +39,7 @@ export default class PHPFmtProvider {
   }
 
   documentFormattingEditProvider(context: ExtensionContext): Disposable {
-    return Languages.registerDocumentFormattingEditProvider('php', {
+    return Languages.registerDocumentFormattingEditProvider(documentSelector, {
       provideDocumentFormattingEdits: document => {
         return new Promise<any>((resolve, reject) => {
           const originalText: string = document.getText();
@@ -64,7 +70,7 @@ export default class PHPFmtProvider {
   }
 
   documentRangeFormattingEditProvider(context: ExtensionContext): Disposable {
-    return Languages.registerDocumentRangeFormattingEditProvider('php', {
+    return Languages.registerDocumentRangeFormattingEditProvider(documentSelector, {
       provideDocumentRangeFormattingEdits: (document, range) => {
         return new Promise<any>((resolve, reject) => {
           let originalText: string = document.getText(range);
