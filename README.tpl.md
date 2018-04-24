@@ -1,12 +1,9 @@
 # phpfmt for Visual Studio Code
 
+[![Build Status](https://travis-ci.org/kokororin/vscode-phpfmt.svg?branch=master)](https://travis-ci.org/kokororin/vscode-phpfmt)
 [![Version](https://vsmarketplacebadge.apphb.com/version/kokororin.vscode-phpfmt.svg)](https://marketplace.visualstudio.com/items?itemName=kokororin.vscode-phpfmt)
 [![Visual Studio Marketplace](https://vsmarketplacebadge.apphb.com/installs/kokororin.vscode-phpfmt.svg)](https://marketplace.visualstudio.com/items?itemName=kokororin.vscode-phpfmt)
 [![Ratings](https://vsmarketplacebadge.apphb.com/rating/kokororin.vscode-phpfmt.svg)](https://marketplace.visualstudio.com/items?itemName=kokororin.vscode-phpfmt)
-
-[![Build Status](https://travis-ci.org/kokororin/vscode-phpfmt.svg?branch=master)](https://travis-ci.org/kokororin/vscode-phpfmt)
-[![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/kokororin/vscode-phpfmt.svg)](https://isitmaintained.com/project/kokororin/vscode-phpfmt "Average time to resolve an issue")
-[![Percentage of issues still open](https://isitmaintained.com/badge/open/kokororin/vscode-phpfmt.svg)](https://isitmaintained.com/project/kokororin/vscode-phpfmt "Percentage of issues still open")
 
 The missing phpfmt extension for Visual Studio Code using [phpfmt](https://github.com/phpfmt-next/fmt).
 

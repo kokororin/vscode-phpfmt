@@ -106,15 +106,17 @@ class PHPFmt {
         }
       }
 
-      const execOptions = {cwd: ''};
-      if(Window.activeTextEditor) {
-        execOptions.cwd = path.dirname(Window.activeTextEditor.document.fileName)
+      const execOptions = { cwd: '' };
+      if (Window.activeTextEditor) {
+        execOptions.cwd = path.dirname(
+          Window.activeTextEditor.document.fileName
+        );
       }
 
       try {
-
         const stdout: Buffer = execSync(
-          `${this.config.php_bin} -r "echo PHP_VERSION_ID;"`, execOptions
+          `${this.config.php_bin} -r "echo PHP_VERSION_ID;"`,
+          execOptions
         );
         if (Number(stdout.toString()) < 50600) {
           return reject(new Error('phpfmt: php version < 5.6'));

@@ -1,3 +1,6 @@
+### 1.0.19
+- Support PHP version managers
+
 ### 1.0.18
 - Update fmt.phar to 19.6.7
 
