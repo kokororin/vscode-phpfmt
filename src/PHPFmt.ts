@@ -106,9 +106,15 @@ class PHPFmt {
         }
       }
 
+      const execOptions = {cwd: ''};
+      if(Window.activeTextEditor) {
+        execOptions.cwd = path.dirname(Window.activeTextEditor.document.fileName)
+      }
+
       try {
+
         const stdout: Buffer = execSync(
-          `${this.config.php_bin} -r "echo PHP_VERSION_ID;"`
+          `${this.config.php_bin} -r "echo PHP_VERSION_ID;"`, execOptions
         );
         if (Number(stdout.toString()) < 50600) {
           return reject(new Error('phpfmt: php version < 5.6'));
@@ -135,7 +141,7 @@ class PHPFmt {
 
       // test whether the php file has syntax error
       try {
-        execSync(`${this.config.php_bin} -l ${fileName}`);
+        execSync(`${this.config.php_bin} -l ${fileName}`, execOptions);
       } catch (e) {
         this.widget.addToOutput(e.message);
         Window.setStatusBarMessage(
@@ -148,7 +154,7 @@ class PHPFmt {
       const args: Array<string> = this.getArgs(fileName);
       args.unshift(path.join(context.extensionPath, PHPFmt.pharRelPath));
 
-      const exec: ChildProcess = spawn(this.config.php_bin, args);
+      const exec: ChildProcess = spawn(this.config.php_bin, args, execOptions);
       this.widget.addToOutput(`${this.config.php_bin} ${args.join(' ')}`);
 
       exec.addListener('error', e => {
