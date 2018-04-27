@@ -1,5 +1,8 @@
+### 1.0.20
+- Visual Studio Live Share support [(PR #25)](https://github.com/kokororin/vscode-phpfmt/pull/25)
+
 ### 1.0.19
-- Support PHP version managers
+- Support PHP version managers [(PR #24)](https://github.com/kokororin/vscode-phpfmt/pull/24)
 
 ### 1.0.18
 - Update fmt.phar to 19.6.7
