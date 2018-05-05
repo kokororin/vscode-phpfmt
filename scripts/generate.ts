@@ -1,16 +1,19 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import * as os from 'os';
+import { execSync } from 'child_process';
 
 const pkg: any = require('pjson');
 
-const readmeTpl: string = String(
-  fs.readFileSync(path.join(__dirname, '/../README.tpl.md'))
-);
-const readmeOutPath: string = path.join(__dirname, '/../README.md');
+const readmePath: string = path.join(__dirname, '/../README.md');
 
 const configuration: any = pkg.contributes.configuration;
 
-let config: string = '';
+let config: string =
+  '| Key | Type | Description | Default |' +
+  os.EOL +
+  '| -------- | ----------- | ----------- | ----------- |' +
+  os.EOL;
 
 for (const configKey of Object.keys(configuration.properties)) {
   const configValue = configuration.properties[configKey];
@@ -36,7 +39,39 @@ for (const configKey of Object.keys(configuration.properties)) {
     throw new Error('uncovered type');
   }
 
-  config += ' | \n';
+  config += ' | ' + os.EOL;
 }
 
-fs.writeFileSync(readmeOutPath, readmeTpl.replace('%CONFIG%', config));
+let readmeContent = fs.readFileSync(readmePath).toString();
+readmeContent = readmeContent.replace(
+  /<!-- Configuration START -->(.*)<!-- Configuration END -->/s,
+  () => {
+    return (
+      '<!-- Configuration START -->' +
+      os.EOL +
+      config +
+      os.EOL +
+      '<!-- Configuration END -->'
+    );
+  }
+);
+
+readmeContent = readmeContent.replace(
+  /<!-- Transformations START -->(.*)<!-- Transformations END -->/s,
+  () => {
+    return (
+      '<!-- Transformations START -->' +
+      os.EOL +
+      execSync('php ' + path.join(__dirname, '/../fmt.phar --list-simple'))
+        .toString()
+        .trim()
+        .split(os.EOL)
+        .map(v => ' * ' + v)
+        .join(os.EOL) +
+      os.EOL +
+      '<!-- Transformations END -->'
+    );
+  }
+);
+
+fs.writeFileSync(readmePath, readmeContent);

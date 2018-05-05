@@ -12,4 +12,3 @@ testProject/**
 tsconfig.json
 .editorconfig
 yarn.lock
-README.tpl.md
