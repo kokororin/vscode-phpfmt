@@ -16,7 +16,7 @@ class PHPFmt {
   private config: IPHPFmtConfig;
   private args: Array<string> = [];
 
-  public static pharRelPath: string = 'vendor/phpfmt-next/fmt/bin/fmt.phar';
+  public static pharRelPath: string = 'fmt.phar';
 
   public constructor() {
     this.loadSettings();

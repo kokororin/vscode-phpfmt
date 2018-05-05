@@ -12,9 +12,4 @@ testProject/**
 tsconfig.json
 .editorconfig
 yarn.lock
-generate.ts
 README.tpl.md
-composer.json
-composer.lock
-vendor/**
-!vendor/phpfmt-next/fmt/bin/fmt.phar
