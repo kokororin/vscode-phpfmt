@@ -96,7 +96,7 @@
         "phpfmt.enable_auto_align": {
           "type": "boolean",
           "default": false,
-          "description": "disable auto align of ST_EQUAL and T_DOUBLE_ARROW"
+          "description": "enable auto align of ST_EQUAL and T_DOUBLE_ARROW"
         },
         "phpfmt.visibility_order": {
           "type": "boolean",
