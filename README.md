@@ -48,7 +48,7 @@ You can turn off format-on-save on a per-language basis by scoping the setting:
 | phpfmt.psr1_naming | `boolean` | activate PSR1 style - Section 3 and 4.3 - Class and method names case. | false | 
 | phpfmt.psr2 | `boolean` | activate PSR2 style | true | 
 | phpfmt.indent_with_space | `integer \| boolean` | use spaces instead of tabs for indentation. Default 4 | 4 | 
-| phpfmt.enable_auto_align | `boolean` | disable auto align of ST_EQUAL and T_DOUBLE_ARROW | false | 
+| phpfmt.enable_auto_align | `boolean` | enable auto align of ST_EQUAL and T_DOUBLE_ARROW | false | 
 | phpfmt.visibility_order | `boolean` | fixes visibiliy order for method in classes - PSR-2 4.2 | false | 
 | phpfmt.passes | `array` | call specific compiler pass | [] | 
 | phpfmt.exclude | `array` | disable specific passes | [] | 
