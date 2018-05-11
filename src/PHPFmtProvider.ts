@@ -12,16 +12,16 @@ import {
 } from 'vscode';
 import PHPFmt from './PHPFmt';
 
-const documentSelector: DocumentSelector = [
-  { language: 'php', scheme: 'file' },
-  { language: 'php', scheme: 'untitled' }
-];
-
 export default class PHPFmtProvider {
   private phpfmt: PHPFmt;
+  private documentSelector: DocumentSelector;
 
   public constructor(phpfmt: PHPFmt) {
     this.phpfmt = phpfmt;
+    this.documentSelector = [
+      { language: 'php', scheme: 'file' },
+      { language: 'php', scheme: 'untitled' }
+    ];
   }
 
   onDidChangeConfiguration(): Disposable {
@@ -39,71 +39,77 @@ export default class PHPFmtProvider {
   }
 
   documentFormattingEditProvider(context: ExtensionContext): Disposable {
-    return Languages.registerDocumentFormattingEditProvider(documentSelector, {
-      provideDocumentFormattingEdits: document => {
-        return new Promise<any>((resolve, reject) => {
-          const originalText: string = document.getText();
-          const lastLine = document.lineAt(document.lineCount - 1);
-          const range: Range = new Range(
-            new Position(0, 0),
-            lastLine.range.end
-          );
+    return Languages.registerDocumentFormattingEditProvider(
+      this.documentSelector,
+      {
+        provideDocumentFormattingEdits: document => {
+          return new Promise<any>((resolve, reject) => {
+            const originalText: string = document.getText();
+            const lastLine = document.lineAt(document.lineCount - 1);
+            const range: Range = new Range(
+              new Position(0, 0),
+              lastLine.range.end
+            );
 
-          this.phpfmt
-            .format(context, originalText)
-            .then((text: string) => {
-              if (text !== originalText) {
-                resolve([new TextEdit(range, text)]);
-              } else {
+            this.phpfmt
+              .format(context, originalText)
+              .then((text: string) => {
+                if (text !== originalText) {
+                  resolve([new TextEdit(range, text)]);
+                } else {
+                  reject();
+                }
+              })
+              .catch(err => {
+                if (err instanceof Error) {
+                  Window.showErrorMessage(err.message);
+                }
                 reject();
-              }
-            })
-            .catch(err => {
-              if (err instanceof Error) {
-                Window.showErrorMessage(err.message);
-              }
-              reject();
-            });
-        });
+              });
+          });
+        }
       }
-    });
+    );
   }
 
   documentRangeFormattingEditProvider(context: ExtensionContext): Disposable {
-    return Languages.registerDocumentRangeFormattingEditProvider(documentSelector, {
-      provideDocumentRangeFormattingEdits: (document, range) => {
-        return new Promise<any>((resolve, reject) => {
-          let originalText: string = document.getText(range);
-          if (originalText.replace(/\s+/g, '').length === 0) {
-            return reject();
-          }
+    return Languages.registerDocumentRangeFormattingEditProvider(
+      this.documentSelector,
+      {
+        provideDocumentRangeFormattingEdits: (document, range) => {
+          return new Promise<any>((resolve, reject) => {
+            let originalText: string = document.getText(range);
+            if (originalText.replace(/\s+/g, '').length === 0) {
+              return reject();
+            }
 
-          let hasModified: boolean = false;
-          if (originalText.search(/^\s*<\?php/i) === -1) {
-            originalText = `<?php\n${originalText}`;
-            hasModified = true;
-          }
+            let hasModified: boolean = false;
+            if (originalText.search(/^\s*<\?php/i) === -1) {
+              originalText = `<?php\n${originalText}`;
+              hasModified = true;
+            }
 
-          this.phpfmt
-            .format(context, originalText)
-            .then((text: string) => {
-              if (hasModified) {
-                text = text.replace(/^<\?php\r?\n/, '');
-              }
-              if (text !== originalText) {
-                resolve([new TextEdit(range, text)]);
-              } else {
+            this.phpfmt
+              .format(context, originalText)
+              .then((text: string) => {
+                if (hasModified) {
+                  text = text.replace(/^<\?php\r?\n/, '');
+                }
+                if (text !== originalText) {
+                  resolve([new TextEdit(range, text)]);
+                } else {
+                  reject();
+                }
+              })
+              .catch(err => {
+                if (err instanceof Error) {
+                  Window.showErrorMessage(err.message);
+                }
                 reject();
-              }
-            })
-            .catch(err => {
-              if (err instanceof Error) {
-                Window.showErrorMessage(err.message);
-              }
-              reject();
-            });
-        });
+              });
+          });
+        }
       }
-    });
+    );
   }
 }

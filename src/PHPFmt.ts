@@ -104,6 +104,14 @@ class PHPFmt {
         } else if (indentInfo.type === 'space') {
           this.args.push(`--indent_with_space=${indentInfo.amount}`);
         }
+      } else {
+        if (this.config.indent_with_space !== 4 && this.config.psr2) {
+          return reject(
+            new Error(
+              'phpfmt: For PSR2, code MUST use 4 spaces for indenting, not tabs.'
+            )
+          );
+        }
       }
 
       const execOptions = { cwd: '' };
