@@ -1,3 +1,6 @@
+### 1.0.22
+- Fix [(#27)](https://github.com/kokororin/vscode-phpfmt/issues/27)
+
 ### 1.0.21
 - Update fmt.phar to 19.6.7
 - Fix tabs issue
