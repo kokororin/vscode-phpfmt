@@ -1,3 +1,6 @@
+### 1.0.23
+- Add warnings for PSR2
+
 ### 1.0.22
 - Fix [(#27)](https://github.com/kokororin/vscode-phpfmt/issues/27)
 
