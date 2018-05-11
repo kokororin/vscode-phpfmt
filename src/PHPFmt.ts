@@ -50,8 +50,6 @@ class PHPFmt {
         this.args.push('--indent_with_space');
       } else if (spaces > 0) {
         this.args.push(`--indent_with_space=${spaces}`);
-      } else if (spaces === false) {
-        this.config.detect_indent = true;
       }
     }
 

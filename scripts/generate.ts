@@ -44,7 +44,7 @@ for (const configKey of Object.keys(configuration.properties)) {
 
 let readmeContent = fs.readFileSync(readmePath).toString();
 readmeContent = readmeContent.replace(
-  /<!-- Configuration START -->(.*)<!-- Configuration END -->/s,
+  /<!-- Configuration START -->(.*)<!-- Configuration END -->/,
   () => {
     return (
       '<!-- Configuration START -->' +
@@ -57,7 +57,7 @@ readmeContent = readmeContent.replace(
 );
 
 readmeContent = readmeContent.replace(
-  /<!-- Transformations START -->(.*)<!-- Transformations END -->/s,
+  /<!-- Transformations START -->(.*)<!-- Transformations END -->/,
   () => {
     return (
       '<!-- Transformations START -->' +
