@@ -44,7 +44,7 @@ for (const configKey of Object.keys(configuration.properties)) {
 
 let readmeContent = fs.readFileSync(readmePath).toString();
 readmeContent = readmeContent.replace(
-  /<!-- Configuration START -->(.*)<!-- Configuration END -->/,
+  /<!-- Configuration START -->([\s\S]*)<!-- Configuration END -->/,
   () => {
     return (
       '<!-- Configuration START -->' +
@@ -57,16 +57,27 @@ readmeContent = readmeContent.replace(
 );
 
 readmeContent = readmeContent.replace(
-  /<!-- Transformations START -->(.*)<!-- Transformations END -->/,
+  /<!-- Transformations START -->([\s\S]*)<!-- Transformations END -->/,
   () => {
     return (
       '<!-- Transformations START -->' +
+      os.EOL +
+      '| Key | Description |' +
+      os.EOL +
+      '| -------- | ----------- |' +
       os.EOL +
       execSync('php ' + path.join(__dirname, '/../fmt.phar --list-simple'))
         .toString()
         .trim()
         .split(os.EOL)
-        .map(v => ' * ' + v)
+        .map(v => {
+          const splited = v.split(' ');
+          let row = `| ${splited[0]} | `;
+          splited.splice(0, 1);
+          row += splited.join(' ').trim();
+          row += ' |';
+          return row;
+        })
         .join(os.EOL) +
       os.EOL +
       '<!-- Transformations END -->'
