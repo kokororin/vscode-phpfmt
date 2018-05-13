@@ -6,7 +6,7 @@ import {
 import * as path from 'path';
 import * as fs from 'fs';
 import * as os from 'os';
-import { execSync, spawn, ChildProcess } from 'child_process';
+import { execSync } from 'child_process';
 import * as detectIndent from 'detect-indent';
 import IPHPFmtConfig from './IPHPFmtConfig';
 import Widget from './Widget';
@@ -130,7 +130,9 @@ class PHPFmt {
           return reject(new Error('phpfmt: php version < 5.6'));
         }
       } catch (err) {
-        return reject(new Error('phpfmt: cannot find php bin'));
+        return reject(
+          new Error(`phpfmt: php_bin "${this.config.php_bin}" is invalid`)
+        );
       }
 
       const tmpDir: string = os.tmpdir();
@@ -142,8 +144,8 @@ class PHPFmt {
 
       try {
         fs.writeFileSync(fileName, text);
-      } catch (e) {
-        this.widget.addToOutput(e.message);
+      } catch (err) {
+        this.widget.addToOutput(err.message);
         return reject(
           new Error(`phpfmt: cannot create tmp file in "${tmpDir}"`)
         );
@@ -152,8 +154,8 @@ class PHPFmt {
       // test whether the php file has syntax error
       try {
         execSync(`${this.config.php_bin} -l ${fileName}`, execOptions);
-      } catch (e) {
-        this.widget.addToOutput(e.message);
+      } catch (err) {
+        this.widget.addToOutput(err.message);
         Window.setStatusBarMessage(
           'phpfmt: format failed - syntax errors found',
           4500
@@ -164,29 +166,27 @@ class PHPFmt {
       const args: Array<string> = this.getArgs(fileName);
       args.unshift(path.join(context.extensionPath, PHPFmt.pharRelPath));
 
-      const exec: ChildProcess = spawn(this.config.php_bin, args, execOptions);
-      this.widget.addToOutput(`${this.config.php_bin} ${args.join(' ')}`);
+      const formatCmd = `${this.config.php_bin} ${args.join(' ')}`;
 
-      exec.addListener('error', e => {
-        this.widget.addToOutput(e.message);
-        reject(new Error('phpfmt: run phpfmt failed'));
-      });
-      exec.addListener('exit', (code: number) => {
-        if (code === 0) {
-          const formatted: string = fs.readFileSync(fileName, 'utf-8');
-          if (formatted.length > 0) {
-            resolve(formatted);
-          } else {
-            reject();
-          }
-        } else {
-          reject(new Error(`phpfmt: fmt.phar returns an invalid code ${code}`));
-        }
+      this.widget.addToOutput(formatCmd);
 
-        try {
-          fs.unlinkSync(fileName);
-        } catch (err) {}
-      });
+      try {
+        execSync(formatCmd, execOptions);
+      } catch (err) {
+        this.widget.addToOutput(err.message);
+        return reject(new Error('phpfmt: run phpfmt failed'));
+      }
+
+      const formatted: string = fs.readFileSync(fileName, 'utf-8');
+      try {
+        fs.unlinkSync(fileName);
+      } catch (err) {}
+
+      if (formatted.length > 0) {
+        resolve(formatted);
+      } else {
+        reject();
+      }
     });
   }
 }
