@@ -12,3 +12,4 @@ testProject/**
 tsconfig.json
 .editorconfig
 yarn.lock
+*.log

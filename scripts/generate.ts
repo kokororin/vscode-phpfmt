@@ -1,7 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import * as os from 'os';
-import { execSync } from 'child_process';
+import Transformations from '../src/Transformations';
 
 const pkg: any = require('pjson');
 
@@ -66,15 +66,10 @@ readmeContent = readmeContent.replace(
       os.EOL +
       '| -------- | ----------- |' +
       os.EOL +
-      execSync('php ' + path.join(__dirname, '/../fmt.phar --list-simple'))
-        .toString()
-        .trim()
-        .split(os.EOL)
-        .map(v => {
-          const splited = v.split(' ');
-          let row = `| ${splited[0]} | `;
-          splited.splice(0, 1);
-          row += splited.join(' ').trim();
+      Transformations.getTransformations(path.join(__dirname, '/../'), 'php')
+        .map(item => {
+          let row = `| ${item.key} | `;
+          row += item.description;
           row += ' |';
           return row;
         })

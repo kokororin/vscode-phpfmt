@@ -16,6 +16,10 @@
     "test": "cross-env CODE_TESTS_WORKSPACE=testProject node ./node_modules/vscode/bin/test",
     "prepublishOnly": "npm run build && vsce publish"
   },
+  "config": {
+    "pharRelPath": "fmt.phar",
+    "pharDlUrl": "https://api.kotori.love/github/fmt.phar"
+  },
   "keywords": [
     "phpfmt",
     "vscode"
@@ -46,9 +50,13 @@
   "contributes": {
     "commands": [
       {
-        "command": "phpfmt.format",
-        "title": "phpfmt: format this file",
+        "command": "extension.format",
+        "title": "phpfmt: Format this file",
         "when": "!inOutput && editorFocus && editorLangId == php"
+      },
+      {
+        "command": "extension.listTransformations",
+        "title": "phpfmt: List Transformations"
       }
     ],
     "configuration": {

@@ -8,8 +8,8 @@ import {
   extensions as Extensions,
   Extension
 } from 'vscode';
-import * as pkg from 'pjson';
-import PHPFmt from '../src/PHPFmt';
+
+const pkg: any = require('pjson');
 
 suite('PHPFmt Test', () => {
   const extension = Extensions.getExtension(
@@ -35,8 +35,7 @@ suite('PHPFmt Test', () => {
             const stdout: Buffer = execSync(
               `php ${path.join(
                 Workspace.rootPath!,
-                '/../',
-                PHPFmt.pharRelPath
+                `/../${pkg.config.pharRelPath}`
               )} --psr2 --indent_with_space=4 --dry-run -o=- ${filePath}`
             );
             const phpfmtFormatted: string = stdout.toString();

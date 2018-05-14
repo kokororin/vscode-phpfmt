@@ -7,7 +7,8 @@ export function activate(context: ExtensionContext): void {
 
   context.subscriptions.push(
     provider.onDidChangeConfiguration(),
-    provider.textEditorCommand(),
+    provider.formatCommand(),
+    provider.listTransformationsCommand(context),
     provider.documentFormattingEditProvider(context),
     provider.documentRangeFormattingEditProvider(context)
   );

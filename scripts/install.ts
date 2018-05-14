@@ -2,11 +2,11 @@ import * as fs from 'fs';
 import * as path from 'path';
 import fetch from 'node-fetch';
 
-const url = 'https://api.kotori.love/github/fmt.phar';
+const pkg: any = require('pjson');
 
-console.log('Fetching fmt.phar from: ' + url);
+console.log('Fetching fmt.phar from: ' + pkg.config.pharDlUrl);
 
-fetch(url)
+fetch(pkg.config.pharDlUrl)
   .then(res => {
     const dest = fs.createWriteStream(path.join(__dirname, '/../fmt.phar'), {
       autoClose: true

@@ -8,9 +8,12 @@ import {
   TextEdit,
   Disposable,
   DocumentSelector,
+  QuickPickItem,
   ExtensionContext
 } from 'vscode';
 import PHPFmt from './PHPFmt';
+import Transformations from './Transformations';
+import ITransformationItem from './ITransformationItem';
 
 export default class PHPFmtProvider {
   private phpfmt: PHPFmt;
@@ -30,11 +33,35 @@ export default class PHPFmtProvider {
     });
   }
 
-  textEditorCommand(): Disposable {
-    return Commands.registerTextEditorCommand('phpfmt.format', textEditor => {
-      if (textEditor.document.languageId === 'php') {
-        Commands.executeCommand('editor.action.formatDocument');
+  formatCommand(): Disposable {
+    return Commands.registerTextEditorCommand(
+      'extension.format',
+      textEditor => {
+        if (textEditor.document.languageId === 'php') {
+          Commands.executeCommand('editor.action.formatDocument');
+        }
       }
+    );
+  }
+
+  listTransformationsCommand(context: ExtensionContext): Disposable {
+    return Commands.registerCommand('extension.listTransformations', () => {
+      const transformations: Array<
+        ITransformationItem
+      > = Transformations.getTransformations(
+        context.extensionPath,
+        this.phpfmt.getConfig().php_bin
+      );
+
+      const items: Array<QuickPickItem> = new Array<QuickPickItem>();
+      for (const item of transformations) {
+        items.push({
+          label: item.key,
+          description: item.description
+        });
+      }
+
+      Window.showQuickPick(items);
     });
   }
 
