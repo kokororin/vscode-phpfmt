@@ -1605,7 +1605,7 @@ pinkie@^2.0.0:
 
 pjson@^1.0.9:
   version "1.0.9"
-  resolved "https://registry.npmjs.org/pjson/-/pjson-1.0.9.tgz#8a9520ce76a4739f8fee91679dad6b065b1c7938"
+  resolved "https://registry.yarnpkg.com/pjson/-/pjson-1.0.9.tgz#8a9520ce76a4739f8fee91679dad6b065b1c7938"
 
 plugin-error@^0.1.2:
   version "0.1.2"

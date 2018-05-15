@@ -151,13 +151,13 @@
     "cross-env": "^5.1.1",
     "mocha": "^4.0.1",
     "node-fetch": "^2.1.2",
-    "pjson": "^1.0.9",
     "trash-cli": "^1.4.0",
     "ts-node": "^3.3.0",
     "typescript": "^2.5.2",
     "vscode": "^1.1.0"
   },
   "dependencies": {
-    "detect-indent": "^5.0.0"
+    "detect-indent": "^5.0.0",
+    "pjson": "^1.0.9"
   }
 }
