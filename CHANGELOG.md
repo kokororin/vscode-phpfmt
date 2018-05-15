@@ -1,3 +1,6 @@
+### 1.0.25
+- Fix `pjson` not found
+
 ### 1.0.24
 - Add StatusBarItem for output
 - Add command `List Transformations`
