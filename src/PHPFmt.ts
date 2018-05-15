@@ -18,7 +18,7 @@ class PHPFmt {
 
   public constructor() {
     this.loadSettings();
-    this.widget = Widget.getInstance(this);
+    this.widget = Widget.getInstance();
   }
 
   public loadSettings(): void {
@@ -82,6 +82,10 @@ class PHPFmt {
     }
   }
 
+  public getWidget(): Widget {
+    return this.widget;
+  }
+
   public getConfig(): IPHPFmtConfig {
     return this.config;
   }
@@ -135,10 +139,12 @@ class PHPFmt {
 
       const tmpDir: string = os.tmpdir();
 
-      const fileName: string = `${tmpDir}/temp-${Math.random()
-        .toString(36)
-        .replace(/[^a-z]+/g, '')
-        .substr(0, 10)}.php`;
+      const fileName: string = path.normalize(
+        `${tmpDir}/temp-${Math.random()
+          .toString(36)
+          .replace(/[^a-z]+/g, '')
+          .substr(0, 10)}.php`
+      );
 
       try {
         fs.writeFileSync(fileName, text);

@@ -12,28 +12,31 @@ import {
   ExtensionContext
 } from 'vscode';
 import PHPFmt from './PHPFmt';
+import Widget from './Widget';
 import Transformations from './Transformations';
 import ITransformationItem from './ITransformationItem';
 
 export default class PHPFmtProvider {
   private phpfmt: PHPFmt;
+  private widget: Widget;
   private documentSelector: DocumentSelector;
 
   public constructor(phpfmt: PHPFmt) {
     this.phpfmt = phpfmt;
+    this.widget = this.phpfmt.getWidget();
     this.documentSelector = [
       { language: 'php', scheme: 'file' },
       { language: 'php', scheme: 'untitled' }
     ];
   }
 
-  onDidChangeConfiguration(): Disposable {
+  public onDidChangeConfiguration(): Disposable {
     return Workspace.onDidChangeConfiguration(() => {
       this.phpfmt.loadSettings();
     });
   }
 
-  formatCommand(): Disposable {
+  public formatCommand(): Disposable {
     return Commands.registerTextEditorCommand(
       'extension.format',
       textEditor => {
@@ -44,28 +47,38 @@ export default class PHPFmtProvider {
     );
   }
 
-  listTransformationsCommand(context: ExtensionContext): Disposable {
+  public listTransformationsCommand(context: ExtensionContext): Disposable {
     return Commands.registerCommand('extension.listTransformations', () => {
-      const transformations: Array<
-        ITransformationItem
-      > = Transformations.getTransformations(
+      const transformations = new Transformations(
         context.extensionPath,
         this.phpfmt.getConfig().php_bin
       );
 
+      const transformationItems: Array<
+        ITransformationItem
+      > = transformations.getTransformations();
+
       const items: Array<QuickPickItem> = new Array<QuickPickItem>();
-      for (const item of transformations) {
+      for (const item of transformationItems) {
         items.push({
           label: item.key,
           description: item.description
         });
       }
 
-      Window.showQuickPick(items);
+      Window.showQuickPick(items).then(result => {
+        if (typeof result !== 'undefined') {
+          const output = transformations.getExample({
+            key: result.label,
+            description: result.description
+          });
+          this.widget.addToOutput(output).show();
+        }
+      });
     });
   }
 
-  documentFormattingEditProvider(context: ExtensionContext): Disposable {
+  public documentFormattingEditProvider(context: ExtensionContext): Disposable {
     return Languages.registerDocumentFormattingEditProvider(
       this.documentSelector,
       {
@@ -90,6 +103,7 @@ export default class PHPFmtProvider {
               .catch(err => {
                 if (err instanceof Error) {
                   Window.showErrorMessage(err.message);
+                  this.widget.addToOutput(err.message);
                 }
                 reject();
               });
@@ -99,7 +113,9 @@ export default class PHPFmtProvider {
     );
   }
 
-  documentRangeFormattingEditProvider(context: ExtensionContext): Disposable {
+  public documentRangeFormattingEditProvider(
+    context: ExtensionContext
+  ): Disposable {
     return Languages.registerDocumentRangeFormattingEditProvider(
       this.documentSelector,
       {
@@ -131,6 +147,7 @@ export default class PHPFmtProvider {
               .catch(err => {
                 if (err instanceof Error) {
                   Window.showErrorMessage(err.message);
+                  this.widget.addToOutput(err.message);
                 }
                 reject();
               });
@@ -138,5 +155,18 @@ export default class PHPFmtProvider {
         }
       }
     );
+  }
+
+  public statusBarItem(): Disposable[] {
+    return [
+      Window.onDidChangeActiveTextEditor(editor => {
+        if (typeof this.statusBarItem !== 'undefined') {
+          this.widget.toggleStatusBarItem(editor);
+        }
+      }),
+      Commands.registerCommand('extension.openOutput', () => {
+        this.widget.getOutputChannel().show();
+      })
+    ];
   }
 }

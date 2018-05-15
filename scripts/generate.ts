@@ -66,7 +66,8 @@ readmeContent = readmeContent.replace(
       os.EOL +
       '| -------- | ----------- |' +
       os.EOL +
-      Transformations.getTransformations(path.join(__dirname, '/../'), 'php')
+      new Transformations(path.join(__dirname, '/../'), 'php')
+        .getTransformations()
         .map(item => {
           let row = `| ${item.key} | `;
           row += item.description;

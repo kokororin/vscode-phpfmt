@@ -10,6 +10,7 @@ export function activate(context: ExtensionContext): void {
     provider.formatCommand(),
     provider.listTransformationsCommand(context),
     provider.documentFormattingEditProvider(context),
-    provider.documentRangeFormattingEditProvider(context)
+    provider.documentRangeFormattingEditProvider(context),
+    ...provider.statusBarItem()
   );
 }

@@ -4,13 +4,24 @@ import { execSync } from 'child_process';
 import ITransformationItem from './ITransformationItem';
 
 class Transformations {
-  public static getTransformations(
-    extensionPath: string,
-    phpBin: string
-  ): Array<ITransformationItem> {
-    const output: string = execSync(
-      phpBin + ' ' + path.join(extensionPath, 'fmt.phar') + ' --list-simple'
-    ).toString();
+  private extensionPath: string;
+  private phpBin: string;
+
+  public constructor(extensionPath: string, phpBin: string) {
+    this.extensionPath = extensionPath;
+    this.phpBin = phpBin;
+  }
+
+  private get baseCmd() {
+    const pkg: any = require('pjson');
+    return `${this.phpBin} ${path.join(
+      this.extensionPath,
+      pkg.config.pharRelPath
+    )}`;
+  }
+
+  public getTransformations(): Array<ITransformationItem> {
+    const output: string = execSync(`${this.baseCmd} --list-simple`).toString();
 
     return output
       .trim()
@@ -26,6 +37,14 @@ class Transformations {
             .trim()
         };
       });
+  }
+
+  public getExample(transformationItem: ITransformationItem): string {
+    const output: string = execSync(
+      `${this.baseCmd} --help-pass ${transformationItem.key}`
+    ).toString();
+
+    return output.toString().trim();
   }
 }
 

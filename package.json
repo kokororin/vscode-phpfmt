@@ -57,6 +57,10 @@
       {
         "command": "extension.listTransformations",
         "title": "phpfmt: List Transformations"
+      },
+      {
+        "command": "extension.openOutput",
+        "title": "phpfmt: Open Output"
       }
     ],
     "configuration": {
@@ -67,11 +71,6 @@
           "type": "string",
           "default": "php",
           "description": "php executable path"
-        },
-        "phpfmt.debug_mode": {
-          "type": "boolean",
-          "default": false,
-          "description": "allow debug mode"
         },
         "phpfmt.detect_indent": {
           "type": "boolean",

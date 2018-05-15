@@ -42,7 +42,6 @@ You can turn off format-on-save on a per-language basis by scoping the setting:
 | Key | Type | Description | Default |
 | -------- | ----------- | ----------- | ----------- |
 | phpfmt.php_bin | `string` | php executable path | "php" | 
-| phpfmt.debug_mode | `boolean` | allow debug mode | false | 
 | phpfmt.detect_indent | `boolean` | auto detecting indent type and size (will ignore indent_with_space) | false | 
 | phpfmt.psr1 | `boolean` | activate PSR1 style | false | 
 | phpfmt.psr1_naming | `boolean` | activate PSR1 style - Section 3 and 4.3 - Class and method names case. | false | 

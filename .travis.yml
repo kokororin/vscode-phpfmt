@@ -19,8 +19,8 @@ before_install:
 
 cache:
   directories:
-  - node_modules
-  - $HOME/.yarn-cache
+    - node_modules
+    - $HOME/.yarn-cache
 
 install:
   - yarn install
