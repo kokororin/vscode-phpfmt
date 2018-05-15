@@ -13,11 +13,11 @@ Open command palette <kbd>F1</kbd> and select `Extensions: Install Extension`, t
 
 **Note**: PHP >= 5.6 is required.  
 
-**Note**: For Windows users, see [#1](https://github.com/kokororin/vscode-phpfmt/issues/1) and [Stack Overflow Related](https://stackoverflow.com/a/45765854)
+**Note**: For Windows users, see [#1](https://github.com/kokororin/vscode-phpfmt/issues/1) and [Stack Overflow Related](https://stackoverflow.com/a/45765854).
 
 ## Usage
 
-<kbd>F1</kbd> -> `phpfmt: format this file`
+<kbd>F1</kbd> -> `phpfmt: Format This File`
 
 or keyboard shortcut `ctrl+shift+i` which is Visual Studio Code default formatter shortcut
 
@@ -59,6 +59,10 @@ You can turn off format-on-save on a per-language basis by scoping the setting:
 <!-- Configuration END -->
 
 ## Supported Transformations
+
+<kbd>F1</kbd> -> `phpfmt: List Transformations` to get the example of each 
+transformation.
+
 <!-- Transformations START -->
 | Key | Description |
 | -------- | ----------- |

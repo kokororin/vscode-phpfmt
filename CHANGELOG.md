@@ -1,3 +1,7 @@
+### 1.0.24
+- Add StatusBarItem for output
+- Add command `List Transformations`
+
 ### 1.0.23
 - Add warnings for PSR2
 
