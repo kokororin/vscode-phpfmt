@@ -66,11 +66,11 @@ A: For [PSR2](https://www.php-fig.org/psr/psr-2/), code MUST use 4 spaces for in
   ],
   "phpfmt.psr2": false
 }
+```
 
 
 Q: Is fmt.phar (phpfmt itself) still maintained ?  
 A: Since phpfmt has no maintainers, only Serious bugs will be fixed.
-```
 
 ## Configuration
 <!-- Configuration START -->

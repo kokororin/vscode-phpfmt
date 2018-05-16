@@ -1,3 +1,6 @@
+### 1.0.27
+- Update fmt.phar to 19.6.9
+
 ### 1.0.26
 - Fix path with spaces [(#31)](https://github.com/kokororin/vscode-phpfmt/issues/31)
 
