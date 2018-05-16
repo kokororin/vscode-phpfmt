@@ -1,3 +1,6 @@
+### 1.0.26
+- Fix path with spaces [(#31)](https://github.com/kokororin/vscode-phpfmt/issues/31)
+
 ### 1.0.25
 - Fix `pjson` not found
 
