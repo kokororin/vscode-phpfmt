@@ -7,10 +7,6 @@
 
 The missing phpfmt extension for Visual Studio Code.
 
-## Read this first
-
-phpfmt itself has no maintainers. Only fix bugs about **vscode-phpfmt**.
-
 ## Installation
 
 Open command palette <kbd>F1</kbd> and select `Extensions: Install Extension`, then search for phpfmt.
@@ -21,7 +17,7 @@ Open command palette <kbd>F1</kbd> and select `Extensions: Install Extension`, t
 
 <kbd>F1</kbd> -> `phpfmt: Format This File`
 
-or keyboard shortcut `ctrl+shift+i` which is Visual Studio Code default formatter shortcut
+or keyboard shortcut `Ctrl + Shift + I` which is Visual Studio Code default formatter shortcut
 
 or right mouse context menu `Format Document` or `Format Selection`
 
@@ -48,8 +44,9 @@ A: Wrap your path with quotes like:
   "phpfmt.php_bin": "\"C:\\Program Files\\php\\php.exe\""
 }
 ```
-Or just fill it with `php`.
+It is recommended to add the directory of the `php.exe` to the PATH environment variable on Windows.  
 If it still not working, refer to [#1](https://github.com/kokororin/vscode-phpfmt/issues/1) and [Stack Overflow Related](https://stackoverflow.com/a/45765854).
+
 
 Q: How use tabs instead of spaces with PSR2 enabled ?  
 A: For [PSR2](https://www.php-fig.org/psr/psr-2/), code MUST use 4 spaces for indenting, not tabs. But if you like PSR2, and do not like 4 spaces for indentation, add following configuration:
@@ -69,6 +66,10 @@ A: For [PSR2](https://www.php-fig.org/psr/psr-2/), code MUST use 4 spaces for in
   ],
   "phpfmt.psr2": false
 }
+
+
+Q: Is fmt.phar (phpfmt itself) still maintained ?  
+A: Since phpfmt has no maintainers, only Serious bugs will be fixed.
 ```
 
 ## Configuration
