@@ -169,7 +169,9 @@ class PHPFmt {
 
       const args: Array<string> = this.getArgs(fileName);
       const pkg: any = require('pjson');
-      args.unshift(path.join(context.extensionPath, pkg.config.pharRelPath));
+      args.unshift(
+        `"${path.join(context.extensionPath, pkg.config.pharRelPath)}"`
+      );
 
       const formatCmd = `${this.config.php_bin} ${args.join(' ')}`;
 

@@ -7,13 +7,15 @@
 
 The missing phpfmt extension for Visual Studio Code.
 
+## Read this first
+
+phpfmt itself has no maintainers. Only fix bugs about **vscode-phpfmt**.
+
 ## Installation
 
 Open command palette <kbd>F1</kbd> and select `Extensions: Install Extension`, then search for phpfmt.
 
 **Note**: PHP >= 5.6 is required.  
-
-**Note**: For Windows users, see [#1](https://github.com/kokororin/vscode-phpfmt/issues/1) and [Stack Overflow Related](https://stackoverflow.com/a/45765854).
 
 ## Usage
 
@@ -34,6 +36,38 @@ You can turn off format-on-save on a per-language basis by scoping the setting:
 // Enable per-language
 "[php]": {
     "editor.formatOnSave": true
+}
+```
+
+## Q&A
+
+Q: How to use `phpfmt.php_bin` with spaces such as `C:\Program Files\php\php.exe` ?  
+A: Wrap your path with quotes like:
+```json
+{
+  "phpfmt.php_bin": "\"C:\\Program Files\\php\\php.exe\""
+}
+```
+Or just fill it with `php`.
+If it still not working, refer to [#1](https://github.com/kokororin/vscode-phpfmt/issues/1) and [Stack Overflow Related](https://stackoverflow.com/a/45765854).
+
+Q: How use tabs instead of spaces with PSR2 enabled ?  
+A: For [PSR2](https://www.php-fig.org/psr/psr-2/), code MUST use 4 spaces for indenting, not tabs. But if you like PSR2, and do not like 4 spaces for indentation, add following configuration:
+```json
+{
+  "phpfmt.passes": [
+    "PSR2KeywordsLowerCase",
+    "PSR2LnAfterNamespace",
+    "PSR2CurlyOpenNextLine",
+    "PSR2ModifierVisibilityStaticOrder",
+    "PSR2SingleEmptyLineAndStripClosingTag",
+    "ReindentSwitchBlocks"
+  ],
+  "phpfmt.exclude": [
+    "ReindentComments",
+    "StripNewlineWithinClassBody"
+  ],
+  "phpfmt.psr2": false
 }
 ```
 
@@ -137,28 +171,6 @@ transformation.
 | WrongConstructorName | Update old constructor names into new ones. http://php.net/manual/en/language.oop5.decon.php |
 | YodaComparisons | Execute Yoda Comparisons. |
 <!-- Transformations END -->
-
-## Q&A
-
-Q: How use tabs instead of spaces with PSR2 enabled ?  
-A: For [PSR2](https://www.php-fig.org/psr/psr-2/), code MUST use 4 spaces for indenting, not tabs. But if you like PSR2, and do not like 4 spaces for indentation, add following configuration:
-```json
-{
-  "phpfmt.passes": [
-    "PSR2KeywordsLowerCase",
-    "PSR2LnAfterNamespace",
-    "PSR2CurlyOpenNextLine",
-    "PSR2ModifierVisibilityStaticOrder",
-    "PSR2SingleEmptyLineAndStripClosingTag",
-    "ReindentSwitchBlocks"
-  ],
-  "phpfmt.exclude": [
-    "ReindentComments",
-    "StripNewlineWithinClassBody"
-  ],
-  "phpfmt.psr2": false
-}
-```
 
 ## Contribute
 
