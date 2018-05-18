@@ -1,3 +1,6 @@
+### 1.0.28
+- Update fmt.phar to 19.6.10 ([#34](https://github.com/kokororin/vscode-phpfmt/issues/34), [#35](https://github.com/kokororin/vscode-phpfmt/issues/35)) 
+
 ### 1.0.27
 - Update fmt.phar to 19.6.9
 
