@@ -145,6 +145,7 @@
   },
   "devDependencies": {
     "@types/detect-indent": "^5.0.0",
+    "@types/find-up": "^2.1.1",
     "@types/mocha": "^2.2.44",
     "@types/node": "^8.0.28",
     "@types/node-fetch": "^1.6.9",
@@ -158,6 +159,7 @@
   },
   "dependencies": {
     "detect-indent": "^5.0.0",
+    "find-up": "^2.1.0",
     "pjson": "^1.0.9"
   }
 }

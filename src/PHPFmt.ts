@@ -8,6 +8,7 @@ import * as fs from 'fs';
 import * as os from 'os';
 import { execSync } from 'child_process';
 import * as detectIndent from 'detect-indent';
+import * as findUp from 'find-up';
 import IPHPFmtConfig from './IPHPFmtConfig';
 import Widget from './Widget';
 
@@ -116,11 +117,15 @@ class PHPFmt {
         }
       }
 
+      let iniPath: string | null = null;
       const execOptions = { cwd: '' };
       if (Window.activeTextEditor) {
         execOptions.cwd = path.dirname(
           Window.activeTextEditor.document.fileName
         );
+        iniPath = findUp.sync('.phpfmt.ini', {
+          cwd: execOptions.cwd
+        });
       }
 
       try {
@@ -173,7 +178,12 @@ class PHPFmt {
         `"${path.join(context.extensionPath, pkg.config.pharRelPath)}"`
       );
 
-      const formatCmd = `${this.config.php_bin} ${args.join(' ')}`;
+      let formatCmd: string;
+      if (!iniPath) {
+        formatCmd = `${this.config.php_bin} ${args.join(' ')}`;
+      } else {
+        formatCmd = `${this.config.php_bin} ${args[0]} --config=${iniPath} ${args.pop()}`;
+      }
 
       this.widget.addToOutput(formatCmd);
 
