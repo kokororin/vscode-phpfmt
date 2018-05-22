@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/kokororin/vscode-phpfmt#readme",
   "engines": {
-    "vscode": "^1.9.0"
+    "vscode": "^1.20.0"
   },
   "categories": [
     "Formatters",
@@ -150,7 +150,7 @@
     "trash-cli": "^1.4.0",
     "ts-node": "^3.3.0",
     "typescript": "^2.5.2",
-    "vscode": "^1.1.0"
+    "vscode": "^1.1.17"
   },
   "dependencies": {
     "detect-indent": "^5.0.0",

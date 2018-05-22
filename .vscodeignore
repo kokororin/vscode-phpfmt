@@ -13,3 +13,6 @@ tsconfig.json
 .editorconfig
 yarn.lock
 *.log
+node_modules/**/*.md
+node_modules/node-fetch/**
+node_modules/sha1-file/**

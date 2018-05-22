@@ -2313,9 +2313,9 @@ vinyl@^2.0.1, vinyl@^2.0.2:
     remove-trailing-separator "^1.0.1"
     replace-ext "^1.0.0"
 
-vscode@^1.1.0:
+vscode@^1.1.17:
   version "1.1.17"
-  resolved "https://registry.yarnpkg.com/vscode/-/vscode-1.1.17.tgz#cc2a61731e925301f03f003c009cbf454022cd83"
+  resolved "https://registry.npmjs.org/vscode/-/vscode-1.1.17.tgz#cc2a61731e925301f03f003c009cbf454022cd83"
   dependencies:
     glob "^7.1.2"
     gulp-chmod "^2.0.0"

@@ -1,6 +1,7 @@
 import {
   workspace as Workspace,
-  window as Window
+  window as Window,
+  WorkspaceFolder
 } from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -123,9 +124,26 @@ class PHPFmt {
         execOptions.cwd = path.dirname(
           Window.activeTextEditor.document.fileName
         );
-        iniPath = findUp.sync('.phpfmt.ini', {
-          cwd: execOptions.cwd
-        });
+
+        const workspaceFolders: WorkspaceFolder[] | undefined =
+          Workspace.workspaceFolders;
+        if (workspaceFolders) {
+          iniPath = findUp.sync('.phpfmt.ini', {
+            cwd: execOptions.cwd
+          });
+          const origIniPath = iniPath;
+
+          for (let workspaceFolder of workspaceFolders) {
+            if (
+              origIniPath &&
+              origIniPath.startsWith(workspaceFolder.uri.fsPath)
+            ) {
+              break;
+            } else {
+              iniPath = null;
+            }
+          }
+        }
       }
 
       try {
