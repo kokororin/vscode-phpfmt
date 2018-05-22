@@ -8,8 +8,7 @@ import {
   TextEdit,
   Disposable,
   DocumentSelector,
-  QuickPickItem,
-  ExtensionContext
+  QuickPickItem
 } from 'vscode';
 import PHPFmt from './PHPFmt';
 import Widget from './Widget';
@@ -47,10 +46,9 @@ export default class PHPFmtProvider {
     );
   }
 
-  public listTransformationsCommand(context: ExtensionContext): Disposable {
+  public listTransformationsCommand(): Disposable {
     return Commands.registerCommand('extension.listTransformations', () => {
       const transformations = new Transformations(
-        context.extensionPath,
         this.phpfmt.getConfig().php_bin
       );
 
@@ -78,7 +76,7 @@ export default class PHPFmtProvider {
     });
   }
 
-  public documentFormattingEditProvider(context: ExtensionContext): Disposable {
+  public documentFormattingEditProvider(): Disposable {
     return Languages.registerDocumentFormattingEditProvider(
       this.documentSelector,
       {
@@ -92,7 +90,7 @@ export default class PHPFmtProvider {
             );
 
             this.phpfmt
-              .format(context, originalText)
+              .format(originalText)
               .then((text: string) => {
                 if (text !== originalText) {
                   resolve([new TextEdit(range, text)]);
@@ -113,9 +111,7 @@ export default class PHPFmtProvider {
     );
   }
 
-  public documentRangeFormattingEditProvider(
-    context: ExtensionContext
-  ): Disposable {
+  public documentRangeFormattingEditProvider(): Disposable {
     return Languages.registerDocumentRangeFormattingEditProvider(
       this.documentSelector,
       {
@@ -133,7 +129,7 @@ export default class PHPFmtProvider {
             }
 
             this.phpfmt
-              .format(context, originalText)
+              .format(originalText)
               .then((text: string) => {
                 if (hasModified) {
                   text = text.replace(/^<\?php\r?\n/, '');

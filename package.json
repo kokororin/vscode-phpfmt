@@ -11,14 +11,10 @@
     "trash": "trash out",
     "generate": "ts-node scripts/generate.ts",
     "postinstall": "node ./node_modules/vscode/bin/install",
-    "install": "ts-node scripts/install.ts",
+    "install": "node ./node_modules/phpfmt/install.js",
     "pretest": "npm run build",
     "test": "cross-env CODE_TESTS_WORKSPACE=testProject node ./node_modules/vscode/bin/test",
     "prepublishOnly": "npm run build && vsce publish"
-  },
-  "config": {
-    "pharRelPath": "fmt.phar",
-    "pharDlUrl": "https://api.kotori.love/github/fmt.phar"
   },
   "keywords": [
     "phpfmt",
@@ -148,10 +144,9 @@
     "@types/find-up": "^2.1.1",
     "@types/mocha": "^2.2.44",
     "@types/node": "^8.0.28",
-    "@types/node-fetch": "^1.6.9",
     "cross-env": "^5.1.1",
     "mocha": "^4.0.1",
-    "node-fetch": "^2.1.2",
+    "pjson": "^1.0.9",
     "trash-cli": "^1.4.0",
     "ts-node": "^3.3.0",
     "typescript": "^2.5.2",
@@ -160,6 +155,6 @@
   "dependencies": {
     "detect-indent": "^5.0.0",
     "find-up": "^2.1.0",
-    "pjson": "^1.0.9"
+    "phpfmt": "^0.0.0"
   }
 }

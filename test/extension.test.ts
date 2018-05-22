@@ -8,6 +8,7 @@ import {
   extensions as Extensions,
   Extension
 } from 'vscode';
+import phpfmt from 'phpfmt';
 
 const pkg: any = require('pjson');
 
@@ -33,10 +34,9 @@ suite('PHPFmt Test', () => {
         Commands.executeCommand('editor.action.formatDocument').then(
           () => {
             const stdout: Buffer = execSync(
-              `php ${path.join(
-                Workspace.rootPath!,
-                `/../${pkg.config.pharRelPath}`
-              )} --psr2 --indent_with_space=4 --dry-run -o=- ${filePath}`
+              `php ${
+                phpfmt.pharPath
+              } --psr2 --indent_with_space=4 --dry-run -o=- ${filePath}`
             );
             const phpfmtFormatted: string = stdout.toString();
             assert.equal(doc.getText(), phpfmtFormatted);

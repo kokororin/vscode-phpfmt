@@ -1,7 +1,6 @@
 import {
   workspace as Workspace,
-  window as Window,
-  ExtensionContext
+  window as Window
 } from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -9,6 +8,7 @@ import * as os from 'os';
 import { execSync } from 'child_process';
 import * as detectIndent from 'detect-indent';
 import * as findUp from 'find-up';
+import phpfmt from 'phpfmt';
 import IPHPFmtConfig from './IPHPFmtConfig';
 import Widget from './Widget';
 
@@ -97,7 +97,7 @@ class PHPFmt {
     return args;
   }
 
-  public format(context: ExtensionContext, text: string): Promise<string> {
+  public format(text: string): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       if (this.config.detect_indent) {
         const indentInfo: detectIndent.IndentInfo = detectIndent(text);
@@ -173,16 +173,15 @@ class PHPFmt {
       }
 
       const args: Array<string> = this.getArgs(fileName);
-      const pkg: any = require('pjson');
-      args.unshift(
-        `"${path.join(context.extensionPath, pkg.config.pharRelPath)}"`
-      );
+      args.unshift(phpfmt.pharPath);
 
       let formatCmd: string;
       if (!iniPath) {
         formatCmd = `${this.config.php_bin} ${args.join(' ')}`;
       } else {
-        formatCmd = `${this.config.php_bin} ${args[0]} --config=${iniPath} ${args.pop()}`;
+        formatCmd = `${this.config.php_bin} ${
+          args[0]
+        } --config=${iniPath} ${args.pop()}`;
       }
 
       this.widget.addToOutput(formatCmd);

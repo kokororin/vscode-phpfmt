@@ -1,23 +1,17 @@
-import * as path from 'path';
 import * as os from 'os';
 import { execSync } from 'child_process';
+import phpfmt from 'phpfmt';
 import ITransformationItem from './ITransformationItem';
 
 class Transformations {
-  private extensionPath: string;
   private phpBin: string;
 
-  public constructor(extensionPath: string, phpBin: string) {
-    this.extensionPath = extensionPath;
+  public constructor(phpBin: string) {
     this.phpBin = phpBin;
   }
 
   private get baseCmd() {
-    const pkg: any = require('pjson');
-    return `${this.phpBin} ${path.join(
-      this.extensionPath,
-      pkg.config.pharRelPath
-    )}`;
+    return `${this.phpBin} ${phpfmt.pharPath}`;
   }
 
   public getTransformations(): Array<ITransformationItem> {
