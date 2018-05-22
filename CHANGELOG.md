@@ -1,3 +1,7 @@
+### 1.0.29
+- Update fmt.phar to 19.7.0
+- Support `.phpfmt.ini` in workspace
+
 ### 1.0.28
 - Update fmt.phar to 19.6.10 ([#34](https://github.com/kokororin/vscode-phpfmt/issues/34), [#35](https://github.com/kokororin/vscode-phpfmt/issues/35)) 
 
