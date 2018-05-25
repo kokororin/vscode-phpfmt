@@ -1,3 +1,7 @@
+### 1.0.30
+- Missing quotes for Windows [(#37)](https://github.com/kokororin/vscode-phpfmt/issues/37)
+- Update error messages
+
 ### 1.0.29
 - Update fmt.phar to 19.7.0
 - Support `.phpfmt.ini` in workspace
@@ -82,11 +86,9 @@
 - Reload configuration on changed
 
 ### 1.0.2
-
 - Add more phpfmt modes
 - Check syntax error in php file
 - Check php version
 
 ### 1.0.1
-
-First version
+- First version
