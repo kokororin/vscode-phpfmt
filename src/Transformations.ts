@@ -11,7 +11,7 @@ class Transformations {
   }
 
   private get baseCmd() {
-    return `${this.phpBin} ${phpfmt.pharPath}`;
+    return `${this.phpBin} "${phpfmt.pharPath}"`;
   }
 
   public getTransformations(): Array<ITransformationItem> {

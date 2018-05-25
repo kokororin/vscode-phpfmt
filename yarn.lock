@@ -19,8 +19,8 @@
   resolved "https://registry.npmjs.org/@types/mocha/-/mocha-2.2.44.tgz#1d4a798e53f35212fd5ad4d04050620171cd5b5e"
 
 "@types/node@^8.0.28":
-  version "8.0.28"
-  resolved "https://registry.npmjs.org/@types/node/-/node-8.0.28.tgz#86206716f8d9251cf41692e384264cbd7058ad60"
+  version "8.10.17"
+  resolved "https://registry.npmjs.org/@types/node/-/node-8.10.17.tgz#d48cf10f0dc6dcf59f827f5a3fc7a4a6004318d3"
 
 ajv@^5.1.0:
   version "5.5.2"

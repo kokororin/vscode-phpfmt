@@ -152,7 +152,7 @@ class PHPFmt {
           execOptions
         );
         if (Number(stdout.toString()) < 50600) {
-          return reject(new Error('phpfmt: php version < 5.6'));
+          return reject(new Error('phpfmt: PHP version < 5.6'));
         }
       } catch (err) {
         return reject(
@@ -162,7 +162,7 @@ class PHPFmt {
 
       const tmpDir: string = os.tmpdir();
 
-      const fileName: string = path.normalize(
+      const tmpFileName: string = path.normalize(
         `${tmpDir}/temp-${Math.random()
           .toString(36)
           .replace(/[^a-z]+/g, '')
@@ -170,28 +170,28 @@ class PHPFmt {
       );
 
       try {
-        fs.writeFileSync(fileName, text);
+        fs.writeFileSync(tmpFileName, text);
       } catch (err) {
         this.widget.addToOutput(err.message);
         return reject(
-          new Error(`phpfmt: cannot create tmp file in "${tmpDir}"`)
+          new Error(`phpfmt: Cannot create tmp file in "${tmpDir}"`)
         );
       }
 
       // test whether the php file has syntax error
       try {
-        execSync(`${this.config.php_bin} -l ${fileName}`, execOptions);
+        execSync(`${this.config.php_bin} -l ${tmpFileName}`, execOptions);
       } catch (err) {
         this.widget.addToOutput(err.message);
         Window.setStatusBarMessage(
-          'phpfmt: format failed - syntax errors found',
+          'phpfmt: Format failed - syntax errors found',
           4500
         );
         return reject();
       }
 
-      const args: Array<string> = this.getArgs(fileName);
-      args.unshift(phpfmt.pharPath);
+      const args: Array<string> = this.getArgs(tmpFileName);
+      args.unshift(`"${phpfmt.pharPath}"`);
 
       let formatCmd: string;
       if (!iniPath) {
@@ -207,13 +207,13 @@ class PHPFmt {
       try {
         execSync(formatCmd, execOptions);
       } catch (err) {
-        this.widget.addToOutput(err.message);
-        return reject(new Error('phpfmt: run phpfmt failed'));
+        this.widget.addToOutput(err.message).show();
+        return reject(new Error('phpfmt: Execute phpfmt failed'));
       }
 
-      const formatted: string = fs.readFileSync(fileName, 'utf-8');
+      const formatted: string = fs.readFileSync(tmpFileName, 'utf-8');
       try {
-        fs.unlinkSync(fileName);
+        fs.unlinkSync(tmpFileName);
       } catch (err) {}
 
       if (formatted.length > 0) {

@@ -34,9 +34,9 @@ suite('PHPFmt Test', () => {
         Commands.executeCommand('editor.action.formatDocument').then(
           () => {
             const stdout: Buffer = execSync(
-              `php ${
+              `php "${
                 phpfmt.pharPath
-              } --psr2 --indent_with_space=4 --dry-run -o=- ${filePath}`
+              }" --psr2 --indent_with_space=4 --dry-run -o=- ${filePath}`
             );
             const phpfmtFormatted: string = stdout.toString();
             assert.equal(doc.getText(), phpfmtFormatted);
