@@ -25,7 +25,7 @@ export default class Widget {
       -1
     );
     this.statusBarItem.text = 'phpfmt';
-    this.statusBarItem.command = 'extension.openOutput';
+    this.statusBarItem.command = 'phpfmt.openOutput';
     this.toggleStatusBarItem(Window.activeTextEditor);
   }
 

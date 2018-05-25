@@ -36,18 +36,15 @@ export default class PHPFmtProvider {
   }
 
   public formatCommand(): Disposable {
-    return Commands.registerTextEditorCommand(
-      'extension.format',
-      textEditor => {
-        if (textEditor.document.languageId === 'php') {
-          Commands.executeCommand('editor.action.formatDocument');
-        }
+    return Commands.registerTextEditorCommand('phpfmt.format', textEditor => {
+      if (textEditor.document.languageId === 'php') {
+        Commands.executeCommand('editor.action.formatDocument');
       }
-    );
+    });
   }
 
   public listTransformationsCommand(): Disposable {
-    return Commands.registerCommand('extension.listTransformations', () => {
+    return Commands.registerCommand('phpfmt.listTransformations', () => {
       const transformations = new Transformations(
         this.phpfmt.getConfig().php_bin
       );
@@ -160,7 +157,7 @@ export default class PHPFmtProvider {
           this.widget.toggleStatusBarItem(editor);
         }
       }),
-      Commands.registerCommand('extension.openOutput', () => {
+      Commands.registerCommand('phpfmt.openOutput', () => {
         this.widget.getOutputChannel().show();
       })
     ];

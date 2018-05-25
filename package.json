@@ -46,16 +46,16 @@
   "contributes": {
     "commands": [
       {
-        "command": "extension.format",
+        "command": "phpfmt.format",
         "title": "phpfmt: Format This File",
         "when": "!inOutput && editorFocus && editorLangId == php"
       },
       {
-        "command": "extension.listTransformations",
+        "command": "phpfmt.listTransformations",
         "title": "phpfmt: List Transformations"
       },
       {
-        "command": "extension.openOutput",
+        "command": "phpfmt.openOutput",
         "title": "phpfmt: Open Output"
       }
     ],
