@@ -9,6 +9,7 @@ testProject/**
 **/*.map
 .gitignore
 .travis.yml
+appveyor.yml
 tsconfig.json
 .editorconfig
 yarn.lock
