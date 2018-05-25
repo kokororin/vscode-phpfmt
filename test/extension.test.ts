@@ -41,9 +41,26 @@ suite('PHPFmt Test', () => {
             const phpfmtFormatted: string = stdout.toString();
             assert.equal(doc.getText(), phpfmtFormatted);
           },
-          e => console.error(e)
+          err => console.error(err)
         )
       );
     });
+  });
+
+  test('should register commands', () => {
+    return Commands.getCommands(true).then(commands => {
+      const foundCommands = commands.filter(value =>
+        value.startsWith('phpfmt.')
+      );
+
+      assert.equal(foundCommands.length, pkg.contributes.commands.length);
+    });
+  });
+
+  test('should commands work', () => {
+    const commands = pkg.contributes.commands as Array<any>;
+    commands
+      .filter(value => !value.when)
+      .forEach(command => Commands.executeCommand(command.command));
   });
 });
