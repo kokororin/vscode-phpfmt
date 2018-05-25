@@ -1,3 +1,5 @@
+init:
+  - git config --global core.autocrlf true
 image: Visual Studio 2017
 build: off
 platform: x64
@@ -6,9 +8,10 @@ skip_tags: true
 
 environment:
   PHP_VERSION: 7.2.0
+  NODE_VERSION: 8
 
 install:
-  - ps: Install-Product node Stable x64
+  - ps: Install-Product node $env:NODE_VERSION
   - cinst php -y --version %PHP_VERSION%
   - SET PATH=C:\tools\php72;%PATH%
   - C:\ProgramData\chocolatey\bin\RefreshEnv
@@ -19,3 +22,7 @@ install:
 test_script:
   - cd %APPVEYOR_BUILD_FOLDER%
   - npm test
+
+cache:
+  - "%LOCALAPPDATA%\\Yarn"
+  - node_modules -> package.json
