@@ -94,7 +94,7 @@ class PHPFmt {
 
   private getArgs(fileName: string): Array<string> {
     const args: Array<string> = this.args.slice(0);
-    args.push(fileName);
+    args.push(`"${fileName}"`);
     return args;
   }
 
