@@ -1,3 +1,7 @@
+### 1.0.31
+- Update fmt.phar to 19.8.0
+- Fix warnings for PHP 7
+
 ### 1.0.30
 - Missing quotes for Windows [(#37)](https://github.com/kokororin/vscode-phpfmt/issues/37)
 - Update error messages
