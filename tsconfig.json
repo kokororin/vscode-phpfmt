@@ -10,7 +10,9 @@
     "forceConsistentCasingInFileNames": true,
     "removeComments": true,
     "lib": ["es6"],
-    "sourceMap": true
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "useUnknownInCatchVariables": false
   },
   "exclude": ["node_modules", ".vscode-test", "testProject", "scripts"]
 }

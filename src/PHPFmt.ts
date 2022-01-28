@@ -3,12 +3,12 @@ import {
   window as Window,
   WorkspaceFolder
 } from 'vscode';
-import * as path from 'path';
-import * as fs from 'fs';
-import * as os from 'os';
+import path from 'path';
+import fs from 'fs';
+import os from 'os';
 import { execSync } from 'child_process';
-import * as detectIndent from 'detect-indent';
-import * as findUp from 'find-up';
+import detectIndent from 'detect-indent';
+import findUp from 'find-up';
 import phpfmt from 'phpfmt';
 import IPHPFmtConfig from './IPHPFmtConfig';
 import Widget from './Widget';
@@ -101,7 +101,7 @@ class PHPFmt {
   public format(text: string): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       if (this.config.detect_indent) {
-        const indentInfo: detectIndent.IndentInfo = detectIndent(text);
+        const indentInfo = detectIndent(text);
         if (!indentInfo.type) {
           // fallback to default
           this.args.push('--indent_with_space');
@@ -118,7 +118,7 @@ class PHPFmt {
         }
       }
 
-      let iniPath: string | null = null;
+      let iniPath: string | undefined;
       const execOptions = { cwd: '' };
       if (Window.activeTextEditor) {
         execOptions.cwd = path.dirname(
@@ -140,7 +140,7 @@ class PHPFmt {
             ) {
               break;
             } else {
-              iniPath = null;
+              iniPath = undefined;
             }
           }
         }
@@ -151,8 +151,8 @@ class PHPFmt {
           `${this.config.php_bin} -r "echo PHP_VERSION_ID;"`,
           execOptions
         );
-        if (Number(stdout.toString()) < 50600) {
-          return reject(new Error('phpfmt: PHP version < 5.6'));
+        if (Number(stdout.toString()) < 50600 && Number(stdout.toString()) > 80000) {
+          return reject(new Error('phpfmt: PHP version < 5.6 or > 8.0'));
         }
       } catch (err) {
         return reject(

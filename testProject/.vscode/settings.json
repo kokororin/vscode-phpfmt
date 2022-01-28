@@ -1,4 +1,5 @@
 {
+  "extensions.supportUntrustedWorkspaces": true,
   "phpfmt.psr2": true,
   "phpfmt.indent_with_space": 4
 }

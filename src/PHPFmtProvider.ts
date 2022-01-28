@@ -65,7 +65,7 @@ export default class PHPFmtProvider {
         if (typeof result !== 'undefined') {
           const output = transformations.getExample({
             key: result.label,
-            description: result.description
+            description: result.description || ''
           });
           this.widget.addToOutput(output).show();
         }

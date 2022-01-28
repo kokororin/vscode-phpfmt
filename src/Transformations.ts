@@ -1,4 +1,4 @@
-import * as os from 'os';
+import os from 'os';
 import { execSync } from 'child_process';
 import phpfmt from 'phpfmt';
 import ITransformationItem from './ITransformationItem';

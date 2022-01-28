@@ -1,5 +1,5 @@
-import * as assert from 'assert';
-import * as path from 'path';
+import assert from 'assert';
+import path from 'path';
 import { execSync } from 'child_process';
 import {
   workspace as Workspace,
