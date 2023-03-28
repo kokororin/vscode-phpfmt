@@ -12,7 +12,8 @@ The missing phpfmt extension for Visual Studio Code.
 
 Open command palette `<kbd>`F1`</kbd>` and select `Extensions: Install Extension`, then search for phpfmt.
 
-**Note**: PHP >= 5.6 and < 8.0 is required.
+**Note**: PHP 7.x or newer is required in the machine to run this plugin.
+
 
 ## Usage
 
