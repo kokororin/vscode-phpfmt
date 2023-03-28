@@ -7,10 +7,11 @@ export default interface IPHPFmtConfig {
   indent_with_space: number | boolean;
   enable_auto_align: boolean;
   visibility_order: boolean;
+  ignore: Array<string>;
   passes: Array<string>;
   exclude: Array<string>;
   smart_linebreak_after_curly: boolean;
   yoda: boolean;
   cakephp: boolean;
   custom_arguments: string;
-};
+}

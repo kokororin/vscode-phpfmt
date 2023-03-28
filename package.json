@@ -1,7 +1,7 @@
 {
   "name": "vscode-phpfmt",
   "displayName": "phpfmt - PHP formatter",
-  "version": "1.0.31",
+  "version": "1.0.32",
   "description": "Integrates phpfmt into VS Code",
   "main": "./out/src/extension",
   "scripts": {
@@ -11,9 +11,9 @@
     "trash": "trash out",
     "generate": "ts-node scripts/generate.ts",
     "postinstall": "node ./node_modules/vscode/bin/install",
-    "install": "node ./node_modules/phpfmt/install.js",
     "pretest": "npm run build",
     "test": "cross-env CODE_TESTS_WORKSPACE=testProject node ./node_modules/vscode/bin/test",
+    "format": "prettier --write .",
     "prepublishOnly": "npm run build && vsce publish"
   },
   "keywords": [
@@ -106,6 +106,11 @@
           "default": false,
           "description": "fixes visibiliy order for method in classes - PSR-2 4.2"
         },
+        "phpfmt.ignore": {
+          "type": "array",
+          "default": [],
+          "description": "ignore file names whose names contain any pattern that could be matched with `.match` JS string method"
+        },
         "phpfmt.passes": {
           "type": "array",
           "default": [],
@@ -153,6 +158,6 @@
   "dependencies": {
     "detect-indent": "^6.0.0",
     "find-up": "^5.0.0",
-    "phpfmt": "^0.0.0"
+    "use-phpfmt": "^0.0.1"
   }
 }
