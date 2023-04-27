@@ -1,4 +1,4 @@
-### 1.1.0
+### 1.1.1
 
 - Update fmt.phar [(#101)](https://github.com/kokororin/vscode-phpfmt/pull/101)
 
