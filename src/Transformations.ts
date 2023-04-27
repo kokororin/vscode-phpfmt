@@ -1,7 +1,7 @@
-import os from 'os';
-import { execSync } from 'child_process';
-import phpfmt from 'phpfmt';
-import ITransformationItem from './ITransformationItem';
+import os from "os";
+import { execSync } from "child_process";
+import phpfmt from "use-phpfmt";
+import ITransformationItem from "./ITransformationItem";
 
 class Transformations {
   private phpBin: string;
@@ -21,22 +21,20 @@ class Transformations {
       .trim()
       .split(os.EOL)
       .map(v => {
-        const splited = v.split(' ');
+        const splited = v.split(" ");
 
         return {
           key: splited[0],
           description: splited
             .filter((value, index) => value && index > 0)
-            .join(' ')
-            .trim()
+            .join(" ")
+            .trim(),
         };
       });
   }
 
   public getExample(transformationItem: ITransformationItem): string {
-    const output: string = execSync(
-      `${this.baseCmd} --help-pass ${transformationItem.key}`
-    ).toString();
+    const output: string = execSync(`${this.baseCmd} --help-pass ${transformationItem.key}`).toString();
 
     return output.toString().trim();
   }

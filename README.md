@@ -12,7 +12,8 @@ The missing phpfmt extension for Visual Studio Code.
 
 Open command palette `<kbd>`F1`</kbd>` and select `Extensions: Install Extension`, then search for phpfmt.
 
-**Note**: PHP >= 5.6 and < 8.0 is required.
+**Note**: PHP 7.x or newer is required in the machine to run this plugin.
+
 
 ## Usage
 
@@ -88,6 +89,7 @@ A: Since phpfmt has no maintainers, only Serious bugs will be fixed.
 | phpfmt.indent_with_space | `integer \| boolean` | use spaces instead of tabs for indentation. Default 4 | 4 | 
 | phpfmt.enable_auto_align | `boolean` | enable auto align of ST_EQUAL and T_DOUBLE_ARROW | false | 
 | phpfmt.visibility_order | `boolean` | fixes visibiliy order for method in classes - PSR-2 4.2 | false | 
+| phpfmt.ignore | `array` | ignore file names whose names contain any pattern that could be matched with `.match` JS string method | [] | 
 | phpfmt.passes | `array` | call specific compiler pass | [] | 
 | phpfmt.exclude | `array` | disable specific passes | [] | 
 | phpfmt.smart_linebreak_after_curly | `boolean` | convert multistatement blocks into multiline blocks | false | 
@@ -146,6 +148,7 @@ transformation.
 | PSR2MultilineFunctionParams | Break function parameters into multiple lines. |
 | ReindentAndAlignObjOps | Align object operators. |
 | ReindentSwitchBlocks | Reindent one level deeper the content of switch blocks. |
+| ReindentEnumBlocks | Reindent one level deeper the content of enum blocks. |
 | RemoveIncludeParentheses | Remove parentheses from include declarations. |
 | RemoveSemicolonAfterCurly | Remove semicolon after closing curly brace. |
 | RemoveUseLeadingSlash | Remove leading slash in T_USE imports. |
@@ -157,9 +160,7 @@ transformation.
 | SmartLnAfterCurlyOpen | Add line break when implicit curly block is added. |
 | SortUseNameSpace | Organize use clauses by length and alphabetic order. |
 | SpaceAroundControlStructures | Add space around control structures. |
-| SpaceAfterExclamationMark | Add space after exclamation mark. |
 | SpaceAroundExclamationMark | Add spaces around exclamation mark. |
-| SpaceAroundParentheses | Add spaces inside parentheses. |
 | SpaceBetweenMethods | Put space between methods. |
 | StrictBehavior | Activate strict option in array_search, base64_decode, in_array, array_keys, mb_detect_encoding. Danger! This pass leads to behavior change. |
 | StrictComparison | All comparisons are converted to strict. Danger! This pass leads to behavior change. |
