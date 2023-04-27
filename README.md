@@ -1,10 +1,8 @@
 # phpfmt for Visual Studio Code
 
-[![Build Status](https://travis-ci.org/kokororin/vscode-phpfmt.svg?branch=master)](https://travis-ci.org/kokororin/vscode-phpfmt)
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/kokororin/vscode-phpfmt?branch=master&svg=true)](https://ci.appveyor.com/project/kokororin/vscode-phpfmt)
-[![Version](https://vsmarketplacebadge.apphb.com/version/kokororin.vscode-phpfmt.svg)](https://marketplace.visualstudio.com/items?itemName=kokororin.vscode-phpfmt)
-[![Visual Studio Marketplace](https://vsmarketplacebadge.apphb.com/installs/kokororin.vscode-phpfmt.svg)](https://marketplace.visualstudio.com/items?itemName=kokororin.vscode-phpfmt)
-[![Ratings](https://vsmarketplacebadge.apphb.com/rating/kokororin.vscode-phpfmt.svg)](https://marketplace.visualstudio.com/items?itemName=kokororin.vscode-phpfmt)
+[![Version](https://vsmarketplacebadges.dev/version/kokororin.vscode-phpfmt.svg)](https://marketplace.visualstudio.com/items?itemName=kokororin.vscode-phpfmt)
+[![Visual Studio Marketplace](https://vsmarketplacebadges.dev/installs-short/kokororin.vscode-phpfmt.svg)](https://marketplace.visualstudio.com/items?itemName=kokororin.vscode-phpfmt)
+[![Ratings](https://vsmarketplacebadges.dev/rating/kokororin.vscode-phpfmt.svg)](https://marketplace.visualstudio.com/items?itemName=kokororin.vscode-phpfmt)
 
 The missing phpfmt extension for Visual Studio Code.
 
