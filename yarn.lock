@@ -48,6 +48,11 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
+"@kokororin/prettierrc@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@kokororin/prettierrc/-/prettierrc-0.1.1.tgz#2ef436d51402ff0f97f284f2aaa45ce523f23061"
+  integrity sha512-Py9TPhtwsd4fPrJcY9XtAVgyBWBui7qKxppaS711fHs3EcftGnN/w5YiCeVjiMf212zWbamZ7sG1gkdk2T9+2g==
+
 "@sindresorhus/chunkify@^0.2.0":
   version "0.2.0"
   resolved "https://registry.npmjs.org/@sindresorhus/chunkify/-/chunkify-0.2.0.tgz#b3a7b881e8e63e343a99a1cbf662687f4268a4d8"
@@ -1145,6 +1150,11 @@ pjson@^1.0.9:
   version "1.0.9"
   resolved "https://registry.npmjs.org/pjson/-/pjson-1.0.9.tgz#8a9520ce76a4739f8fee91679dad6b065b1c7938"
   integrity sha512-4hRJH3YzkUpOlShRzhyxAmThSNnAaIlWZCAb27hd0pVUAXNUAHAO7XZbsPPvsCYwBFEScTmCCL6DGE8NyZ8BdQ==
+
+prettier@^2.8.8:
+  version "2.8.8"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.8.tgz#e8c5d7e98a4305ffe3de2e1fc4aca1a71c28b1da"
+  integrity sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==
 
 pump@^3.0.0:
   version "3.0.0"

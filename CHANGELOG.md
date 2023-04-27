@@ -1,3 +1,7 @@
+### 1.1.0
+
+- Update fmt.phar [(#101)](https://github.com/kokororin/vscode-phpfmt/pull/101)
+
 ### 1.0.31
 - Update fmt.phar to 19.8.0
 - Fix warnings for PHP 7
