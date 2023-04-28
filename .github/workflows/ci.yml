@@ -3,11 +3,13 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  test:
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        php-version: [7.0, 8.1]
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        php: [7.0, 8.1]
+    name: Test on ${{ matrix.os }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -19,20 +21,15 @@ jobs:
           coverage: none
           tools: composer
 
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
 
-      - name: Install dependencies for GUI application
-        run: |
-          sudo apt-get update
-          sudo apt-get install libsecret-1-dev
-
       - name: Start Xvfb
-        run: |
-          export DISPLAY=:99
-          Xvfb $DISPLAY -screen 0 1024x768x24 > /dev/null 2>&1 &
+        run: /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 & echo "Started xvfb"
+        shell: bash
+        if: ${{ success() && matrix.os == 'ubuntu-latest' }}
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
@@ -51,4 +48,6 @@ jobs:
           yarn install
 
       - name: Run Tests
-        run: npm test
+        run: yarn test
+        env:
+          DISPLAY: ":99.0"
