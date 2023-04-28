@@ -3,13 +3,13 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  test:
+  build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
-        php: [7.0, 8.1]
-    name: Test on ${{ matrix.os }} - PHP ${{ matrix.php }}
+        os: [macos-latest]
+        php: ['7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2']
+    name: Test on ${{ matrix.os }} & PHP ${{ matrix.php }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -47,6 +47,9 @@ jobs:
       - name: Install Dependencies
         run: |
           yarn install
+
+      - name: Run Lint
+        run: yarn lint
 
       - name: Run Tests
         run: yarn test

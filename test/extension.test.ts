@@ -6,10 +6,11 @@ import {
   window as Window,
   commands as Commands,
   extensions as Extensions,
-  Extension
+  type Extension
 } from 'vscode';
 import phpfmt from 'use-phpfmt';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const pkg: any = require('pjson');
 
 suite('PHPFmt Test', () => {
@@ -28,7 +29,11 @@ suite('PHPFmt Test', () => {
   });
 
   test('can format with command', () => {
-    const filePath: string = path.join(Workspace.rootPath!, 'ugly.php');
+    if (!Workspace.rootPath) {
+      assert.fail();
+    }
+
+    const filePath: string = path.join(Workspace.rootPath, 'ugly.php');
     return Workspace.openTextDocument(filePath).then(doc => {
       return Window.showTextDocument(doc).then(() =>
         Commands.executeCommand('editor.action.formatDocument').then(
@@ -39,7 +44,9 @@ suite('PHPFmt Test', () => {
             const phpfmtFormatted: string = stdout.toString();
             assert.equal(doc.getText(), phpfmtFormatted);
           },
-          err => console.error(err)
+          err => {
+            console.error(err);
+          }
         )
       );
     });
@@ -56,9 +63,11 @@ suite('PHPFmt Test', () => {
   });
 
   test('should commands work', () => {
-    const commands = pkg.contributes.commands as Array<any>;
+    const commands = pkg.contributes.commands as any[];
     commands
       .filter(value => !value.when)
-      .forEach(command => Commands.executeCommand(command.command));
+      .forEach(command => {
+        void Commands.executeCommand(command.command);
+      });
   });
 });

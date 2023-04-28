@@ -1,4 +1,4 @@
-import { ExtensionContext } from 'vscode';
+import { type ExtensionContext } from 'vscode';
 import PHPFmt from './PHPFmt';
 import PHPFmtProvider from './PHPFmtProvider';
 

@@ -1,5 +1,6 @@
 .vscode/**
 .vscode-test/**
+.github
 src/**
 scripts/**
 out/scripts
@@ -8,12 +9,17 @@ test/**
 testProject/**
 **/*.map
 .gitignore
-.travis.yml
-appveyor.yml
-tsconfig.json
+tsconfig*.json
 .editorconfig
+.prettierignore
 yarn.lock
+prettier.config.js
 *.log
 node_modules/**/*.md
+node_modules/**/*.ts
+node_modules/**/LICENSE
+node_modules/**/license
+node_modules/**/test/*
 node_modules/node-fetch/**
+node_modules/whatwg-url/**
 node_modules/sha1-file/**

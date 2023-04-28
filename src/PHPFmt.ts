@@ -1,7 +1,7 @@
 import {
   workspace as Workspace,
   window as Window,
-  WorkspaceFolder
+  type WorkspaceFolder
 } from 'vscode';
 import path from 'path';
 import fs from 'fs';
@@ -10,13 +10,13 @@ import { execSync } from 'child_process';
 import detectIndent from 'detect-indent';
 import findUp from 'find-up';
 import phpfmt from 'use-phpfmt';
-import IPHPFmtConfig from './IPHPFmtConfig';
+import type IPHPFmtConfig from './IPHPFmtConfig';
 import Widget from './Widget';
 
 class PHPFmt {
-  private widget: Widget;
+  private readonly widget: Widget;
   private config: IPHPFmtConfig = {} as any;
-  private args: Array<string> = [];
+  private readonly args: string[] = [];
 
   public constructor() {
     this.loadSettings();
@@ -61,12 +61,12 @@ class PHPFmt {
       this.args.push('--visibility_order');
     }
 
-    const passes: Array<string> = this.config.passes;
+    const passes: string[] = this.config.passes;
     if (passes.length > 0) {
       this.args.push(`--passes=${passes.join(',')}`);
     }
 
-    const exclude: Array<string> = this.config.exclude;
+    const exclude: string[] = this.config.exclude;
     if (exclude.length > 0) {
       this.args.push(`--exclude=${exclude.join(',')}`);
     }
@@ -92,14 +92,14 @@ class PHPFmt {
     return this.config;
   }
 
-  private getArgs(fileName: string): Array<string> {
-    const args: Array<string> = this.args.slice(0);
+  private getArgs(fileName: string): string[] {
+    const args: string[] = this.args.slice(0);
     args.push(`"${fileName}"`);
     return args;
   }
 
-  public format(text: string): Promise<string> {
-    return new Promise<string>((resolve, reject) => {
+  public async format(text: string): Promise<string> {
+    return await new Promise<string>((resolve, reject) => {
       if (this.config.detect_indent) {
         const indentInfo = detectIndent(text);
         if (!indentInfo.type) {
@@ -110,34 +110,32 @@ class PHPFmt {
         }
       } else {
         if (this.config.indent_with_space !== 4 && this.config.psr2) {
-          return reject(
+          reject(
             new Error(
               'phpfmt: For PSR2, code MUST use 4 spaces for indenting, not tabs.'
             )
           );
+          return;
         }
       }
 
       let fileName: string | undefined;
       let iniPath: string | undefined;
       const execOptions = { cwd: '' };
-      if (Window.activeTextEditor) {
+      if (Window.activeTextEditor != null) {
         fileName = Window.activeTextEditor.document.fileName;
         execOptions.cwd = path.dirname(fileName);
 
         const workspaceFolders: WorkspaceFolder[] | undefined =
           Workspace.workspaceFolders;
-        if (workspaceFolders) {
+        if (workspaceFolders != null) {
           iniPath = findUp.sync('.phpfmt.ini', {
             cwd: execOptions.cwd
           });
           const origIniPath = iniPath;
 
-          for (let workspaceFolder of workspaceFolders) {
-            if (
-              origIniPath &&
-              origIniPath.startsWith(workspaceFolder.uri.fsPath)
-            ) {
+          for (const workspaceFolder of workspaceFolders) {
+            if (origIniPath?.startsWith(workspaceFolder.uri.fsPath)) {
               break;
             } else {
               iniPath = undefined;
@@ -155,12 +153,14 @@ class PHPFmt {
           Number(stdout.toString()) < 50600 &&
           Number(stdout.toString()) > 80000
         ) {
-          return reject(new Error('phpfmt: PHP version < 5.6 or > 8.0'));
+          reject(new Error('phpfmt: PHP version < 5.6 or > 8.0'));
+          return;
         }
       } catch (err) {
-        return reject(
+        reject(
           new Error(`phpfmt: php_bin "${this.config.php_bin}" is invalid`)
         );
+        return;
       }
 
       const tmpDir: string = os.tmpdir();
@@ -172,14 +172,15 @@ class PHPFmt {
 
       if (fileName) {
         const basename = path.basename(fileName);
-        const ignore: Array<string> = this.config.ignore;
+        const ignore: string[] = this.config.ignore;
         if (ignore.length > 0) {
-          for (let ignoreItem of ignore) {
-            if (basename.match(ignoreItem)) {
+          for (const ignoreItem of ignore) {
+            if (basename.match(ignoreItem) != null) {
               this.widget.addToOutput(
                 `Ignored file ${basename} by match of ${ignoreItem}`
               );
-              return reject();
+              reject();
+              return;
             }
           }
         }
@@ -194,9 +195,8 @@ class PHPFmt {
         fs.writeFileSync(tmpFileName, text);
       } catch (err) {
         this.widget.addToOutput(err.message);
-        return reject(
-          new Error(`phpfmt: Cannot create tmp file in "${tmpDir}"`)
-        );
+        reject(new Error(`phpfmt: Cannot create tmp file in "${tmpDir}"`));
+        return;
       }
 
       // test whether the php file has syntax error
@@ -208,10 +208,11 @@ class PHPFmt {
           'phpfmt: Format failed - syntax errors found',
           4500
         );
-        return reject();
+        reject();
+        return;
       }
 
-      const args: Array<string> = this.getArgs(tmpFileName);
+      const args: string[] = this.getArgs(tmpFileName);
       args.unshift(`"${phpfmt.pharPath}"`);
 
       let formatCmd: string;
@@ -229,7 +230,8 @@ class PHPFmt {
         execSync(formatCmd, execOptions);
       } catch (err) {
         this.widget.addToOutput(err.message).show();
-        return reject(new Error('phpfmt: Execute phpfmt failed'));
+        reject(new Error('phpfmt: Execute phpfmt failed'));
+        return;
       }
 
       const formatted: string = fs.readFileSync(tmpFileName, 'utf-8');

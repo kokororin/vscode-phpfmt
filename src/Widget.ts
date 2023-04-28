@@ -1,17 +1,18 @@
 import {
   window as Window,
-  OutputChannel,
-  StatusBarItem,
+  type OutputChannel,
+  type StatusBarItem,
   StatusBarAlignment,
-  TextEditor
+  type TextEditor
 } from 'vscode';
 
 export default class Widget {
-  private outputChannel: OutputChannel;
-  private statusBarItem: StatusBarItem;
+  private readonly outputChannel: OutputChannel;
+  private readonly statusBarItem: StatusBarItem;
   private static instance: Widget;
 
   public static getInstance(): Widget {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!this.instance) {
       this.instance = new Widget();
     }

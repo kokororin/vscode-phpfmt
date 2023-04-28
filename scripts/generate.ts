@@ -3,6 +3,7 @@ import fs from 'fs';
 import os from 'os';
 import Transformations from '../src/Transformations';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const pkg: any = require('pjson');
 
 const readmePath: string = path.join(__dirname, '/../README.md');

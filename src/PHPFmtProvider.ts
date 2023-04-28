@@ -6,19 +6,19 @@ import {
   Position,
   Range,
   TextEdit,
-  Disposable,
-  DocumentSelector,
-  QuickPickItem
+  type Disposable,
+  type DocumentSelector,
+  type QuickPickItem
 } from 'vscode';
-import PHPFmt from './PHPFmt';
-import Widget from './Widget';
+import type PHPFmt from './PHPFmt';
+import type Widget from './Widget';
 import Transformations from './Transformations';
-import ITransformationItem from './ITransformationItem';
+import type ITransformationItem from './ITransformationItem';
 
 export default class PHPFmtProvider {
-  private phpfmt: PHPFmt;
-  private widget: Widget;
-  private documentSelector: DocumentSelector;
+  private readonly phpfmt: PHPFmt;
+  private readonly widget: Widget;
+  private readonly documentSelector: DocumentSelector;
 
   public constructor(phpfmt: PHPFmt) {
     this.phpfmt = phpfmt;
@@ -38,7 +38,7 @@ export default class PHPFmtProvider {
   public formatCommand(): Disposable {
     return Commands.registerTextEditorCommand('phpfmt.format', textEditor => {
       if (textEditor.document.languageId === 'php') {
-        Commands.executeCommand('editor.action.formatDocument');
+        void Commands.executeCommand('editor.action.formatDocument');
       }
     });
   }
@@ -49,10 +49,10 @@ export default class PHPFmtProvider {
         this.phpfmt.getConfig().php_bin
       );
 
-      const transformationItems: Array<ITransformationItem> =
+      const transformationItems: ITransformationItem[] =
         transformations.getTransformations();
 
-      const items: Array<QuickPickItem> = new Array<QuickPickItem>();
+      const items: QuickPickItem[] = new Array<QuickPickItem>();
       for (const item of transformationItems) {
         items.push({
           label: item.key,
@@ -60,11 +60,11 @@ export default class PHPFmtProvider {
         });
       }
 
-      Window.showQuickPick(items).then(result => {
+      void Window.showQuickPick(items).then(result => {
         if (typeof result !== 'undefined') {
           const output = transformations.getExample({
             key: result.label,
-            description: result.description || ''
+            description: result.description ?? ''
           });
           this.widget.addToOutput(output).show();
         }
@@ -76,8 +76,8 @@ export default class PHPFmtProvider {
     return Languages.registerDocumentFormattingEditProvider(
       this.documentSelector,
       {
-        provideDocumentFormattingEdits: document => {
-          return new Promise<any>((resolve, reject) => {
+        provideDocumentFormattingEdits: async document => {
+          return await new Promise<any>((resolve, reject) => {
             const originalText: string = document.getText();
             const lastLine = document.lineAt(document.lineCount - 1);
             const range: Range = new Range(
@@ -96,7 +96,7 @@ export default class PHPFmtProvider {
               })
               .catch(err => {
                 if (err instanceof Error) {
-                  Window.showErrorMessage(err.message);
+                  void Window.showErrorMessage(err.message);
                   this.widget.addToOutput(err.message);
                 }
                 reject();
@@ -111,11 +111,12 @@ export default class PHPFmtProvider {
     return Languages.registerDocumentRangeFormattingEditProvider(
       this.documentSelector,
       {
-        provideDocumentRangeFormattingEdits: (document, range) => {
-          return new Promise<any>((resolve, reject) => {
+        provideDocumentRangeFormattingEdits: async (document, range) => {
+          return await new Promise<any>((resolve, reject) => {
             let originalText: string = document.getText(range);
             if (originalText.replace(/\s+/g, '').length === 0) {
-              return reject();
+              reject();
+              return;
             }
 
             let hasModified: boolean = false;
@@ -138,7 +139,7 @@ export default class PHPFmtProvider {
               })
               .catch(err => {
                 if (err instanceof Error) {
-                  Window.showErrorMessage(err.message);
+                  void Window.showErrorMessage(err.message);
                   this.widget.addToOutput(err.message);
                 }
                 reject();

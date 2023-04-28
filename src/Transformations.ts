@@ -1,20 +1,20 @@
 import os from 'os';
 import { execSync } from 'child_process';
 import phpfmt from 'use-phpfmt';
-import ITransformationItem from './ITransformationItem';
+import type ITransformationItem from './ITransformationItem';
 
 class Transformations {
-  private phpBin: string;
+  private readonly phpBin: string;
 
   public constructor(phpBin: string) {
     this.phpBin = phpBin;
   }
 
-  private get baseCmd() {
+  private get baseCmd(): string {
     return `${this.phpBin} "${phpfmt.pharPath}"`;
   }
 
-  public getTransformations(): Array<ITransformationItem> {
+  public getTransformations(): ITransformationItem[] {
     const output: string = execSync(`${this.baseCmd} --list-simple`).toString();
 
     return output
