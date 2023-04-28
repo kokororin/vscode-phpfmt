@@ -4,4 +4,4 @@ node_modules
 .vscode
 .vscode-test
 *.md
-.travis.yml
+.github
