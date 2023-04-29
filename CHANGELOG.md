@@ -1,3 +1,7 @@
+### 1.1.3
+
+- Just bump version
+
 ### 1.1.2
 
 - Update fmt.phar [(#27)](https://github.com/driade/phpfmt8/issues/27)
