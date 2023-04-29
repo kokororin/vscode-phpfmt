@@ -6,13 +6,13 @@ import {
 import path from 'path';
 import fs from 'fs';
 import os from 'os';
-import { execSync } from 'child_process';
 import detectIndent from 'detect-indent';
 import findUp from 'find-up';
 import phpfmt from 'use-phpfmt';
 import type { PHPFmtConfig } from './types';
 import { Widget } from './Widget';
 import { PHPFmtError, PHPFmtIgnoreError } from './PHPFmtError';
+import { exec } from './utils';
 
 export class PHPFmt {
   private readonly widget: Widget;
@@ -141,15 +141,18 @@ export class PHPFmt {
     }
 
     try {
-      const stdout = execSync(
+      const { stdout, stderr } = await exec(
         `${this.config.php_bin} -r "echo PHP_VERSION_ID;"`,
         execOptions
       );
-      if (Number(stdout.toString()) < 70000) {
+      if (stderr) {
+        throw new PHPFmtError(`php_bin "${this.config.php_bin}" is invalid`);
+      }
+      if (Number(stdout.trim()) < 70000) {
         throw new PHPFmtError('PHP version < 7 is not supported');
       }
     } catch (err) {
-      throw new PHPFmtError(`php_bin "${this.config.php_bin}" is invalid`);
+      throw new PHPFmtError(`Error getting php version`);
     }
 
     const tmpDir = os.tmpdir();
@@ -188,7 +191,7 @@ export class PHPFmt {
 
     // test whether the php file has syntax error
     try {
-      execSync(`${this.config.php_bin} -l ${tmpFileName}`, execOptions);
+      await exec(`${this.config.php_bin} -l ${tmpFileName}`, execOptions);
     } catch (err) {
       this.widget.addToOutput(err.message);
       Window.setStatusBarMessage(
@@ -214,7 +217,7 @@ export class PHPFmt {
     this.widget.addToOutput(`Executing process: ${formatCmd}`);
 
     try {
-      execSync(formatCmd, execOptions);
+      await exec(formatCmd, execOptions);
     } catch (err) {
       this.widget.addToOutput(err.message).show();
       throw new PHPFmtError('Execute phpfmt failed');
@@ -231,5 +234,3 @@ export class PHPFmt {
     throw new PHPFmtIgnoreError();
   }
 }
-
-export default PHPFmt;

@@ -14,16 +14,13 @@ import pkg from 'pjson';
 import type { PHPFmt } from './PHPFmt';
 import type { Widget } from './Widget';
 import { Transformations } from './Transformations';
-import type { TransformationItem } from './types';
 import { PHPFmtIgnoreError } from './PHPFmtError';
 
-export default class PHPFmtProvider {
-  private readonly phpfmt: PHPFmt;
+export class PHPFmtProvider {
   private readonly widget: Widget;
   private readonly documentSelector: DocumentSelector;
 
-  public constructor(phpfmt: PHPFmt) {
-    this.phpfmt = phpfmt;
+  public constructor(private readonly phpfmt: PHPFmt) {
     this.widget = this.phpfmt.getWidget();
     this.documentSelector = [
       { language: 'php', scheme: 'file' },
@@ -47,13 +44,12 @@ export default class PHPFmtProvider {
   }
 
   public listTransformationsCommand(): Disposable {
-    return Commands.registerCommand('phpfmt.listTransformations', () => {
+    return Commands.registerCommand('phpfmt.listTransformations', async () => {
       const transformations = new Transformations(
         this.phpfmt.getConfig().php_bin
       );
 
-      const transformationItems: TransformationItem[] =
-        transformations.getTransformations();
+      const transformationItems = await transformations.getTransformations();
 
       const items: QuickPickItem[] = [];
       for (const item of transformationItems) {
@@ -63,15 +59,15 @@ export default class PHPFmtProvider {
         });
       }
 
-      void Window.showQuickPick(items).then(result => {
-        if (typeof result !== 'undefined') {
-          const output = transformations.getExample({
-            key: result.label,
-            description: result.description ?? ''
-          });
-          this.widget.addToOutput(output).show();
-        }
-      });
+      const result = await Window.showQuickPick(items);
+
+      if (typeof result !== 'undefined') {
+        const output = await transformations.getExample({
+          key: result.label,
+          description: result.description ?? ''
+        });
+        this.widget.addToOutput(`Transformation\n${output}`).show();
+      }
     });
   }
 

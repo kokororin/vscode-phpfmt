@@ -1,6 +1,6 @@
 import { type ExtensionContext } from 'vscode';
 import { PHPFmt } from './PHPFmt';
-import PHPFmtProvider from './PHPFmtProvider';
+import { PHPFmtProvider } from './PHPFmtProvider';
 
 export function activate(context: ExtensionContext): void {
   const provider = new PHPFmtProvider(new PHPFmt());

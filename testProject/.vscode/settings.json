@@ -1,5 +1,9 @@
 {
   "extensions.supportUntrustedWorkspaces": true,
   "phpfmt.psr2": true,
-  "phpfmt.indent_with_space": 4
+  "phpfmt.indent_with_space": 4,
+  "phpfmt.ignore": [
+    ".ctp",
+    ".blade.php"
+  ]
 }

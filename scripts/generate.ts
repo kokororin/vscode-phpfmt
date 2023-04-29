@@ -59,6 +59,10 @@ void (async () => {
       }
     );
 
+    const transformations = await new Transformations(
+      'php'
+    ).getTransformations();
+
     readmeContent = readmeContent.replace(
       /<!-- Transformations START -->([\s\S]*)<!-- Transformations END -->/,
       () => {
@@ -69,8 +73,7 @@ void (async () => {
           os.EOL +
           '| -------- | ----------- |' +
           os.EOL +
-          new Transformations('php')
-            .getTransformations()
+          transformations
             .map(item => {
               let row = `| ${item.key} | `;
               row += item.description;

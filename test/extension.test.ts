@@ -33,15 +33,15 @@ suite('PHPFmt Test', () => {
       assert.fail();
     }
 
-    const filePath: string = path.join(Workspace.rootPath, 'ugly.php');
+    const filePath = path.join(Workspace.rootPath, 'ugly.php');
     return Workspace.openTextDocument(filePath).then(doc => {
       return Window.showTextDocument(doc).then(() =>
         Commands.executeCommand('editor.action.formatDocument').then(
           () => {
-            const stdout: Buffer = execSync(
+            const stdout = execSync(
               `php "${phpfmt.pharPath}" --psr2 --indent_with_space=4 --dry-run -o=- ${filePath}`
             );
-            const phpfmtFormatted: string = stdout.toString();
+            const phpfmtFormatted = stdout.toString();
             assert.equal(doc.getText(), phpfmtFormatted);
           },
           err => {
