@@ -1,3 +1,7 @@
+### 1.1.2
+
+- Update fmt.phar [(#27)](https://github.com/driade/phpfmt8/issues/27)
+
 ### 1.1.1
 
 - Update fmt.phar [(#101)](https://github.com/kokororin/vscode-phpfmt/pull/101)
