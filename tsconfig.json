@@ -23,7 +23,6 @@
     "node_modules",
     ".vscode-test",
     "testProject",
-    "scripts",
-    "test"
+    "scripts"
   ]
 }

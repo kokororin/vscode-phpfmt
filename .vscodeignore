@@ -23,3 +23,4 @@ node_modules/**/test/*
 node_modules/node-fetch/**
 node_modules/whatwg-url/**
 node_modules/sha1-file/**
+node_modules/dayjs/esm

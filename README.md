@@ -174,6 +174,8 @@ transformation.
 | WordWrap | Word wrap at 80 columns. |
 | WrongConstructorName | Update old constructor names into new ones. http://php.net/manual/en/language.oop5.decon.php |
 | YodaComparisons | Execute Yoda Comparisons. |
+| SpaceAfterExclamationMark | Add space after exclamation mark. |
+| SpaceAroundParentheses | Add spaces inside parentheses. |
 <!-- Transformations END -->
 
 ## Contribute

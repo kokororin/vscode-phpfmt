@@ -5,6 +5,7 @@ import {
   StatusBarAlignment,
   type TextEditor
 } from 'vscode';
+import dayjs from 'dayjs';
 
 export class Widget {
   private readonly outputChannel: OutputChannel;
@@ -46,11 +47,8 @@ export class Widget {
   }
 
   public addToOutput(message: string): OutputChannel {
-    const title = new Date().toLocaleString();
-    this.outputChannel.appendLine(title);
-    this.outputChannel.appendLine('-'.repeat(title.length));
-    this.outputChannel.appendLine(`${message}\n`);
-
+    const now = dayjs();
+    this.outputChannel.appendLine(`[${now.format('HH:mm:ss.SSS')}] ${message}`);
     return this.outputChannel;
   }
 }

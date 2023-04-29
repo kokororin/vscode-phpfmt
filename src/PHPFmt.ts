@@ -25,7 +25,9 @@ export class PHPFmt {
   }
 
   public loadSettings(): void {
-    this.config = Workspace.getConfiguration('phpfmt') as any;
+    this.config = Workspace.getConfiguration(
+      'phpfmt'
+    ) as unknown as PHPFmtConfig;
     this.args.length = 0;
 
     if (this.config.custom_arguments !== '') {
@@ -203,12 +205,13 @@ export class PHPFmt {
     if (!iniPath) {
       formatCmd = `${this.config.php_bin} ${args.join(' ')}`;
     } else {
+      this.widget.addToOutput(`Using config file: ${iniPath}`);
       formatCmd = `${this.config.php_bin} ${
         args[0]
       } --config=${iniPath} ${args.pop()}`;
     }
 
-    this.widget.addToOutput(formatCmd);
+    this.widget.addToOutput(`Executing process: ${formatCmd}`);
 
     try {
       execSync(formatCmd, execOptions);
