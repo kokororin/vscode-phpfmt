@@ -18,7 +18,9 @@ module.exports = {
     'plugin:prettier/recommended'
   ],
   rules: {
+    'no-sync': 'error',
     'prefer-promise-reject-errors': 'off',
+    'n/prefer-promises/fs': 'error',
     '@typescript-eslint/no-floating-promises': [
       'error',
       {

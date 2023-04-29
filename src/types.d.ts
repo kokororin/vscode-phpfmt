@@ -1,4 +1,4 @@
-export default interface IPHPFmtConfig {
+export interface PHPFmtConfig {
   php_bin: string;
   detect_indent: boolean;
   psr1: boolean;
@@ -14,4 +14,9 @@ export default interface IPHPFmtConfig {
   yoda: boolean;
   cakephp: boolean;
   custom_arguments: string;
+}
+
+export interface TransformationItem {
+  key: string;
+  description: string;
 }

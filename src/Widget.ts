@@ -6,7 +6,7 @@ import {
   type TextEditor
 } from 'vscode';
 
-export default class Widget {
+export class Widget {
   private readonly outputChannel: OutputChannel;
   private readonly statusBarItem: StatusBarItem;
   private static instance: Widget;

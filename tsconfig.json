@@ -1,18 +1,29 @@
 {
   "compilerOptions": {
+    "target": "es2020",
     "module": "commonjs",
-    "target": "es6",
+    "lib": [
+      "es2021"
+    ],
     "outDir": "out",
     "rootDir": ".",
     "strict": true,
+    "importHelpers": true,
+    "moduleResolution": "node",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "forceConsistentCasingInFileNames": true,
     "removeComments": true,
-    "lib": ["es6"],
     "sourceMap": true,
     "esModuleInterop": true,
-    "useUnknownInCatchVariables": false
+    "allowSyntheticDefaultImports": true,
+    "useUnknownInCatchVariables": false,
   },
-  "exclude": ["node_modules", ".vscode-test", "testProject", "scripts"]
+  "exclude": [
+    "node_modules",
+    ".vscode-test",
+    "testProject",
+    "scripts",
+    "test"
+  ]
 }

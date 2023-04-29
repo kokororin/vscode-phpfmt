@@ -10,10 +10,12 @@ import {
   type DocumentSelector,
   type QuickPickItem
 } from 'vscode';
-import type PHPFmt from './PHPFmt';
-import type Widget from './Widget';
-import Transformations from './Transformations';
-import type ITransformationItem from './ITransformationItem';
+import pkg from 'pjson';
+import type { PHPFmt } from './PHPFmt';
+import type { Widget } from './Widget';
+import { Transformations } from './Transformations';
+import type { TransformationItem } from './types';
+import { PHPFmtIgnoreError } from './PHPFmtError';
 
 export default class PHPFmtProvider {
   private readonly phpfmt: PHPFmt;
@@ -27,6 +29,7 @@ export default class PHPFmtProvider {
       { language: 'php', scheme: 'file' },
       { language: 'php', scheme: 'untitled' }
     ];
+    this.phpfmt.getWidget().addToOutput(`Extension Version: ${pkg.version}`);
   }
 
   public onDidChangeConfiguration(): Disposable {
@@ -49,10 +52,10 @@ export default class PHPFmtProvider {
         this.phpfmt.getConfig().php_bin
       );
 
-      const transformationItems: ITransformationItem[] =
+      const transformationItems: TransformationItem[] =
         transformations.getTransformations();
 
-      const items: QuickPickItem[] = new Array<QuickPickItem>();
+      const items: QuickPickItem[] = [];
       for (const item of transformationItems) {
         items.push({
           label: item.key,
@@ -77,31 +80,22 @@ export default class PHPFmtProvider {
       this.documentSelector,
       {
         provideDocumentFormattingEdits: async document => {
-          return await new Promise<any>((resolve, reject) => {
-            const originalText: string = document.getText();
+          try {
+            const originalText = document.getText();
             const lastLine = document.lineAt(document.lineCount - 1);
-            const range: Range = new Range(
-              new Position(0, 0),
-              lastLine.range.end
-            );
+            const range = new Range(new Position(0, 0), lastLine.range.end);
 
-            this.phpfmt
-              .format(originalText)
-              .then((text: string) => {
-                if (text !== originalText) {
-                  resolve([new TextEdit(range, text)]);
-                } else {
-                  reject();
-                }
-              })
-              .catch(err => {
-                if (err instanceof Error) {
-                  void Window.showErrorMessage(err.message);
-                  this.widget.addToOutput(err.message);
-                }
-                reject();
-              });
-          });
+            const text = await this.phpfmt.format(originalText);
+            if (text !== originalText) {
+              return [new TextEdit(range, text)];
+            }
+          } catch (err) {
+            if (!(err instanceof PHPFmtIgnoreError) && err instanceof Error) {
+              void Window.showErrorMessage(err.message);
+              this.widget.addToOutput(err.message);
+            }
+          }
+          return [];
         }
       }
     );
@@ -112,39 +106,32 @@ export default class PHPFmtProvider {
       this.documentSelector,
       {
         provideDocumentRangeFormattingEdits: async (document, range) => {
-          return await new Promise<any>((resolve, reject) => {
-            let originalText: string = document.getText(range);
+          try {
+            let originalText = document.getText(range);
             if (originalText.replace(/\s+/g, '').length === 0) {
-              reject();
-              return;
+              return [];
             }
 
-            let hasModified: boolean = false;
+            let hasModified = false;
             if (originalText.search(/^\s*<\?php/i) === -1) {
               originalText = `<?php\n${originalText}`;
               hasModified = true;
             }
 
-            this.phpfmt
-              .format(originalText)
-              .then((text: string) => {
-                if (hasModified) {
-                  text = text.replace(/^<\?php\r?\n/, '');
-                }
-                if (text !== originalText) {
-                  resolve([new TextEdit(range, text)]);
-                } else {
-                  reject();
-                }
-              })
-              .catch(err => {
-                if (err instanceof Error) {
-                  void Window.showErrorMessage(err.message);
-                  this.widget.addToOutput(err.message);
-                }
-                reject();
-              });
-          });
+            let text = await this.phpfmt.format(originalText);
+            if (hasModified) {
+              text = text.replace(/^<\?php\r?\n/, '');
+            }
+            if (text !== originalText) {
+              return [new TextEdit(range, text)];
+            }
+          } catch (err) {
+            if (!(err instanceof PHPFmtIgnoreError) && err instanceof Error) {
+              void Window.showErrorMessage(err.message);
+              this.widget.addToOutput(err.message);
+            }
+          }
+          return [];
         }
       }
     );

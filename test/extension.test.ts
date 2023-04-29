@@ -9,9 +9,9 @@ import {
   type Extension
 } from 'vscode';
 import phpfmt from 'use-phpfmt';
+import pjson from 'pjson';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const pkg: any = require('pjson');
+const pkg = pjson as any;
 
 suite('PHPFmt Test', () => {
   const extension = Extensions.getExtension(
