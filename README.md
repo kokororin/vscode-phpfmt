@@ -38,7 +38,7 @@ You can turn off format-on-save on a per-language basis by scoping the setting:
 
 ## Q&A
 
-Q: How to use `phpfmt.php_bin` with spaces such as `C:\Program Files\php\php.exe` ?
+Q: How to use `phpfmt.php_bin` with spaces such as `C:\Program Files\php\php.exe` ?  
 A: Wrap your path with quotes like:
 
 ```json
@@ -47,10 +47,10 @@ A: Wrap your path with quotes like:
 }
 ```
 
-It is recommended to add the directory of the `php.exe` to the PATH environment variable on Windows.
+It is recommended to add the directory of the `php.exe` to the PATH environment variable on Windows.  
 If it still not working, refer to [#1](https://github.com/kokororin/vscode-phpfmt/issues/1) and [Stack Overflow Related](https://stackoverflow.com/a/45765854).
 
-Q: How use tabs instead of spaces with PSR2 enabled ?
+Q: How use tabs instead of spaces with PSR2 enabled ?  
 A: For [PSR2](https://www.php-fig.org/psr/psr-2/), code MUST use 4 spaces for indenting, not tabs. But if you like PSR2, and do not like 4 spaces for indentation, add following configuration:
 
 ```json
@@ -71,7 +71,7 @@ A: For [PSR2](https://www.php-fig.org/psr/psr-2/), code MUST use 4 spaces for in
 }
 ```
 
-Q: Is fmt.phar (phpfmt itself) still maintained ?
+Q: Is fmt.phar (phpfmt itself) still maintained ?  
 A: Since phpfmt has no maintainers, only Serious bugs will be fixed.
 
 ## Configuration
