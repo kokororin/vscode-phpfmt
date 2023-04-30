@@ -1,8 +1,7 @@
 import {
   workspace as Workspace,
   window as Window,
-  type WorkspaceFolder,
-  type WorkspaceConfiguration
+  type WorkspaceFolder
 } from 'vscode';
 import path from 'path';
 import fs from 'fs';
@@ -16,18 +15,20 @@ import { PHPFmtError, PHPFmtIgnoreError } from './PHPFmtError';
 import { exec } from './utils';
 
 export class PHPFmt {
-  private readonly config: PHPFmtConfig;
+  private config: PHPFmtConfig;
   private readonly args: string[] = [];
 
-  public constructor(
-    config: WorkspaceConfiguration,
-    private readonly widget: Widget
-  ) {
-    this.config = config as unknown as PHPFmtConfig;
+  public constructor(private readonly widget: Widget) {
+    this.config = this.getConfig();
     this.loadSettings();
   }
 
+  private getConfig(): PHPFmtConfig {
+    return Workspace.getConfiguration('phpfmt') as unknown as PHPFmtConfig;
+  }
+
   public loadSettings(): void {
+    this.config = this.getConfig();
     this.args.length = 0;
 
     if (this.config.custom_arguments !== '') {

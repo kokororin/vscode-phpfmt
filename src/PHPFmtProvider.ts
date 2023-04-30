@@ -28,7 +28,7 @@ export class PHPFmtProvider {
   public constructor() {
     this.widget = new Widget();
     this.config = Workspace.getConfiguration('phpfmt');
-    this.phpfmt = new PHPFmt(this.config, this.widget);
+    this.phpfmt = new PHPFmt(this.widget);
     this.documentSelector = [
       { language: 'php', scheme: 'file' },
       { language: 'php', scheme: 'untitled' }
