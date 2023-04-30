@@ -13,7 +13,8 @@ tsconfig*.json
 .editorconfig
 .prettierignore
 yarn.lock
-prettier.config.js
+prettier.config.*js
+.eslintrc.*js
 *.log
 node_modules/**/*.md
 node_modules/**/*.ts
