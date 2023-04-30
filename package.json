@@ -56,6 +56,34 @@
         "title": "phpfmt: List Transformations"
       },
       {
+        "command": "phpfmt.toggleAdditionalTransformations",
+        "title": "phpfmt: Toggle Additional Transformations"
+      },
+      {
+        "command": "phpfmt.toggleExcludedTransformations",
+        "title": "phpfmt: Toggle Excluded Transformations"
+      },
+      {
+        "command": "phpfmt.togglePSR1Naming",
+        "title": "phpfmt: Toggle PSR1 Naming"
+      },
+      {
+        "command": "phpfmt.togglePSR1",
+        "title": "phpfmt: Toggle PSR1"
+      },
+      {
+        "command": "phpfmt.togglePSR2",
+        "title": "phpfmt: Toggle PSR2"
+      },
+      {
+        "command": "phpfmt.toggleAutoAlign",
+        "title": "phpfmt: Toggle Auto Align"
+      },
+      {
+        "command": "phpfmt.toggleIndentWithSpace",
+        "title": "phpfmt: Toggle Indent With Space"
+      },
+      {
         "command": "phpfmt.openOutput",
         "title": "phpfmt: Open Output"
       }

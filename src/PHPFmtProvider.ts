@@ -6,36 +6,46 @@ import {
   Position,
   Range,
   TextEdit,
+  ConfigurationTarget,
   type Disposable,
   type DocumentSelector,
-  type QuickPickItem
+  type QuickPickItem,
+  type WorkspaceConfiguration
 } from 'vscode';
 import pkg from 'pjson';
-import type { PHPFmt } from './PHPFmt';
-import type { Widget } from './Widget';
+import { PHPFmt } from './PHPFmt';
+import { Widget } from './Widget';
 import { Transformations } from './Transformations';
 import { PHPFmtIgnoreError } from './PHPFmtError';
 
 export class PHPFmtProvider {
   private readonly widget: Widget;
+  private readonly phpfmt: PHPFmt;
   private readonly documentSelector: DocumentSelector;
+  private readonly transformations: Transformations;
+  private readonly config: WorkspaceConfiguration;
 
-  public constructor(private readonly phpfmt: PHPFmt) {
-    this.widget = this.phpfmt.getWidget();
+  public constructor() {
+    this.widget = new Widget();
+    this.config = Workspace.getConfiguration('phpfmt');
+    this.phpfmt = new PHPFmt(this.config, this.widget);
     this.documentSelector = [
       { language: 'php', scheme: 'file' },
       { language: 'php', scheme: 'untitled' }
     ];
-    this.phpfmt.getWidget().addToOutput(`Extension Version: ${pkg.version}`);
+    this.widget.addToOutput(`Extension Version: ${pkg.version}`);
+    this.transformations = new Transformations(
+      this.config.get('php_bin', 'php')
+    );
   }
 
-  public onDidChangeConfiguration(): Disposable {
+  public registerOnDidChangeConfiguration(): Disposable {
     return Workspace.onDidChangeConfiguration(() => {
       this.phpfmt.loadSettings();
     });
   }
 
-  public formatCommand(): Disposable {
+  public registerFormatCommand(): Disposable {
     return Commands.registerTextEditorCommand('phpfmt.format', textEditor => {
       if (textEditor.document.languageId === 'php') {
         void Commands.executeCommand('editor.action.formatDocument');
@@ -43,26 +53,22 @@ export class PHPFmtProvider {
     });
   }
 
-  public listTransformationsCommand(): Disposable {
+  private async getTransformationItems(): Promise<QuickPickItem[]> {
+    const transformationItems = await this.transformations.getTransformations();
+    const items = transformationItems.map(o => ({
+      label: o.key,
+      description: o.description
+    }));
+    return items;
+  }
+
+  public registerListTransformationsCommand(): Disposable {
     return Commands.registerCommand('phpfmt.listTransformations', async () => {
-      const transformations = new Transformations(
-        this.phpfmt.getConfig().php_bin
-      );
-
-      const transformationItems = await transformations.getTransformations();
-
-      const items: QuickPickItem[] = [];
-      for (const item of transformationItems) {
-        items.push({
-          label: item.key,
-          description: item.description
-        });
-      }
-
+      const items = await this.getTransformationItems();
       const result = await Window.showQuickPick(items);
 
       if (typeof result !== 'undefined') {
-        const output = await transformations.getExample({
+        const output = await this.transformations.getExample({
           key: result.label,
           description: result.description ?? ''
         });
@@ -71,7 +77,144 @@ export class PHPFmtProvider {
     });
   }
 
-  public documentFormattingEditProvider(): Disposable {
+  private async showUpdateConfigQuickPick<T>(
+    section: string,
+    value: T
+  ): Promise<void> {
+    const targetResult = await Window.showQuickPick(['Global', 'Workspace'], {
+      placeHolder: 'Where to update settings.json?'
+    });
+    let target: ConfigurationTarget;
+
+    if (targetResult === 'Global') {
+      target = ConfigurationTarget.Global;
+    } else {
+      target = ConfigurationTarget.Workspace;
+    }
+
+    try {
+      await this.config.update(section, value, target);
+      await Window.showInformationMessage(
+        'Configuration updated successfully!'
+      );
+    } catch (err) {
+      await Window.showErrorMessage('Configuration updated failed!');
+    }
+  }
+
+  public registerToggleTransformationsCommand(): Disposable[] {
+    const commands = [
+      {
+        command: 'toggleAdditionalTransformations',
+        key: 'passes'
+      },
+      {
+        command: 'toggleExcludedTransformations',
+        key: 'exclude'
+      }
+    ];
+
+    return commands.map(command =>
+      Commands.registerCommand(`phpfmt.${command.command}`, async () => {
+        const items = await this.getTransformationItems();
+        items.unshift({
+          label: 'All',
+          description: 'Choose all of following'
+        });
+
+        const result = await Window.showQuickPick(items);
+
+        if (typeof result !== 'undefined') {
+          let value = this.config.get<string[]>(command.key);
+          if (result.label === 'All') {
+            value = items.filter(o => o.label !== 'All').map(o => o.label);
+          } else {
+            const enabled = value?.includes(result.label);
+            const enableResult = await Window.showQuickPick([
+              {
+                label: 'Enable',
+                description: enabled ? 'Current' : ''
+              },
+              {
+                label: 'Disable',
+                description: !enabled ? 'Current' : ''
+              }
+            ]);
+            if (typeof enableResult !== 'undefined') {
+              if (enableResult.label === 'Enable' && !enabled) {
+                value?.push(result.label);
+              } else if (enableResult.label === 'Disable' && enabled) {
+                value = value?.filter(v => v !== result.label);
+              }
+            }
+          }
+
+          await this.showUpdateConfigQuickPick(command.key, value);
+        }
+      })
+    );
+  }
+
+  public registerToggleBooleanCommand(): Disposable[] {
+    const commands = [
+      {
+        command: 'togglePSR1Naming',
+        key: 'psr1_naming'
+      },
+      {
+        command: 'togglePSR1',
+        key: 'psr1'
+      },
+      {
+        command: 'togglePSR2',
+        key: 'psr2'
+      },
+      {
+        command: 'toggleAutoAlign',
+        key: 'enable_auto_align'
+      }
+    ];
+
+    return commands.map(command =>
+      Commands.registerCommand(`phpfmt.${command.command}`, async () => {
+        const value = this.config.get<boolean>(command.key);
+        const result = await Window.showQuickPick([
+          {
+            label: 'Enable',
+            description: value ? 'Current' : ''
+          },
+          {
+            label: 'Disable',
+            description: !value ? 'Current' : ''
+          }
+        ]);
+
+        if (typeof result !== 'undefined') {
+          await this.showUpdateConfigQuickPick(
+            command.key,
+            result.label === 'Enable'
+          );
+        }
+      })
+    );
+  }
+
+  public registerToggleIndentWithSpaceCommand(): Disposable {
+    return Commands.registerCommand(
+      'phpfmt.toggleIndentWithSpace',
+      async () => {
+        const result = await Window.showQuickPick(['tabs', '2', '4', '6', '8']);
+
+        if (typeof result !== 'undefined') {
+          const value = result === 'tabs' ? false : Number(result);
+
+          await this.showUpdateConfigQuickPick('indent_with_space', value);
+        }
+      }
+    );
+  }
+
+  public registerDocumentFormattingEditProvider(): Disposable {
     return Languages.registerDocumentFormattingEditProvider(
       this.documentSelector,
       {
@@ -97,7 +240,7 @@ export class PHPFmtProvider {
     );
   }
 
-  public documentRangeFormattingEditProvider(): Disposable {
+  public registerDocumentRangeFormattingEditProvider(): Disposable {
     return Languages.registerDocumentRangeFormattingEditProvider(
       this.documentSelector,
       {
@@ -133,12 +276,10 @@ export class PHPFmtProvider {
     );
   }
 
-  public statusBarItem(): Disposable[] {
+  public registerStatusBarItem(): Disposable[] {
     return [
       Window.onDidChangeActiveTextEditor(editor => {
-        if (typeof this.statusBarItem !== 'undefined') {
-          this.widget.toggleStatusBarItem(editor);
-        }
+        this.widget.toggleStatusBarItem(editor);
       }),
       Commands.registerCommand('phpfmt.openOutput', () => {
         this.widget.getOutputChannel().show();

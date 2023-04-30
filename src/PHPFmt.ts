@@ -1,7 +1,8 @@
 import {
   workspace as Workspace,
   window as Window,
-  type WorkspaceFolder
+  type WorkspaceFolder,
+  type WorkspaceConfiguration
 } from 'vscode';
 import path from 'path';
 import fs from 'fs';
@@ -10,24 +11,23 @@ import detectIndent from 'detect-indent';
 import findUp from 'find-up';
 import phpfmt from 'use-phpfmt';
 import type { PHPFmtConfig } from './types';
-import { Widget } from './Widget';
+import type { Widget } from './Widget';
 import { PHPFmtError, PHPFmtIgnoreError } from './PHPFmtError';
 import { exec } from './utils';
 
 export class PHPFmt {
-  private readonly widget: Widget;
-  private config: PHPFmtConfig = {} as any;
+  private readonly config: PHPFmtConfig;
   private readonly args: string[] = [];
 
-  public constructor() {
+  public constructor(
+    config: WorkspaceConfiguration,
+    private readonly widget: Widget
+  ) {
+    this.config = config as unknown as PHPFmtConfig;
     this.loadSettings();
-    this.widget = Widget.getInstance();
   }
 
   public loadSettings(): void {
-    this.config = Workspace.getConfiguration(
-      'phpfmt'
-    ) as unknown as PHPFmtConfig;
     this.args.length = 0;
 
     if (this.config.custom_arguments !== '') {
@@ -85,14 +85,6 @@ export class PHPFmt {
     if (this.config.cakephp) {
       this.args.push('--cakephp');
     }
-  }
-
-  public getWidget(): Widget {
-    return this.widget;
-  }
-
-  public getConfig(): PHPFmtConfig {
-    return this.config;
   }
 
   private getArgs(fileName: string): string[] {

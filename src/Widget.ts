@@ -10,15 +10,6 @@ import dayjs from 'dayjs';
 export class Widget {
   private readonly outputChannel: OutputChannel;
   private readonly statusBarItem: StatusBarItem;
-  private static instance: Widget;
-
-  public static getInstance(): Widget {
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    if (!this.instance) {
-      this.instance = new Widget();
-    }
-    return this.instance;
-  }
 
   public constructor() {
     this.outputChannel = Window.createOutputChannel('phpfmt');
