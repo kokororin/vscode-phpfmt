@@ -1,3 +1,13 @@
+### 1.1.4
+
+- Add command `toggleAdditionalTransformations`
+- Add command `toggleExcludedTransformations`
+- Add command `togglePSR1Naming`
+- Add command `togglePSR1`
+- Add command `togglePSR2`
+- Add command `toggleAutoAlign`
+- Add command `toggleIndentWithSpace`
+
 ### 1.1.3
 
 - Just bump version
