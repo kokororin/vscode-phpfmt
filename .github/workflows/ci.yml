@@ -7,7 +7,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest]
+        os: [macos-latest, windows-latest]
         php: ['7.0', '7.1', '7.2', '7.3', '8.0', '8.1']
     name: Test on ${{ matrix.os }} & PHP ${{ matrix.php }}
     steps:

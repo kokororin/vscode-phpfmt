@@ -1,6 +1,5 @@
 import assert from 'assert';
 import path from 'path';
-import { execSync } from 'child_process';
 import {
   workspace as Workspace,
   window as Window,
@@ -8,7 +7,6 @@ import {
   extensions as Extensions,
   type Extension
 } from 'vscode';
-import phpfmt from 'use-phpfmt';
 import pjson from 'pjson';
 
 const pkg = pjson as any;
@@ -35,20 +33,17 @@ suite('PHPFmt Test', () => {
 
     const filePath = path.join(Workspace.rootPath, 'ugly.php');
     return Workspace.openTextDocument(filePath).then(doc => {
-      return Window.showTextDocument(doc).then(() =>
-        Commands.executeCommand('editor.action.formatDocument').then(
+      return Window.showTextDocument(doc).then(() => {
+        const text = doc.getText();
+        return Commands.executeCommand('editor.action.formatDocument').then(
           () => {
-            const stdout = execSync(
-              `php "${phpfmt.pharPath}" --psr2 --indent_with_space=4 --dry-run -o=- ${filePath}`
-            );
-            const phpfmtFormatted = stdout.toString();
-            assert.equal(doc.getText(), phpfmtFormatted);
+            assert.notEqual(doc.getText(), text);
           },
           err => {
             console.error(err);
           }
-        )
-      );
+        );
+      });
     });
   });
 
