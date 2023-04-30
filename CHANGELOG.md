@@ -1,3 +1,7 @@
+### 1.1.5
+
+- Check passes exists [(#104)](https://github.com/kokororin/vscode-phpfmt/issues/104)
+
 ### 1.1.4
 
 - Add command `toggleAdditionalTransformations`
@@ -18,7 +22,7 @@
 
 ### 1.1.1
 
-- Update fmt.phar [(#101)](https://github.com/kokororin/vscode-phpfmt/pull/101)
+- Update fmt.phar [(PR #101)](https://github.com/kokororin/vscode-phpfmt/pull/101)
 
 ### 1.0.31
 - Update fmt.phar to 19.8.0
