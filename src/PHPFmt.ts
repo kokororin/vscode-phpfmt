@@ -11,15 +11,18 @@ import findUp from 'find-up';
 import phpfmt from 'use-phpfmt';
 import type { PHPFmtConfig } from './types';
 import type { Widget } from './Widget';
+import { Transformation } from './Transformation';
 import { PHPFmtError, PHPFmtIgnoreError } from './PHPFmtError';
 import { exec } from './utils';
 
 export class PHPFmt {
   private config: PHPFmtConfig;
+  private transformation: Transformation;
   private readonly args: string[] = [];
 
   public constructor(private readonly widget: Widget) {
     this.config = this.getConfig();
+    this.transformation = new Transformation(this.config.php_bin);
     this.loadSettings();
   }
 
@@ -29,6 +32,8 @@ export class PHPFmt {
 
   public loadSettings(): void {
     this.config = this.getConfig();
+    this.transformation = new Transformation(this.config.php_bin);
+
     this.args.length = 0;
 
     if (this.config.custom_arguments !== '') {
@@ -95,6 +100,20 @@ export class PHPFmt {
   }
 
   public async format(text: string): Promise<string> {
+    const passes = [...this.config.passes, ...this.config.exclude];
+    const transformations = await this.transformation.getTransformations();
+    if (passes.length > 0) {
+      const invalidPasses = passes.filter(
+        pass =>
+          !transformations.some(transformation => transformation.key === pass)
+      );
+      if (invalidPasses.length > 0) {
+        throw new PHPFmtError(
+          `passes or exclude invalid: ${invalidPasses.join(', ')}`
+        );
+      }
+    }
+
     if (this.config.detect_indent) {
       const indentInfo = detectIndent(text);
       if (!indentInfo.type) {

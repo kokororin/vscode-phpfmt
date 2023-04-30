@@ -15,15 +15,15 @@ import {
 import pkg from 'pjson';
 import { PHPFmt } from './PHPFmt';
 import { Widget } from './Widget';
-import { Transformations } from './Transformations';
+import { Transformation } from './Transformation';
 import { PHPFmtIgnoreError } from './PHPFmtError';
 
 export class PHPFmtProvider {
   private readonly widget: Widget;
   private readonly phpfmt: PHPFmt;
   private readonly documentSelector: DocumentSelector;
-  private readonly transformations: Transformations;
-  private readonly config: WorkspaceConfiguration;
+  private readonly transformation: Transformation;
+  private config: WorkspaceConfiguration;
 
   public constructor() {
     this.widget = new Widget();
@@ -34,14 +34,16 @@ export class PHPFmtProvider {
       { language: 'php', scheme: 'untitled' }
     ];
     this.widget.addToOutput(`Extension Version: ${pkg.version}`);
-    this.transformations = new Transformations(
-      this.config.get('php_bin', 'php')
-    );
+    this.transformation = new Transformation(this.config.get('php_bin', 'php'));
+    // cache first
+    void this.transformation.getTransformations();
   }
 
   public registerOnDidChangeConfiguration(): Disposable {
     return Workspace.onDidChangeConfiguration(() => {
+      this.config = Workspace.getConfiguration('phpfmt');
       this.phpfmt.loadSettings();
+      this.widget.addToOutput(`settings reloaded`);
     });
   }
 
@@ -54,7 +56,7 @@ export class PHPFmtProvider {
   }
 
   private async getTransformationItems(): Promise<QuickPickItem[]> {
-    const transformationItems = await this.transformations.getTransformations();
+    const transformationItems = await this.transformation.getTransformations();
     const items = transformationItems.map(o => ({
       label: o.key,
       description: o.description
@@ -68,7 +70,7 @@ export class PHPFmtProvider {
       const result = await Window.showQuickPick(items);
 
       if (typeof result !== 'undefined') {
-        const output = await this.transformations.getExample({
+        const output = await this.transformation.getExample({
           key: result.label,
           description: result.description ?? ''
         });

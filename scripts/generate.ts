@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import os from 'os';
 import pjson from 'pjson';
-import { Transformations } from '../src/Transformations';
+import { Transformation } from '../src/Transformation';
 
 const pkg = pjson as any;
 
@@ -59,7 +59,7 @@ void (async () => {
       }
     );
 
-    const transformations = await new Transformations(
+    const transformations = await new Transformation(
       'php'
     ).getTransformations();
 

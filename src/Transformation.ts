@@ -3,18 +3,24 @@ import phpfmt from 'use-phpfmt';
 import type { TransformationItem } from './types';
 import { exec } from './utils';
 
-export class Transformations {
+export class Transformation {
   public constructor(private readonly phpBin: string) {}
 
   private get baseCmd(): string {
     return `${this.phpBin} "${phpfmt.pharPath}"`;
   }
 
+  private static transformations: TransformationItem[] = [];
+
   public async getTransformations(): Promise<TransformationItem[]> {
+    if (Transformation.transformations.length > 0) {
+      return Transformation.transformations;
+    }
+
     try {
       const { stdout } = await exec(`${this.baseCmd} --list-simple`);
 
-      return stdout
+      Transformation.transformations = stdout
         .trim()
         .split(os.EOL)
         .map(v => {
@@ -28,6 +34,7 @@ export class Transformations {
               .trim()
           };
         });
+      return Transformation.transformations;
     } catch (err) {
       return [];
     }
