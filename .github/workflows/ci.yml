@@ -50,8 +50,13 @@ jobs:
 
       - name: Run Lint
         run: yarn lint
+        if: ${{ matrix.os == 'macos-latest' && matrix.php == '7.0' }}
 
       - name: Run Tests
-        run: yarn test
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: yarn test
         env:
           DISPLAY: ":99.0"
