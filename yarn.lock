@@ -2127,7 +2127,7 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
-node-fetch@^2.6.9:
+node-fetch@^2.1.2, node-fetch@^2.6.9:
   version "2.6.9"
   resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-2.6.9.tgz#7c7f744b5cc6eb5fd404e0c7a9fec630a55657e6"
   integrity sha512-DJm/CJkZkRjKKj4Zi4BsKVZh3ValV5IR5s7LVZnW+6YMh0W1BfNA8XSs6DLMGYlId5F3KnA70uu2qepcR08Qqg==
@@ -2304,6 +2304,13 @@ path-type@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
+
+phpfmt@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/phpfmt/-/phpfmt-0.0.2.tgz#69122de46104a7a99adaccf8e331e5db0ccf10ef"
+  integrity sha512-S3oyfyVq1p3y1vWPel8eCXEQUt9neELtYy/cDLixyalRY2vl/Gatb4ad2w2OnjCR4Df8fOk2KVwC4yTfIT8fNw==
+  dependencies:
+    node-fetch "^2.1.2"
 
 picocolors@^1.0.0:
   version "1.0.0"

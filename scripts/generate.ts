@@ -1,17 +1,17 @@
 import path from 'path';
 import fs from 'fs';
 import os from 'os';
-import pjson from 'pjson';
+import phpfmt from 'use-phpfmt';
 import { Transformation } from '../src/Transformation';
 
-const pkg = pjson as any;
-
-const readmePath: string = path.join(__dirname, '/../README.md');
-
-const configuration = pkg.contributes.configuration;
+const pkgJsonPath = path.join(__dirname, '../package.json');
+const readmePath: string = path.join(__dirname, '../README.md');
 
 void (async () => {
   try {
+    const pkg = JSON.parse(String(await fs.promises.readFile(pkgJsonPath)));
+    const configuration = pkg.contributes.configuration;
+
     let config: string =
       '| Key | Type | Description | Default |' +
       os.EOL +
@@ -59,9 +59,9 @@ void (async () => {
       }
     );
 
-    const transformations = await new Transformation(
-      'php'
-    ).getTransformations();
+    const transformation = new Transformation('php', phpfmt.pharPath);
+
+    const transformations = await transformation.getTransformations();
 
     readmeContent = readmeContent.replace(
       /<!-- Transformations START -->([\s\S]*)<!-- Transformations END -->/,
@@ -86,8 +86,22 @@ void (async () => {
         );
       }
     );
+    const enums = transformations.map(item => item.key);
+    const enumDescriptions = transformations.map(item => item.description);
+
+    pkg.contributes.configuration.properties['phpfmt.passes'].items.enum =
+      enums;
+    pkg.contributes.configuration.properties[
+      'phpfmt.passes'
+    ].items.enumDescriptions = enumDescriptions;
+    pkg.contributes.configuration.properties['phpfmt.exclude'].items.enum =
+      enums;
+    pkg.contributes.configuration.properties[
+      'phpfmt.exclude'
+    ].items.enumDescriptions = enumDescriptions;
 
     await fs.promises.writeFile(readmePath, readmeContent);
+    await fs.promises.writeFile(pkgJsonPath, JSON.stringify(pkg, null, 2));
   } catch (err) {
     console.error(err);
   }

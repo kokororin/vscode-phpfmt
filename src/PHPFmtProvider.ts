@@ -13,37 +13,35 @@ import {
   type WorkspaceConfiguration
 } from 'vscode';
 import pkg from 'pjson';
-import { PHPFmt } from './PHPFmt';
-import { Widget } from './Widget';
-import { Transformation } from './Transformation';
+import type { PHPFmt } from './PHPFmt';
+import type { Widget } from './Widget';
+import type { Transformation } from './Transformation';
 import { PHPFmtIgnoreError } from './PHPFmtError';
 
 export class PHPFmtProvider {
-  private readonly widget: Widget;
-  private readonly phpfmt: PHPFmt;
   private readonly documentSelector: DocumentSelector;
-  private readonly transformation: Transformation;
+  private transformation: Transformation;
   private config: WorkspaceConfiguration;
 
-  public constructor() {
-    this.widget = new Widget();
+  public constructor(
+    private readonly widget: Widget,
+    private readonly phpfmt: PHPFmt
+  ) {
     this.config = Workspace.getConfiguration('phpfmt');
-    this.phpfmt = new PHPFmt(this.widget);
     this.documentSelector = [
       { language: 'php', scheme: 'file' },
       { language: 'php', scheme: 'untitled' }
     ];
-    this.widget.addToOutput(`Extension Version: ${pkg.version}`);
-    this.transformation = new Transformation(this.config.get('php_bin', 'php'));
-    // cache first
-    void this.transformation.getTransformations();
+    this.widget.logInfo(`Extension Version: ${pkg.version}`);
+    this.transformation = this.phpfmt.getTransformation();
   }
 
   public registerOnDidChangeConfiguration(): Disposable {
     return Workspace.onDidChangeConfiguration(() => {
       this.config = Workspace.getConfiguration('phpfmt');
       this.phpfmt.loadSettings();
-      this.widget.addToOutput(`settings reloaded`);
+      this.transformation = this.phpfmt.getTransformation();
+      this.widget.logInfo(`settings reloaded`);
     });
   }
 
@@ -70,11 +68,14 @@ export class PHPFmtProvider {
       const result = await Window.showQuickPick(items);
 
       if (typeof result !== 'undefined') {
+        this.widget.logInfo('Getting transformation output');
         const output = await this.transformation.getExample({
           key: result.label,
           description: result.description ?? ''
         });
-        this.widget.addToOutput(`Transformation\n${output}`).show();
+
+        this.widget.getOutputChannel().appendLine(output);
+        this.widget.getOutputChannel().show();
       }
     });
   }
@@ -233,7 +234,7 @@ export class PHPFmtProvider {
           } catch (err) {
             if (!(err instanceof PHPFmtIgnoreError) && err instanceof Error) {
               void Window.showErrorMessage(err.message);
-              this.widget.addToOutput(err.message);
+              this.widget.logError('Format failed', err);
             }
           }
           return [];
@@ -269,7 +270,7 @@ export class PHPFmtProvider {
           } catch (err) {
             if (!(err instanceof PHPFmtIgnoreError) && err instanceof Error) {
               void Window.showErrorMessage(err.message);
-              this.widget.addToOutput(err.message);
+              this.widget.logError('Format failed', err);
             }
           }
           return [];

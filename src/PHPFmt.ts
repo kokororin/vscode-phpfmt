@@ -1,14 +1,11 @@
-import {
-  workspace as Workspace,
-  window as Window,
-  type WorkspaceFolder
-} from 'vscode';
+import { workspace as Workspace, window as Window } from 'vscode';
 import path from 'path';
 import fs from 'fs';
 import os from 'os';
 import detectIndent from 'detect-indent';
 import findUp from 'find-up';
 import phpfmt from 'use-phpfmt';
+import oldPhpfmt from 'phpfmt';
 import type { PHPFmtConfig } from './types';
 import type { Widget } from './Widget';
 import { Transformation } from './Transformation';
@@ -22,7 +19,10 @@ export class PHPFmt {
 
   public constructor(private readonly widget: Widget) {
     this.config = this.getConfig();
-    this.transformation = new Transformation(this.config.php_bin);
+    this.transformation = new Transformation(
+      this.config.php_bin,
+      this.getPharPath()
+    );
     this.loadSettings();
   }
 
@@ -32,7 +32,10 @@ export class PHPFmt {
 
   public loadSettings(): void {
     this.config = this.getConfig();
-    this.transformation = new Transformation(this.config.php_bin);
+    this.transformation = new Transformation(
+      this.config.php_bin,
+      this.getPharPath()
+    );
 
     this.args.length = 0;
 
@@ -93,6 +96,14 @@ export class PHPFmt {
     }
   }
 
+  public getPharPath(): string {
+    return this.config.use_old_phpfmt ? oldPhpfmt.pharPath : phpfmt.pharPath;
+  }
+
+  public getTransformation(): Transformation {
+    return this.transformation;
+  }
+
   private getArgs(fileName: string): string[] {
     const args = this.args.slice(0);
     args.push(`"${fileName}"`);
@@ -137,8 +148,7 @@ export class PHPFmt {
       fileName = Window.activeTextEditor.document.fileName;
       execOptions.cwd = path.dirname(fileName);
 
-      const workspaceFolders: WorkspaceFolder[] | undefined =
-        Workspace.workspaceFolders;
+      const workspaceFolders = Workspace.workspaceFolders;
       if (workspaceFolders != null) {
         iniPath = await findUp('.phpfmt.ini', {
           cwd: execOptions.cwd
@@ -160,11 +170,22 @@ export class PHPFmt {
       if (stderr) {
         throw new PHPFmtError(`php_bin "${this.config.php_bin}" is invalid`);
       }
-      if (Number(stdout.trim()) < 70000) {
-        throw new PHPFmtError('PHP version < 7 is not supported');
+      if (this.config.use_old_phpfmt) {
+        if (Number(stdout.trim()) < 50600 || Number(stdout.trim()) > 80000) {
+          throw new PHPFmtError('PHP version < 5.6 or > 8.0');
+        }
+      } else {
+        if (Number(stdout.trim()) < 70000) {
+          throw new PHPFmtError('PHP version < 7 is not supported');
+        }
       }
     } catch (err) {
-      throw new PHPFmtError(`Error getting php version`);
+      if (err instanceof PHPFmtError) {
+        throw err;
+      } else {
+        this.widget.logError('getting PHP_VERSION_ID failed', err);
+        throw new PHPFmtError(`Error getting php version`);
+      }
     }
 
     const tmpDir = os.tmpdir();
@@ -180,7 +201,7 @@ export class PHPFmt {
       if (ignore.length > 0) {
         for (const ignoreItem of ignore) {
           if (basename.match(ignoreItem) != null) {
-            this.widget.addToOutput(
+            this.widget.logInfo(
               `Ignored file ${basename} by match of ${ignoreItem}`
             );
             throw new PHPFmtIgnoreError();
@@ -197,7 +218,7 @@ export class PHPFmt {
     try {
       await fs.promises.writeFile(tmpFileName, text);
     } catch (err) {
-      this.widget.addToOutput(err.message);
+      this.widget.logError('Create tmp file failed', err);
       throw new PHPFmtError(`Cannot create tmp file in "${tmpDir}"`);
     }
 
@@ -205,7 +226,7 @@ export class PHPFmt {
     try {
       await exec(`${this.config.php_bin} -l ${tmpFileName}`, execOptions);
     } catch (err) {
-      this.widget.addToOutput(err.message);
+      this.widget.logError('PHP lint failed', err);
       Window.setStatusBarMessage(
         'phpfmt: Format failed - syntax errors found',
         4500
@@ -214,31 +235,33 @@ export class PHPFmt {
     }
 
     const args = this.getArgs(tmpFileName);
-    args.unshift(`"${phpfmt.pharPath}"`);
+    args.unshift(`"${this.getPharPath()}"`);
 
     let formatCmd: string;
     if (!iniPath) {
       formatCmd = `${this.config.php_bin} ${args.join(' ')}`;
     } else {
-      this.widget.addToOutput(`Using config file: ${iniPath}`);
+      this.widget.logInfo(`Using config file: ${iniPath}`);
       formatCmd = `${this.config.php_bin} ${
         args[0]
       } --config=${iniPath} ${args.pop()}`;
     }
 
-    this.widget.addToOutput(`Executing process: ${formatCmd}`);
+    this.widget.logInfo(`Executing command: ${formatCmd}`);
 
     try {
       await exec(formatCmd, execOptions);
     } catch (err) {
-      this.widget.addToOutput(err.message).show();
+      this.widget.logError('Execute command failed', err).show();
       throw new PHPFmtError('Execute phpfmt failed');
     }
 
     const formatted = await fs.promises.readFile(tmpFileName, 'utf-8');
     try {
       await fs.promises.unlink(tmpFileName);
-    } catch (err) {}
+    } catch (err) {
+      this.widget.logError('Remove temp file failed', err);
+    }
 
     if (formatted.length > 0) {
       return formatted;

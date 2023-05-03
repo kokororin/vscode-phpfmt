@@ -8,14 +8,14 @@ The missing phpfmt extension for Visual Studio Code.
 
 ## Installation
 
-Open command palette `<kbd>`F1`</kbd>` and select `Extensions: Install Extension`, then search for phpfmt.
+Open command palette `F1` and select `Extensions: Install Extension`, then search for phpfmt.
 
 **Note**: PHP 7.x or newer is required in the machine to run this plugin.
 
 
 ## Usage
 
-`<kbd>`F1`</kbd>` -> `phpfmt: Format This File`
+`F1` -> `phpfmt: Format This File`
 
 or keyboard shortcut `Ctrl + Shift + I` which is Visual Studio Code default formatter shortcut
 
@@ -32,7 +32,7 @@ You can turn off format-on-save on a per-language basis by scoping the setting:
 "editor.formatOnSave": false,
 // Enable per-language
 "[php]": {
-    "editor.formatOnSave": true
+  "editor.formatOnSave": true
 }
 ```
 
@@ -50,6 +50,8 @@ A: Wrap your path with quotes like:
 It is recommended to add the directory of the `php.exe` to the PATH environment variable on Windows.  
 If it still not working, refer to [#1](https://github.com/kokororin/vscode-phpfmt/issues/1) and [Stack Overflow Related](https://stackoverflow.com/a/45765854).
 
+
+<!--
 Q: How use tabs instead of spaces with PSR2 enabled ?  
 A: For [PSR2](https://www.php-fig.org/psr/psr-2/), code MUST use 4 spaces for indenting, not tabs. But if you like PSR2, and do not like 4 spaces for indentation, add following configuration:
 
@@ -70,9 +72,11 @@ A: For [PSR2](https://www.php-fig.org/psr/psr-2/), code MUST use 4 spaces for in
   "phpfmt.psr2": false
 }
 ```
+-->
 
 Q: Is fmt.phar (phpfmt itself) still maintained ?  
-A: Since phpfmt has no maintainers, only Serious bugs will be fixed.
+~~A: Since phpfmt has no maintainers, only Serious bugs will be fixed.~~  
+A: We now use `fmt.stub.php` from driade's [phpfmt8](https://github.com/driade/phpfmt8) which is very updated.
 
 ## Configuration
 
@@ -80,6 +84,7 @@ A: Since phpfmt has no maintainers, only Serious bugs will be fixed.
 | Key | Type | Description | Default |
 | -------- | ----------- | ----------- | ----------- |
 | phpfmt.php_bin | `string` | php executable path | "php" | 
+| phpfmt.use_old_phpfmt | `boolean` | use old fmt.phar which supports 5.6 | false | 
 | phpfmt.detect_indent | `boolean` | auto detecting indent type and size (will ignore indent_with_space) | false | 
 | phpfmt.psr1 | `boolean` | activate PSR1 style | false | 
 | phpfmt.psr1_naming | `boolean` | activate PSR1 style - Section 3 and 4.3 - Class and method names case. | false | 
@@ -99,7 +104,7 @@ A: Since phpfmt has no maintainers, only Serious bugs will be fixed.
 
 ## Supported Transformations
 
-`<kbd>`F1`</kbd>` -> `phpfmt: List Transformations` to get the example of each
+`F1` -> `phpfmt: List Transformations` to get the example of each
 transformation.
 
 <!-- Transformations START -->
@@ -182,12 +187,12 @@ transformation.
 
 ### Running extension
 
-- Open this repository inside VSCode
+- Open this repository inside Visual Studio Code
 - Debug sidebar
 - `Launch Extension`
 
 ### Running tests
 
-- Open this repository inside VSCode
+- Open this repository inside Visual Studio Code
 - Debug sidebar
 - `Launch Tests`

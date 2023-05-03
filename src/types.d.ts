@@ -1,5 +1,6 @@
 export interface PHPFmtConfig {
   php_bin: string;
+  use_old_phpfmt: boolean;
   detect_indent: boolean;
   psr1: boolean;
   psr1_naming: boolean;
@@ -20,3 +21,5 @@ export interface TransformationItem {
   key: string;
   description: string;
 }
+
+type LogLevel = 'INFO' | 'WARN' | 'ERROR' | 'NONE';

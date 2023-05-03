@@ -1,26 +1,28 @@
 import os from 'os';
-import phpfmt from 'use-phpfmt';
 import type { TransformationItem } from './types';
 import { exec } from './utils';
 
 export class Transformation {
-  public constructor(private readonly phpBin: string) {}
+  public constructor(
+    private readonly phpBin: string,
+    private readonly pharPath: string
+  ) {}
 
   private get baseCmd(): string {
-    return `${this.phpBin} "${phpfmt.pharPath}"`;
+    return `${this.phpBin} "${this.pharPath}"`;
   }
 
-  private static transformations: TransformationItem[] = [];
+  private static transformations: Record<string, TransformationItem[]> = {};
 
   public async getTransformations(): Promise<TransformationItem[]> {
-    if (Transformation.transformations.length > 0) {
-      return Transformation.transformations;
+    if (Transformation.transformations[this.pharPath]?.length > 0) {
+      return Transformation.transformations[this.pharPath];
     }
 
     try {
       const { stdout } = await exec(`${this.baseCmd} --list-simple`);
 
-      Transformation.transformations = stdout
+      Transformation.transformations[this.pharPath] = stdout
         .trim()
         .split(os.EOL)
         .map(v => {
@@ -34,7 +36,7 @@ export class Transformation {
               .trim()
           };
         });
-      return Transformation.transformations;
+      return Transformation.transformations[this.pharPath];
     } catch (err) {
       return [];
     }
