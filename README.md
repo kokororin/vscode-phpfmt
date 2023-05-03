@@ -51,7 +51,6 @@ It is recommended to add the directory of the `php.exe` to the PATH environment 
 If it still not working, refer to [#1](https://github.com/kokororin/vscode-phpfmt/issues/1) and [Stack Overflow Related](https://stackoverflow.com/a/45765854).
 
 
-<!--
 Q: How use tabs instead of spaces with PSR2 enabled ?  
 A: For [PSR2](https://www.php-fig.org/psr/psr-2/), code MUST use 4 spaces for indenting, not tabs. But if you like PSR2, and do not like 4 spaces for indentation, add following configuration:
 
@@ -69,10 +68,10 @@ A: For [PSR2](https://www.php-fig.org/psr/psr-2/), code MUST use 4 spaces for in
     "ReindentComments",
     "StripNewlineWithinClassBody"
   ],
-  "phpfmt.psr2": false
+  "phpfmt.psr2": false,
+  "phpfmt.use_old_phpfmt": true
 }
 ```
--->
 
 Q: Is fmt.phar (phpfmt itself) still maintained ?  
 ~~A: Since phpfmt has no maintainers, only Serious bugs will be fixed.~~  
