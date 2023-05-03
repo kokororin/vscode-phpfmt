@@ -111,19 +111,25 @@ export class PHPFmt {
   }
 
   public async format(text: string): Promise<string> {
-    if (!this.config.use_old_phpfmt) {
-      const passes = [...this.config.passes, ...this.config.exclude];
-      const transformations = await this.transformation.getTransformations();
-      if (passes.length > 0) {
-        const invalidPasses = passes.filter(
-          pass =>
-            !transformations.some(transformation => transformation.key === pass)
-        );
-        if (invalidPasses.length > 0) {
-          throw new PHPFmtError(
-            `passes or exclude invalid: ${invalidPasses.join(', ')}`
-          );
+    const passes = [...this.config.passes, ...this.config.exclude];
+    const transformations = await this.transformation.getTransformations();
+    if (passes.length > 0) {
+      const invalidPasses: string[] = [];
+      for (const pass of passes) {
+        if (
+          !transformations.some(
+            transformation => transformation.key === pass
+          ) &&
+          !(await this.transformation.isExists(pass))
+        ) {
+          invalidPasses.push(pass);
         }
+      }
+
+      if (invalidPasses.length > 0) {
+        throw new PHPFmtError(
+          `passes or exclude invalid: ${invalidPasses.join(', ')}`
+        );
       }
     }
 
