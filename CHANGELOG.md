@@ -1,3 +1,9 @@
+### 1.1.6
+
+- Fix core passes not allowed
+- Add option `use_old_phpfmt`
+- Add configuration enums to `passes` and `exclude`
+
 ### 1.1.5
 
 - Check passes exists [(#104)](https://github.com/kokororin/vscode-phpfmt/issues/104)

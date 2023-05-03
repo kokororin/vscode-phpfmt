@@ -68,8 +68,7 @@ A: For [PSR2](https://www.php-fig.org/psr/psr-2/), code MUST use 4 spaces for in
     "ReindentComments",
     "StripNewlineWithinClassBody"
   ],
-  "phpfmt.psr2": false,
-  "phpfmt.use_old_phpfmt": true
+  "phpfmt.psr2": false
 }
 ```
 
