@@ -1,3 +1,7 @@
+### 1.1.7
+
+- Fix php version bug [(#107)](https://github.com/kokororin/vscode-phpfmt/issues/107)
+
 ### 1.1.6
 
 - Fix core passes not allowed
