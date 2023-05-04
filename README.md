@@ -27,7 +27,7 @@ Respects `editor.formatOnSave` setting.
 
 You can turn off format-on-save on a per-language basis by scoping the setting:
 
-```json
+```json5
 // Set the default
 "editor.formatOnSave": false,
 // Enable per-language

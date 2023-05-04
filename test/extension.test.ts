@@ -20,41 +20,37 @@ suite('PHPFmt Test', () => {
     assert.ok(extension);
   });
 
-  test('can activate', () => {
-    return extension.activate().then(() => {
-      assert.ok(true);
-    });
+  test('can activate', async () => {
+    await extension.activate();
+    assert.ok(true);
   });
 
-  test('can format with command', () => {
-    if (!Workspace.rootPath) {
+  test('can format with command', async () => {
+    if (Workspace.workspaceFolders == null) {
       assert.fail();
     }
 
-    const filePath = path.join(Workspace.rootPath, 'ugly.php');
-    return Workspace.openTextDocument(filePath).then(doc => {
-      return Window.showTextDocument(doc).then(() => {
-        const text = doc.getText();
-        return Commands.executeCommand('editor.action.formatDocument').then(
-          () => {
-            assert.notEqual(doc.getText(), text);
-          },
-          err => {
-            console.error(err);
-          }
-        );
-      });
-    });
+    const filePath = path.join(
+      Workspace.workspaceFolders[0].uri.fsPath,
+      'ugly.php'
+    );
+
+    const doc = await Workspace.openTextDocument(filePath);
+    await Window.showTextDocument(doc);
+
+    const text = doc.getText();
+    try {
+      await Commands.executeCommand('editor.action.formatDocument');
+      assert.notEqual(doc.getText(), text);
+    } catch (err) {
+      assert.fail('Failed to format doc');
+    }
   });
 
-  test('should register commands', () => {
-    return Commands.getCommands(true).then(commands => {
-      const foundCommands = commands.filter(value =>
-        value.startsWith('phpfmt.')
-      );
-
-      assert.equal(foundCommands.length, pkg.contributes.commands.length);
-    });
+  test('should register commands', async () => {
+    const commands = await Commands.getCommands(true);
+    const foundCommands = commands.filter(value => value.startsWith('phpfmt.'));
+    assert.equal(foundCommands.length, pkg.contributes.commands.length);
   });
 
   test('should commands work', () => {

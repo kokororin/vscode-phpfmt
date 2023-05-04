@@ -4,6 +4,7 @@ import fs from 'fs';
 import os from 'os';
 import detectIndent from 'detect-indent';
 import findUp from 'find-up';
+import * as semver from 'semver';
 import phpfmt from 'use-phpfmt';
 import oldPhpfmt from 'phpfmt';
 import type { PHPFmtConfig } from './types';
@@ -158,7 +159,7 @@ export class PHPFmt {
 
       const workspaceFolders = Workspace.workspaceFolders;
       if (workspaceFolders != null) {
-        iniPath = await findUp('.phpfmt.ini', {
+        iniPath = await findUp('.php.tools.ini', {
           cwd: execOptions.cwd
         });
         const origIniPath = iniPath;
@@ -172,18 +173,25 @@ export class PHPFmt {
 
     try {
       const { stdout, stderr } = await exec(
-        `${this.config.php_bin} -r "echo PHP_VERSION_ID;"`,
+        `${this.config.php_bin} -v`,
         execOptions
       );
       if (stderr) {
-        throw new PHPFmtError(`php_bin "${this.config.php_bin}" is invalid`);
+        this.widget.logError('getting php version failed', stderr);
+        throw new PHPFmtError(`"php -v" returns non-zero code`);
       }
+      const match = /PHP ([\d.]+)/i.exec(stdout);
+      if (match == null) {
+        throw new PHPFmtError('Failed to parse php version');
+      }
+      const phpVersion = match[1];
+
       if (this.config.use_old_phpfmt) {
-        if (Number(stdout.trim()) < 50600 || Number(stdout.trim()) > 80000) {
+        if (semver.lt(phpVersion, '5.6.0') || semver.gt(phpVersion, '8.0.0')) {
           throw new PHPFmtError('PHP version < 5.6 or > 8.0');
         }
       } else {
-        if (Number(stdout.trim()) < 70000) {
+        if (semver.lt(phpVersion, '7.0.0')) {
           throw new PHPFmtError('PHP version < 7 is not supported');
         }
       }
@@ -191,7 +199,7 @@ export class PHPFmt {
       if (err instanceof PHPFmtError) {
         throw err;
       } else {
-        this.widget.logError('getting PHP_VERSION_ID failed', err);
+        this.widget.logError('getting php version failed', err);
         throw new PHPFmtError(`Error getting php version`);
       }
     }
