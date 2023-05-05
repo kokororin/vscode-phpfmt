@@ -1,3 +1,8 @@
+### 1.1.8
+
+- Option `indent_with_space` supports values 2-8 [(#108)](https://github.com/kokororin/vscode-phpfmt/issues/108)
+- Add core passes descriptions
+
 ### 1.1.7
 
 - Fix php version bug [(#107)](https://github.com/kokororin/vscode-phpfmt/issues/107)
