@@ -1,18 +1,18 @@
 import os from 'os';
-import fs from 'fs';
 import mem from 'mem';
+import phpfmt, { type PHPFmt as IPHPFmt } from 'phpfmt';
 import type { TransformationItem } from './types';
 import { exec } from './utils';
 
 export class Transformation {
   public constructor(
     private readonly phpBin: string,
-    private readonly pharPath: string
+    private readonly fmt: IPHPFmt
   ) {
     this.getTransformations = mem(this.getTransformations, {
       cacheKey: this.getCacheKey
     });
-    this.getPharContent = mem(this.getPharContent, {
+    this.getPasses = mem(this.getPasses, {
       cacheKey: this.getCacheKey
     });
     this.isExists = mem(this.isExists, {
@@ -21,11 +21,11 @@ export class Transformation {
   }
 
   private get baseCmd(): string {
-    return `${this.phpBin} "${this.pharPath}"`;
+    return `${this.phpBin} "${this.fmt.pharPath}"`;
   }
 
   private readonly getCacheKey = (args: any[]): string => {
-    return JSON.stringify([this.pharPath, args]);
+    return JSON.stringify([this.fmt.pharPath, args]);
   };
 
   public async getTransformations(): Promise<TransformationItem[]> {
@@ -65,16 +65,11 @@ export class Transformation {
     }
   }
 
-  private async getPharContent(): Promise<string> {
-    const content = String(await fs.promises.readFile(this.pharPath));
-    return content;
+  public getPasses(): string[] {
+    return phpfmt.parser.getPasses(this.fmt, phpfmt.parser.MODE_REGEX);
   }
 
-  public async isExists(name: string): Promise<boolean> {
-    const regex = new RegExp(
-      `class\\s+${name}\\s+extends\\s+(FormatterPass|AdditionalPass)\\s*\\{`
-    );
-
-    return regex.test(await this.getPharContent());
+  public isExists(name: string): boolean {
+    return this.getPasses().includes(name);
   }
 }

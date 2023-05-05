@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import os from 'os';
-import phpfmt from 'use-phpfmt';
+import phpfmt from 'phpfmt';
 import { Transformation } from '../src/Transformation';
 
 const pkgJsonPath = path.join(__dirname, '../package.json');
@@ -59,7 +59,7 @@ void (async () => {
       }
     );
 
-    const transformation = new Transformation('php', phpfmt.pharPath);
+    const transformation = new Transformation('php', phpfmt.v2);
 
     const transformations = await transformation.getTransformations();
 
@@ -86,19 +86,26 @@ void (async () => {
         );
       }
     );
-    const enums = transformations.map(item => item.key);
-    const enumDescriptions = transformations.map(item => item.description);
+    const passes = transformation.getPasses();
+
+    const enums = passes.map(pass => {
+      const p = transformations.find(t => t.key === pass);
+      return {
+        enum: pass,
+        description: p?.description ?? 'Core pass'
+      };
+    });
 
     pkg.contributes.configuration.properties['phpfmt.passes'].items.enum =
-      enums;
+      enums.map(o => o.enum);
     pkg.contributes.configuration.properties[
       'phpfmt.passes'
-    ].items.enumDescriptions = enumDescriptions;
+    ].items.enumDescriptions = enums.map(o => o.description);
     pkg.contributes.configuration.properties['phpfmt.exclude'].items.enum =
-      enums;
+      enums.map(o => o.enum);
     pkg.contributes.configuration.properties[
       'phpfmt.exclude'
-    ].items.enumDescriptions = enumDescriptions;
+    ].items.enumDescriptions = enums.map(o => o.description);
 
     await fs.promises.writeFile(readmePath, readmeContent);
     await fs.promises.writeFile(pkgJsonPath, JSON.stringify(pkg, null, 2));

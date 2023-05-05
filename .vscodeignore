@@ -23,10 +23,7 @@ node_modules/**/*.txt
 node_modules/**/LICENSE*
 node_modules/**/license*
 node_modules/**/test/*
-node_modules/node-fetch/**
-node_modules/whatwg-url/**
-node_modules/webidl-conversions/**
-node_modules/tr46/**
 node_modules/dayjs/esm
 node_modules/dayjs/locale
 node_modules/dayjs/plugin
+node_modules/php-parser

@@ -2147,13 +2147,6 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
-node-fetch@^2.1.2, node-fetch@^2.6.9:
-  version "2.6.9"
-  resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-2.6.9.tgz#7c7f744b5cc6eb5fd404e0c7a9fec630a55657e6"
-  integrity sha512-DJm/CJkZkRjKKj4Zi4BsKVZh3ValV5IR5s7LVZnW+6YMh0W1BfNA8XSs6DLMGYlId5F3KnA70uu2qepcR08Qqg==
-  dependencies:
-    whatwg-url "^5.0.0"
-
 normalize-package-data@^3.0.2:
   version "3.0.3"
   resolved "https://registry.npmjs.org/normalize-package-data/-/normalize-package-data-3.0.3.tgz#dbcc3e2da59509a0983422884cd172eefdfa525e"
@@ -2330,12 +2323,17 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
-phpfmt@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/phpfmt/-/phpfmt-0.0.2.tgz#69122de46104a7a99adaccf8e331e5db0ccf10ef"
-  integrity sha512-S3oyfyVq1p3y1vWPel8eCXEQUt9neELtYy/cDLixyalRY2vl/Gatb4ad2w2OnjCR4Df8fOk2KVwC4yTfIT8fNw==
+php-parser@^3.1.4:
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-3.1.4.tgz#165a594bf9d7fb516b89d1ecf62a361083a482f8"
+  integrity sha512-WUEfH4FWsVItqgOknM67msDdcUAfgPJsHhPNl6EPXzWtX+PfdY282m4i8YIJ9ALUEhf+qGDajdmW+VYqSd7Deg==
+
+phpfmt@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/phpfmt/-/phpfmt-0.0.5.tgz#bbbf5b8534308735453fd2a46606677fcd955e65"
+  integrity sha512-2ube9QII6r0nPTNIbFFAx0Zxt/kZKQws+xGdG2j4hZNbJtQ3zjOMFh9mcSMUYwTbNkHMJ+C+/8+cA2LFGpJ6nw==
   dependencies:
-    node-fetch "^2.1.2"
+    php-parser "^3.1.4"
 
 picocolors@^1.0.0:
   version "1.0.0"
@@ -2763,11 +2761,6 @@ to-regex-range@^5.0.1:
   dependencies:
     is-number "^7.0.0"
 
-tr46@~0.0.3:
-  version "0.0.3"
-  resolved "https://registry.npmjs.org/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
-  integrity sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==
-
 trash-cli@^5.0.0:
   version "5.0.0"
   resolved "https://registry.npmjs.org/trash-cli/-/trash-cli-5.0.0.tgz#144e6405b54212641c811f877e647ec0eed27c26"
@@ -2881,13 +2874,6 @@ uri-js@^4.2.2:
   dependencies:
     punycode "^2.1.0"
 
-use-phpfmt@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.npmjs.org/use-phpfmt/-/use-phpfmt-0.0.1.tgz#122869510c418d7f99252f017b7689240be8897e"
-  integrity sha512-16Mey25q1HxTOP5CSKiiCpv8tZm0wFvBYMk1RZRq84rRURJ8HPeuKEWJHwLihkqCeydgbA2rC1lf6zAmz+w76g==
-  dependencies:
-    node-fetch "^2.6.9"
-
 user-home@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/user-home/-/user-home-2.0.0.tgz#9c70bfd8169bc1dcbf48604e0f04b8b49cde9e9f"
@@ -2928,19 +2914,6 @@ vscode@^1.1.37:
     semver "^5.4.1"
     source-map-support "^0.5.0"
     vscode-test "^0.4.1"
-
-webidl-conversions@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.npmjs.org/webidl-conversions/-/webidl-conversions-3.0.1.tgz#24534275e2a7bc6be7bc86611cc16ae0a5654871"
-  integrity sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==
-
-whatwg-url@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.npmjs.org/whatwg-url/-/whatwg-url-5.0.0.tgz#966454e8765462e37644d3626f6742ce8b70965d"
-  integrity sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==
-  dependencies:
-    tr46 "~0.0.3"
-    webidl-conversions "^3.0.0"
 
 which-boxed-primitive@^1.0.2:
   version "1.0.2"

@@ -3,12 +3,11 @@
     "target": "es2020",
     "module": "commonjs",
     "lib": [
-      "es2021"
+      "es2020"
     ],
     "outDir": "out",
     "rootDir": ".",
     "strict": true,
-    "importHelpers": true,
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "noUnusedParameters": true,

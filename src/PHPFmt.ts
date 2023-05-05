@@ -5,8 +5,7 @@ import os from 'os';
 import detectIndent from 'detect-indent';
 import findUp from 'find-up';
 import * as semver from 'semver';
-import phpfmt from 'use-phpfmt';
-import oldPhpfmt from 'phpfmt';
+import phpfmt, { type PHPFmt as IPHPFmt } from 'phpfmt';
 import type { PHPFmtConfig } from './types';
 import type { Widget } from './Widget';
 import { Transformation } from './Transformation';
@@ -22,7 +21,7 @@ export class PHPFmt {
     this.config = this.getConfig();
     this.transformation = new Transformation(
       this.config.php_bin,
-      this.getPharPath()
+      this.getFmt()
     );
     this.loadSettings();
   }
@@ -35,7 +34,7 @@ export class PHPFmt {
     this.config = this.getConfig();
     this.transformation = new Transformation(
       this.config.php_bin,
-      this.getPharPath()
+      this.getFmt()
     );
 
     this.args.length = 0;
@@ -97,8 +96,12 @@ export class PHPFmt {
     }
   }
 
+  public getFmt(): IPHPFmt {
+    return this.config.use_old_phpfmt ? phpfmt.v1 : phpfmt.v2;
+  }
+
   public getPharPath(): string {
-    return this.config.use_old_phpfmt ? oldPhpfmt.pharPath : phpfmt.pharPath;
+    return this.getFmt().pharPath;
   }
 
   public getTransformation(): Transformation {
@@ -121,7 +124,7 @@ export class PHPFmt {
           !transformations.some(
             transformation => transformation.key === pass
           ) &&
-          !(await this.transformation.isExists(pass))
+          !this.transformation.isExists(pass)
         ) {
           invalidPasses.push(pass);
         }
