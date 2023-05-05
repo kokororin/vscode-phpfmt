@@ -132,15 +132,21 @@
           "enum": [
             false,
             2,
+            3,
             4,
+            5,
             6,
+            7,
             8
           ],
           "enumDescriptions": [
             "Indent with tabs",
             "Indent with 2 spaces",
+            "Indent with 3 spaces",
             "Indent with 4 spaces",
+            "Indent with 5 spaces",
             "Indent with 6 spaces",
+            "Indent with 7 spaces",
             "Indent with 8 spaces"
           ]
         },
