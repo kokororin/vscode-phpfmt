@@ -12,6 +12,7 @@ export function activate(context: ExtensionContext): void {
   context.subscriptions.push(
     provider.registerOnDidChangeConfiguration(),
     provider.registerFormatCommand(),
+    provider.registerUpgradeFmtCommand(),
     provider.registerListTransformationsCommand(),
     ...provider.registerToggleTransformationsCommand(),
     ...provider.registerToggleBooleanCommand(),

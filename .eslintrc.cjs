@@ -1,3 +1,5 @@
+const os = require('os');
+
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
@@ -21,6 +23,7 @@ module.exports = {
     'no-sync': 'error',
     'prefer-promise-reject-errors': 'off',
     'n/prefer-promises/fs': 'error',
+    'prettier/prettier': os.platform() === 'win32' ? 'off' : 'error',
     '@typescript-eslint/no-floating-promises': [
       'error',
       {

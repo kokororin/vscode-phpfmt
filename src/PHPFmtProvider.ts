@@ -12,11 +12,14 @@ import {
   type QuickPickItem,
   type WorkspaceConfiguration
 } from 'vscode';
+import path from 'path';
+import fs from 'fs';
 import pkg from 'pjson';
 import type { PHPFmt } from './PHPFmt';
 import type { Widget } from './Widget';
 import type { Transformation } from './Transformation';
 import { PHPFmtIgnoreError } from './PHPFmtError';
+import { downloadFile } from './utils';
 
 export class PHPFmtProvider {
   private readonly documentSelector: DocumentSelector;
@@ -49,6 +52,43 @@ export class PHPFmtProvider {
     return Commands.registerTextEditorCommand('phpfmt.format', textEditor => {
       if (textEditor.document.languageId === 'php') {
         void Commands.executeCommand('editor.action.formatDocument');
+      }
+    });
+  }
+
+  public registerUpgradeFmtCommand(): Disposable {
+    return Commands.registerCommand('phpfmt.upgradeFmt', async () => {
+      try {
+        const destFile = this.phpfmt.getFmt().pharPath;
+        const bakFile = `${this.phpfmt.getFmt().pharPath}.bak`;
+
+        const baseDir = path.resolve(destFile, '..');
+        const installFile = path.join(baseDir, 'install.js');
+        const installContent = String(await fs.promises.readFile(installFile));
+        const regex = /(var|const|let)\s+url\s+=\s+'(https?:\/\/[^']+)'/s;
+        const match = installContent.match(regex);
+        if (match?.[2]) {
+          const url = match[2];
+
+          await fs.promises.copyFile(destFile, bakFile);
+
+          try {
+            await downloadFile(url, destFile);
+          } catch (err) {
+            this.widget.logError('Download failed', err);
+            await fs.promises.copyFile(bakFile, destFile);
+          }
+
+          await Window.showInformationMessage(
+            'fmt.phar or fmt.stub.php upgraded successfully!'
+          );
+        } else {
+          throw new Error('Failed to get url in modules');
+        }
+      } catch (err) {
+        await Window.showErrorMessage(
+          'fmt.phar or fmt.stub.php upgraded failed!'
+        );
       }
     });
   }

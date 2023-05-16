@@ -1,4 +1,47 @@
-import childProcess from 'child_process';
-import util from 'util';
+import childProcess, { type ExecOptions } from 'child_process';
+import fs, { type ObjectEncodingOptions } from 'fs';
+import https from 'https';
 
-export const exec = util.promisify(childProcess.exec);
+export const exec = async (
+  command: string,
+  options?: (ObjectEncodingOptions & ExecOptions) | undefined | null
+): Promise<{ stdout: string; stderr: string }> => {
+  return await new Promise((resolve, reject) => {
+    const child = childProcess.exec(
+      command,
+      options,
+      (error, stdout, stderr) => {
+        if (error != null) {
+          reject(error);
+        } else {
+          resolve({
+            stdout: String(stdout),
+            stderr: String(stderr)
+          });
+        }
+      }
+    );
+
+    child.on('error', reject);
+  });
+};
+
+export const downloadFile = async (
+  url: string,
+  filePath: string
+): Promise<void> => {
+  await new Promise<void>((resolve, reject) => {
+    https
+      .get(url, res => {
+        const dest = fs.createWriteStream(filePath, {
+          autoClose: true
+        });
+        res.pipe(dest).on('finish', () => {
+          resolve();
+        });
+      })
+      .on('error', err => {
+        reject(err);
+      });
+  });
+};
