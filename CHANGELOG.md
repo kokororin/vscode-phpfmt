@@ -1,3 +1,7 @@
+### 1.1.9
+
+- Add command `upgradeFmt`
+
 ### 1.1.8
 
 - Option `indent_with_space` supports values 2-8 [(#108)](https://github.com/kokororin/vscode-phpfmt/issues/108)
