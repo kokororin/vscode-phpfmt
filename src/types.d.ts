@@ -5,6 +5,7 @@ export interface PHPFmtConfig {
   psr1: boolean;
   psr1_naming: boolean;
   psr2: boolean;
+  wp: boolean;
   indent_with_space: number | boolean;
   enable_auto_align: boolean;
   visibility_order: boolean;

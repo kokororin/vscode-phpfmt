@@ -56,6 +56,10 @@ export class PHPFmt {
       this.args.push('--psr2');
     }
 
+    if (this.config.wp) {
+      this.args.push('--wp');
+    }
+
     if (!this.config.detect_indent) {
       const spaces = this.config.indent_with_space;
       if (spaces === true) {

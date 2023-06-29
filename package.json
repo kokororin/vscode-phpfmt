@@ -126,6 +126,11 @@
           "default": true,
           "description": "activate PSR2 style"
         },
+        "phpfmt.wp": {
+          "type": "boolean",
+          "default": false,
+          "description": "activate WP style"
+        },
         "phpfmt.indent_with_space": {
           "type": [
             "integer",
