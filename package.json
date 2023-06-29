@@ -1,7 +1,7 @@
 {
   "name": "vscode-phpfmt",
   "displayName": "phpfmt - PHP formatter",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "description": "Integrates phpfmt into VS Code",
   "main": "./out/src/extension",
   "scripts": {
@@ -201,6 +201,7 @@
               "ReindentEqual",
               "ReindentObjOps",
               "ResizeSpaces",
+              "WPResizeSpaces",
               "RTrim",
               "SettersAndGettersPass",
               "SplitCurlyCloseAndTokens",
@@ -285,6 +286,7 @@
               "SpaceAroundParentheses"
             ],
             "enumDescriptions": [
+              "Core pass",
               "Core pass",
               "Core pass",
               "Core pass",
@@ -411,6 +413,7 @@
               "ReindentEqual",
               "ReindentObjOps",
               "ResizeSpaces",
+              "WPResizeSpaces",
               "RTrim",
               "SettersAndGettersPass",
               "SplitCurlyCloseAndTokens",
@@ -495,6 +498,7 @@
               "SpaceAroundParentheses"
             ],
             "enumDescriptions": [
+              "Core pass",
               "Core pass",
               "Core pass",
               "Core pass",

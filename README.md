@@ -87,6 +87,7 @@ A: We now use `fmt.stub.php` from driade's [phpfmt8](https://github.com/driade/p
 | phpfmt.psr1 | `boolean` | activate PSR1 style | false | 
 | phpfmt.psr1_naming | `boolean` | activate PSR1 style - Section 3 and 4.3 - Class and method names case. | false | 
 | phpfmt.psr2 | `boolean` | activate PSR2 style | true | 
+| phpfmt.wp | `boolean` | activate WP style | false | 
 | phpfmt.indent_with_space | `integer \| boolean` | use spaces instead of tabs for indentation. Default 4 | 4 | 
 | phpfmt.enable_auto_align | `boolean` | enable auto align of ST_EQUAL and T_DOUBLE_ARROW | false | 
 | phpfmt.visibility_order | `boolean` | fixes visibiliy order for method in classes - PSR-2 4.2 | false | 

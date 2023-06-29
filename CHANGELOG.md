@@ -1,3 +1,7 @@
+### 1.1.10
+
+- Add option `wp`
+
 ### 1.1.9
 
 - Add command `upgradeFmt`
