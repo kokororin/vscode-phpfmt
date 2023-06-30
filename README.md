@@ -1,8 +1,7 @@
 # phpfmt for Visual Studio Code
 
-[![Version](https://vsmarketplacebadges.dev/version/kokororin.vscode-phpfmt.jpg)](https://marketplace.visualstudio.com/items?itemName=kokororin.vscode-phpfmt)
-[![Visual Studio Marketplace](https://vsmarketplacebadges.dev/installs-short/kokororin.vscode-phpfmt.jpg)](https://marketplace.visualstudio.com/items?itemName=kokororin.vscode-phpfmt)
-[![Ratings](https://vsmarketplacebadges.dev/rating/kokororin.vscode-phpfmt.jpg)](https://marketplace.visualstudio.com/items?itemName=kokororin.vscode-phpfmt)
+[![Version](https://img.shields.io/visual-studio-marketplace/v/kokororin.vscode-phpfmt)](https://marketplace.visualstudio.com/items?itemName=kokororin.vscode-phpfmt)
+[![Visual Studio Marketplace](https://img.shields.io/visual-studio-marketplace/i/kokororin.vscode-phpfmt)](https://marketplace.visualstudio.com/items?itemName=kokororin.vscode-phpfmt)
 
 The missing phpfmt extension for Visual Studio Code.
 
