@@ -10,7 +10,7 @@
     "watch": "tsc -watch -p ./",
     "trash": "trash out",
     "generate": "tsx scripts/generate.ts",
-    "postinstall": "node ./node_modules/vscode/bin/install",
+    "postinstall": "node ./node_modules/phpfmt/v2/install && node ./node_modules/vscode/bin/install",
     "pretest": "npm run build",
     "test": "cross-env CODE_TESTS_WORKSPACE=testProject node ./node_modules/vscode/bin/test",
     "format": "prettier --write .",

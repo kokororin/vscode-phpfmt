@@ -108,8 +108,12 @@ void (async () => {
     ].items.enumDescriptions = enums.map(o => o.description);
 
     await fs.promises.writeFile(readmePath, readmeContent);
-    await fs.promises.writeFile(pkgJsonPath, JSON.stringify(pkg, null, 2));
+    await fs.promises.writeFile(
+      pkgJsonPath,
+      JSON.stringify(pkg, null, 2) + os.EOL
+    );
   } catch (err) {
     console.error(err);
+    process.exit(1);
   }
 })();

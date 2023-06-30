@@ -69,19 +69,20 @@ export class PHPFmtProvider {
         const match = installContent.match(regex);
         if (match?.[2]) {
           const url = match[2];
+          this.widget.logInfo(`Download url: ${url}`);
 
           await fs.promises.copyFile(destFile, bakFile);
 
           try {
             await downloadFile(url, destFile);
+            this.widget.logInfo(`Download fmt to "${destFile}" successfully`);
+            await Window.showInformationMessage(
+              'fmt.phar or fmt.stub.php upgraded successfully!'
+            );
           } catch (err) {
             this.widget.logError('Download failed', err);
             await fs.promises.copyFile(bakFile, destFile);
           }
-
-          await Window.showInformationMessage(
-            'fmt.phar or fmt.stub.php upgraded successfully!'
-          );
         } else {
           throw new Error('Failed to get url in modules');
         }
