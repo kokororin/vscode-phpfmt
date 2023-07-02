@@ -1,3 +1,7 @@
+### 1.1.11
+
+- Add upgrade logs
+
 ### 1.1.10
 
 - Add option `wp`
