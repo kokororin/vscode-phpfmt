@@ -1,3 +1,7 @@
+### 1.1.12
+
+- Upgrade fmt
+
 ### 1.1.11
 
 - Add upgrade logs
