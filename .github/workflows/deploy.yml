@@ -43,7 +43,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          yarn install -g @vscode/vsce ovsx
+          yarn global add @vscode/vsce ovsx
           yarn install
 
       - name: Run deploy script
