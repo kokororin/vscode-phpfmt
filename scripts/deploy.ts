@@ -102,7 +102,6 @@ ${changelogData}`;
       .push()
       .pushTags();
 
-    // await vsce.publish();
   } catch (err) {
     console.error(err);
     process.exit(1);

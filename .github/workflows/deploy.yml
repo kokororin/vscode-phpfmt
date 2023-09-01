@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     branches:
-      - feat/auto-publish
+      - master
 
 jobs:
   deploy:
@@ -47,4 +47,13 @@ jobs:
           yarn install
 
       - name: Run deploy script
-        run: npx tsx ./scripts/deploy.ts
+        run: |
+          npm run build
+          npx tsx ./scripts/deploy.ts
+          npm publish --ignore-scripts
+          vsce publish -p ${{ env.VSCE_TOKEN }}
+          ovsx publish -p ${{ env.OVSX_TOKEN }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
+          OVSX_TOKEN: ${{ secrets.OVSX_TOKEN }}
