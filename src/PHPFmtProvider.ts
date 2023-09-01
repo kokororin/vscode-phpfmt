@@ -12,7 +12,6 @@ import {
   type QuickPickItem,
   type WorkspaceConfiguration
 } from 'vscode';
-import path from 'path';
 import fs from 'fs';
 import pkg from 'pjson';
 import type { PHPFmt } from './PHPFmt';
@@ -62,29 +61,20 @@ export class PHPFmtProvider {
         const destFile = this.phpfmt.getFmt().pharPath;
         const bakFile = `${this.phpfmt.getFmt().pharPath}.bak`;
 
-        const baseDir = path.resolve(destFile, '..');
-        const installFile = path.join(baseDir, 'install.js');
-        const installContent = String(await fs.promises.readFile(installFile));
-        const regex = /(var|const|let)\s+url\s+=\s+'(https?:\/\/[^']+)'/s;
-        const match = installContent.match(regex);
-        if (match?.[2]) {
-          const url = match[2];
-          this.widget.logInfo(`Download url: ${url}`);
+        const url = this.phpfmt.getFmt().installUrl;
+        this.widget.logInfo(`Download url: ${url}`);
 
-          await fs.promises.copyFile(destFile, bakFile);
+        await fs.promises.copyFile(destFile, bakFile);
 
-          try {
-            await downloadFile(url, destFile);
-            this.widget.logInfo(`Download fmt to "${destFile}" successfully`);
-            await Window.showInformationMessage(
-              'fmt.phar or fmt.stub.php upgraded successfully!'
-            );
-          } catch (err) {
-            this.widget.logError('Download failed', err);
-            await fs.promises.copyFile(bakFile, destFile);
-          }
-        } else {
-          throw new Error('Failed to get url in modules');
+        try {
+          await downloadFile(url, destFile);
+          this.widget.logInfo(`Download fmt to "${destFile}" successfully`);
+          await Window.showInformationMessage(
+            'fmt.phar or fmt.stub.php upgraded successfully!'
+          );
+        } catch (err) {
+          this.widget.logError('Download failed', err);
+          await fs.promises.copyFile(bakFile, destFile);
         }
       } catch (err) {
         await Window.showErrorMessage(

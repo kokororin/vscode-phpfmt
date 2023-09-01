@@ -1,9 +1,8 @@
 name: Deploy
 
 on:
-  push:
-    branches:
-      - master
+  schedule:
+    - cron: "0 * * * *"
 
 jobs:
   deploy:
@@ -27,6 +26,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Cache node modules
         uses: actions/cache@v3
@@ -46,14 +46,23 @@ jobs:
           yarn global add @vscode/vsce ovsx
           yarn install
 
-      - name: Run deploy script
-        run: |
-          npm run build
-          npx tsx ./scripts/deploy.ts
-          npm publish --ignore-scripts
-          vsce publish -p ${{ env.VSCE_TOKEN }}
-          ovsx publish -p ${{ env.OVSX_TOKEN }}
+      - name: Build
+        run: npm run build
+
+      - name: Run Deploy
+        run: npx tsx ./scripts/deploy.ts
+
+      - name: Publish to NPM
+        run: npm publish --ignore-scripts || true
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish to VSCE
+        run: vsce publish -p ${{ env.VSCE_TOKEN }} || true
+        env:
           VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
+
+      - name: Publish to OVSX
+        run: ovsx publish -p ${{ env.OVSX_TOKEN }} || true
+        env:
           OVSX_TOKEN: ${{ secrets.OVSX_TOKEN }}

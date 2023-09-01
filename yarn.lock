@@ -2386,10 +2386,10 @@ php-parser@^3.1.4:
   resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-3.1.4.tgz#165a594bf9d7fb516b89d1ecf62a361083a482f8"
   integrity sha512-WUEfH4FWsVItqgOknM67msDdcUAfgPJsHhPNl6EPXzWtX+PfdY282m4i8YIJ9ALUEhf+qGDajdmW+VYqSd7Deg==
 
-phpfmt@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/phpfmt/-/phpfmt-0.0.5.tgz#bbbf5b8534308735453fd2a46606677fcd955e65"
-  integrity sha512-2ube9QII6r0nPTNIbFFAx0Zxt/kZKQws+xGdG2j4hZNbJtQ3zjOMFh9mcSMUYwTbNkHMJ+C+/8+cA2LFGpJ6nw==
+phpfmt@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/phpfmt/-/phpfmt-0.0.6.tgz#03ed77860e6ccf5037d851eec98e6aa012608ab3"
+  integrity sha512-Pw+4/73cNsi2ai1Oq3Qvvw7AagPYEetWCRvbiVgfbIJJFUajJocsblUpsUC6u0arFIrdZ951aHP0AyyVXl/avQ==
   dependencies:
     php-parser "^3.1.4"
 

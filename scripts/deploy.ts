@@ -10,26 +10,13 @@ import { downloadFile } from '../src/utils';
 
 const pkgJsonPath = path.join(__dirname, '../package.json');
 const changelogPath = path.join(__dirname, '../CHANGELOG.md');
-const currentPharPath = path.join(
-  __dirname,
-  '../node_modules/phpfmt/v2/fmt.stub.php'
-);
 
 void (async () => {
   try {
     const pkg = JSON.parse(String(await fs.promises.readFile(pkgJsonPath)));
-    const pharFilePath = phpfmt.v2.pharPath;
     const currentVersion = pkg.version;
 
-    const baseDir = path.resolve(pharFilePath, '..');
-    const installFile = path.join(baseDir, 'install.js');
-    const installContent = String(await fs.promises.readFile(installFile));
-    const regex = /(var|const|let)\s+url\s+=\s+'(https?:\/\/[^']+)'/s;
-    const match = installContent.match(regex);
-    if (!match?.[2]) {
-      throw new Error('cannot find download url');
-    }
-    const pharUrl = match[2];
+    const pharUrl = phpfmt.v2.installUrl;
     console.log(`Download url: ${pharUrl}`);
 
     const tmpDir = path.join(os.tmpdir(), 'vscode-phpfmt');
@@ -38,7 +25,7 @@ void (async () => {
       await fs.promises.mkdir(tmpDir);
     }
     const currentVsixPath = path.join(tmpDir, `${currentVersion}.vsix`);
-    const latestPharPath = path.join(tmpDir, 'fmt.stub.php');
+    const latestPharPath = path.join(tmpDir, phpfmt.v2.pharName);
 
     console.log('Downloading vsix...');
     await downloadFile(
@@ -46,10 +33,17 @@ void (async () => {
       currentVsixPath
     );
 
+    const stats = await fs.promises.stat(currentVsixPath);
+    if (stats.size < 10000) {
+      console.log('Download vsix failed');
+      return;
+    }
+
     const zip = new AdmZip(currentVsixPath);
     const zipEntries = zip.getEntries();
     const entry = zipEntries.find(
-      o => o.entryName === 'extension/node_modules/phpfmt/v2/fmt.stub.php'
+      o =>
+        o.entryName === `extension/node_modules/phpfmt/v2/${phpfmt.v2.pharName}`
     );
     const currentPharData = String(entry?.getData());
     const currentMd5 = md5(currentPharData);
@@ -72,7 +66,7 @@ void (async () => {
     let changelogData = String(await fs.promises.readFile(changelogPath));
     changelogData = `### ${newVersion}
 
-- Upgrade fmt.stub.php (${latestMd5})
+- Upgrade ${phpfmt.v2.pharName} (${latestMd5})
 
 ${changelogData}`;
     await fs.promises.writeFile(changelogPath, changelogData);
@@ -83,7 +77,7 @@ ${changelogData}`;
       JSON.stringify(pkg, null, 2) + os.EOL
     );
 
-    await fs.promises.writeFile(currentPharPath, latestPharData);
+    await fs.promises.writeFile(phpfmt.v2.pharPath, latestPharData);
 
     const git = simpleGit({
       config: [
@@ -101,7 +95,6 @@ ${changelogData}`;
       .addTag(`v${newVersion}`)
       .push()
       .pushTags();
-
   } catch (err) {
     console.error(err);
     process.exit(1);
