@@ -99,7 +99,8 @@ ${changelogData}`;
       .add('.')
       .commit(`release: ${newVersion}`)
       .addTag(`v${newVersion}`)
-      .push();
+      .push()
+      .pushTags();
 
     // await vsce.publish();
   } catch (err) {
