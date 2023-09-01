@@ -42,8 +42,9 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install Dependencies
-        run: |
-          yarn install
+        run:
+          - yarn install
+          - yarn install -g @vscode/vsce ovsx
 
       - name: Run deploy script
         run: npx tsx ./scripts/deploy.ts

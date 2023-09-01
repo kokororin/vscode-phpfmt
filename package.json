@@ -633,7 +633,6 @@
     "@types/semver": "^7.3.13",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "^5.52.0",
-    "@vscode/vsce": "^2.21.0",
     "adm-zip": "^0.5.10",
     "cross-env": "^7.0.3",
     "eslint": "^8.34.0",
