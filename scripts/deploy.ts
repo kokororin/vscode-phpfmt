@@ -5,8 +5,8 @@ import phpfmt from 'phpfmt';
 import AdmZip from 'adm-zip';
 import md5 from 'md5';
 import * as semver from 'semver';
-import { simpleGit, CleanOptions } from 'simple-git';
-import * as vsce from '@vscode/vsce';
+import { simpleGit } from 'simple-git';
+// import * as vsce from '@vscode/vsce';
 import { downloadFile } from '../src/utils';
 
 const pkgJsonPath = path.join(__dirname, '../package.json');
@@ -85,6 +85,21 @@ ${changelogData}`;
     );
 
     await fs.promises.writeFile(currentPharPath, latestPharData);
+
+    // const git = simpleGit({
+    //   config: [
+    //     'credential.https://github.com/.helper="! f() { echo username=x-access-token; echo password=$GITHUB_TOKEN; };f"'
+    //   ]
+    // });
+    // await git
+    //   .addConfig('user.name', 'github-actions[bot]')
+    //   .addConfig(
+    //     'user.email',
+    //     '41898282+github-actions[bot]@users.noreply.github.com'
+    //   )
+    //   .add('.')
+    //   .commit(`release: ${newVersion}`)
+    //   .push();
 
     // await vsce.publish();
   } catch (err) {
