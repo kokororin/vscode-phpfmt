@@ -1,11 +1,11 @@
-name: Deploy
+name: Cron
 
 on:
   schedule:
-    - cron: "0 * * * *"
+    - cron: "*/30 * * * *"
 
 jobs:
-  deploy:
+  check:
     runs-on: ubuntu-latest
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
