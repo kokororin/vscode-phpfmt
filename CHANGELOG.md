@@ -1,3 +1,7 @@
+### 1.1.13
+
+- Upgrade fmt.stub.php (a67d6dd6d2475326d435bdcd97d4f8cd)
+
 ### 1.1.12
 
 - Upgrade fmt
