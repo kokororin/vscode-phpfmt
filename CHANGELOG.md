@@ -1,18 +1,14 @@
 ### 1.1.16
 
-- Upgrade fmt.stub.php (f812fd8e336c3ec304e7175e698dafb3)
+- Upgrade fmt.stub.php [(V993.0.0)](https://github.com/driade/phpfmt8/releases/tag/v993.0.0)
 
 ### 1.1.15
 
-- Upgrade fmt.stub.php (d8b4a6889a662bc1fbdef6380f742d68)
-
-### 1.1.14
-
-- Upgrade fmt.stub.php (d8b4a6889a662bc1fbdef6380f742d68)
+- Upgrade fmt.stub.php [(V992.0.0)](https://github.com/driade/phpfmt8/releases/tag/v992.0.0)
 
 ### 1.1.13
 
-- Upgrade fmt.stub.php (a67d6dd6d2475326d435bdcd97d4f8cd)
+- Upgrade fmt.stub.php [(V891.0.0)](https://github.com/driade/phpfmt8/releases/tag/v891.0.0)
 
 ### 1.1.12
 

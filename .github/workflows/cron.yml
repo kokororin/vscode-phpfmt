@@ -5,7 +5,7 @@ on:
     - cron: "*/30 * * * *"
 
 jobs:
-  check:
+  release:
     runs-on: ubuntu-latest
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
@@ -49,8 +49,8 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Run Deploy
-        run: npx tsx ./scripts/deploy.ts
+      - name: Run release script
+        run: npx tsx ./scripts/release.ts
 
       - name: Publish to NPM
         run: npm publish --ignore-scripts || true
