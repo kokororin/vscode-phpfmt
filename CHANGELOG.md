@@ -1,3 +1,7 @@
+### 1.1.18
+
+- Upgrade fmt.stub.php [(V996.0.0)](https://github.com/driade/phpfmt8/releases/tag/v996.0.0)
+
 ### 1.1.17
 
 - Upgrade fmt.stub.php [(V995.0.0)](https://github.com/driade/phpfmt8/releases/tag/v995.0.0)
