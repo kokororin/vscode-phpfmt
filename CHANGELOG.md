@@ -1,3 +1,8 @@
+### 1.1.19
+
+- Remove command `upgradeFmt`
+- Add format status to StatusBar
+
 ### 1.1.18
 
 - Upgrade fmt.stub.php [(V996.0.0)](https://github.com/driade/phpfmt8/releases/tag/v996.0.0)
