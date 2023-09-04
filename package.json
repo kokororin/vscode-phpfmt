@@ -52,10 +52,6 @@
         "when": "!inOutput && editorFocus && editorLangId == php"
       },
       {
-        "command": "phpfmt.upgradeFmt",
-        "title": "phpfmt: Upgrade fmt.phar or fmt.stub.php"
-      },
-      {
         "command": "phpfmt.listTransformations",
         "title": "phpfmt: List Transformations"
       },

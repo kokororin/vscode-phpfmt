@@ -1,6 +1,6 @@
 import path from 'path';
-import fs from 'fs';
 import os from 'os';
+import * as fs from 'fs-extra';
 import phpfmt from 'phpfmt';
 import { Transformation } from '../src/Transformation';
 
@@ -9,7 +9,7 @@ const readmePath: string = path.join(__dirname, '../README.md');
 
 void (async () => {
   try {
-    const pkg = JSON.parse(String(await fs.promises.readFile(pkgJsonPath)));
+    const pkg = JSON.parse(String(await fs.readFile(pkgJsonPath)));
     const configuration = pkg.contributes.configuration;
 
     let config: string =
@@ -45,7 +45,7 @@ void (async () => {
       config += ' | ' + os.EOL;
     }
 
-    let readmeContent = String(await fs.promises.readFile(readmePath));
+    let readmeContent = String(await fs.readFile(readmePath));
     readmeContent = readmeContent.replace(
       /<!-- Configuration START -->([\s\S]*)<!-- Configuration END -->/,
       () => {
@@ -107,11 +107,8 @@ void (async () => {
       'phpfmt.exclude'
     ].items.enumDescriptions = enums.map(o => o.description);
 
-    await fs.promises.writeFile(readmePath, readmeContent);
-    await fs.promises.writeFile(
-      pkgJsonPath,
-      JSON.stringify(pkg, null, 2) + os.EOL
-    );
+    await fs.writeFile(readmePath, readmeContent);
+    await fs.writeFile(pkgJsonPath, JSON.stringify(pkg, null, 2) + os.EOL);
   } catch (err) {
     console.error(err);
     process.exit(1);

@@ -6,8 +6,8 @@ export class PHPFmtError extends Error {
   }
 }
 
-export class PHPFmtIgnoreError extends PHPFmtError {
+export class PHPFmtSkipError extends PHPFmtError {
   public constructor() {
-    super(PHPFmtIgnoreError.name);
+    super(PHPFmtSkipError.name);
   }
 }

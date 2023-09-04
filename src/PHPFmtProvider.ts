@@ -12,13 +12,11 @@ import {
   type QuickPickItem,
   type WorkspaceConfiguration
 } from 'vscode';
-import fs from 'fs';
 import pkg from 'pjson';
 import type { PHPFmt } from './PHPFmt';
-import type { Widget } from './Widget';
+import { type Widget, PHPFmtStatus } from './Widget';
 import type { Transformation } from './Transformation';
-import { PHPFmtIgnoreError } from './PHPFmtError';
-import { downloadFile } from './utils';
+import { PHPFmtSkipError } from './PHPFmtError';
 
 export class PHPFmtProvider {
   private readonly documentSelector: DocumentSelector;
@@ -51,35 +49,6 @@ export class PHPFmtProvider {
     return Commands.registerTextEditorCommand('phpfmt.format', textEditor => {
       if (textEditor.document.languageId === 'php') {
         void Commands.executeCommand('editor.action.formatDocument');
-      }
-    });
-  }
-
-  public registerUpgradeFmtCommand(): Disposable {
-    return Commands.registerCommand('phpfmt.upgradeFmt', async () => {
-      try {
-        const destFile = this.phpfmt.getFmt().pharPath;
-        const bakFile = `${this.phpfmt.getFmt().pharPath}.bak`;
-
-        const url = this.phpfmt.getFmt().installUrl;
-        this.widget.logInfo(`Download url: ${url}`);
-
-        await fs.promises.copyFile(destFile, bakFile);
-
-        try {
-          await downloadFile(url, destFile);
-          this.widget.logInfo(`Download fmt to "${destFile}" successfully`);
-          await Window.showInformationMessage(
-            'fmt.phar or fmt.stub.php upgraded successfully!'
-          );
-        } catch (err) {
-          this.widget.logError('Download failed', err);
-          await fs.promises.copyFile(bakFile, destFile);
-        }
-      } catch (err) {
-        await Window.showErrorMessage(
-          'fmt.phar or fmt.stub.php upgraded failed!'
-        );
       }
     });
   }
@@ -259,11 +228,13 @@ export class PHPFmtProvider {
             const range = new Range(new Position(0, 0), lastLine.range.end);
 
             const text = await this.phpfmt.format(originalText);
+            this.widget.updateStatusBarItem(PHPFmtStatus.Success);
             if (text !== originalText) {
               return [new TextEdit(range, text)];
             }
           } catch (err) {
-            if (!(err instanceof PHPFmtIgnoreError) && err instanceof Error) {
+            this.widget.updateStatusBarItem(PHPFmtStatus.Error);
+            if (!(err instanceof PHPFmtSkipError) && err instanceof Error) {
               void Window.showErrorMessage(err.message);
               this.widget.logError('Format failed', err);
             }
@@ -295,11 +266,13 @@ export class PHPFmtProvider {
             if (hasModified) {
               text = text.replace(/^<\?php\r?\n/, '');
             }
+            this.widget.updateStatusBarItem(PHPFmtStatus.Success);
             if (text !== originalText) {
               return [new TextEdit(range, text)];
             }
           } catch (err) {
-            if (!(err instanceof PHPFmtIgnoreError) && err instanceof Error) {
+            this.widget.updateStatusBarItem(PHPFmtStatus.Error);
+            if (!(err instanceof PHPFmtSkipError) && err instanceof Error) {
               void Window.showErrorMessage(err.message);
               this.widget.logError('Format failed', err);
             }

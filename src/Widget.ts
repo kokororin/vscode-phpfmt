@@ -3,10 +3,20 @@ import {
   type OutputChannel,
   type StatusBarItem,
   StatusBarAlignment,
-  type TextEditor
+  type TextEditor,
+  ThemeColor
 } from 'vscode';
 import dayjs from 'dayjs';
-import type { LogLevel } from './types';
+import { type LogLevel } from './types';
+
+export enum PHPFmtStatus {
+  Ready = 'check-all',
+  Success = 'check',
+  Ignore = 'x',
+  Warn = 'warning',
+  Error = 'alert',
+  Disabled = 'circle-slash'
+}
 
 export class Widget {
   private logLevel: LogLevel = 'INFO';
@@ -30,9 +40,33 @@ export class Widget {
     }
     if (editor.document.languageId === 'php') {
       this.statusBarItem.show();
+      this.updateStatusBarItem(PHPFmtStatus.Ready);
     } else {
       this.statusBarItem.hide();
     }
+  }
+
+  public updateStatusBarItem(result: PHPFmtStatus): void {
+    this.statusBarItem.text = `$(${result.toString()}) phpfmt`;
+    switch (result) {
+      case PHPFmtStatus.Ignore:
+      case PHPFmtStatus.Warn:
+        this.statusBarItem.backgroundColor = new ThemeColor(
+          'statusBarItem.warningBackground'
+        );
+        break;
+      case PHPFmtStatus.Error:
+        this.statusBarItem.backgroundColor = new ThemeColor(
+          'statusBarItem.errorBackground'
+        );
+        break;
+      default:
+        this.statusBarItem.backgroundColor = new ThemeColor(
+          'statusBarItem.fourgroundBackground'
+        );
+        break;
+    }
+    this.statusBarItem.show();
   }
 
   public getOutputChannel(): OutputChannel {

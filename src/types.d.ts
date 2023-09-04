@@ -23,4 +23,5 @@ export interface TransformationItem {
   description: string;
 }
 
-type LogLevel = 'INFO' | 'WARN' | 'ERROR' | 'NONE';
+export type LogLevel = 'INFO' | 'WARN' | 'ERROR' | 'NONE';
+

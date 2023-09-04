@@ -1,15 +1,15 @@
 import { workspace as Workspace, window as Window } from 'vscode';
 import path from 'path';
-import fs from 'fs';
+import fs from 'fs/promises';
 import os from 'os';
 import detectIndent from 'detect-indent';
 import findUp from 'find-up';
 import * as semver from 'semver';
 import phpfmt, { type PHPFmt as IPHPFmt } from 'phpfmt';
 import type { PHPFmtConfig } from './types';
-import type { Widget } from './Widget';
+import { type Widget, PHPFmtStatus } from './Widget';
 import { Transformation } from './Transformation';
-import { PHPFmtError, PHPFmtIgnoreError } from './PHPFmtError';
+import { PHPFmtError, PHPFmtSkipError } from './PHPFmtError';
 import { exec } from './utils';
 
 export class PHPFmt {
@@ -227,7 +227,8 @@ export class PHPFmt {
             this.widget.logInfo(
               `Ignored file ${basename} by match of ${ignoreItem}`
             );
-            throw new PHPFmtIgnoreError();
+            this.widget.updateStatusBarItem(PHPFmtStatus.Ignore);
+            return '';
           }
         }
       }
@@ -239,7 +240,7 @@ export class PHPFmt {
     const tmpFileName = path.normalize(tmpRandomFileName);
 
     try {
-      await fs.promises.writeFile(tmpFileName, text);
+      await fs.writeFile(tmpFileName, text);
     } catch (err) {
       this.widget.logError('Create tmp file failed', err);
       throw new PHPFmtError(`Cannot create tmp file in "${tmpDir}"`);
@@ -254,7 +255,7 @@ export class PHPFmt {
         'phpfmt: Format failed - syntax errors found',
         4500
       );
-      throw new PHPFmtIgnoreError();
+      throw new PHPFmtSkipError();
     }
 
     const args = this.getArgs(tmpFileName);
@@ -279,9 +280,9 @@ export class PHPFmt {
       throw new PHPFmtError('Execute phpfmt failed');
     }
 
-    const formatted = await fs.promises.readFile(tmpFileName, 'utf-8');
+    const formatted = await fs.readFile(tmpFileName, 'utf-8');
     try {
-      await fs.promises.unlink(tmpFileName);
+      await fs.unlink(tmpFileName);
     } catch (err) {
       this.widget.logError('Remove temp file failed', err);
     }
@@ -289,6 +290,6 @@ export class PHPFmt {
     if (formatted.length > 0) {
       return formatted;
     }
-    throw new PHPFmtIgnoreError();
+    return '';
   }
 }
