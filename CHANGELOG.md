@@ -1,3 +1,7 @@
+### 1.1.20
+
+- Just bump version
+
 ### 1.1.19
 
 - Remove command `upgradeFmt`
