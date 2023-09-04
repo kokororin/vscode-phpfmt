@@ -7,7 +7,6 @@ import {
   ThemeColor
 } from 'vscode';
 import dayjs from 'dayjs';
-import { type LogLevel } from './types';
 
 export enum PHPFmtStatus {
   Ready = 'check-all',
@@ -17,6 +16,8 @@ export enum PHPFmtStatus {
   Error = 'alert',
   Disabled = 'circle-slash'
 }
+
+export type LogLevel = 'INFO' | 'WARN' | 'ERROR' | 'NONE';
 
 export class Widget {
   private logLevel: LogLevel = 'INFO';

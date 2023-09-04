@@ -6,11 +6,30 @@ import detectIndent from 'detect-indent';
 import findUp from 'find-up';
 import * as semver from 'semver';
 import phpfmt, { type PHPFmt as IPHPFmt } from 'phpfmt';
-import type { PHPFmtConfig } from './types';
 import { type Widget, PHPFmtStatus } from './Widget';
 import { Transformation } from './Transformation';
 import { PHPFmtError, PHPFmtSkipError } from './PHPFmtError';
 import { exec } from './utils';
+
+export interface PHPFmtConfig {
+  php_bin: string;
+  use_old_phpfmt: boolean;
+  detect_indent: boolean;
+  psr1: boolean;
+  psr1_naming: boolean;
+  psr2: boolean;
+  wp: boolean;
+  indent_with_space: number | boolean;
+  enable_auto_align: boolean;
+  visibility_order: boolean;
+  ignore: string[];
+  passes: string[];
+  exclude: string[];
+  smart_linebreak_after_curly: boolean;
+  yoda: boolean;
+  cakephp: boolean;
+  custom_arguments: string;
+}
 
 export class PHPFmt {
   private config: PHPFmtConfig;
@@ -64,7 +83,7 @@ export class PHPFmt {
       const spaces = this.config.indent_with_space;
       if (spaces === true) {
         this.args.push('--indent_with_space');
-      } else if (spaces > 0) {
+      } else if (typeof spaces === 'number' && spaces > 0) {
         this.args.push(`--indent_with_space=${spaces}`);
       }
     }
@@ -287,9 +306,6 @@ export class PHPFmt {
       this.widget.logError('Remove temp file failed', err);
     }
 
-    if (formatted.length > 0) {
-      return formatted;
-    }
-    return '';
+    return formatted;
   }
 }

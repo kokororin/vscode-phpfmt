@@ -229,7 +229,7 @@ export class PHPFmtProvider {
 
             const text = await this.phpfmt.format(originalText);
             this.widget.updateStatusBarItem(PHPFmtStatus.Success);
-            if (text !== originalText) {
+            if (text && text !== originalText) {
               return [new TextEdit(range, text)];
             }
           } catch (err) {
@@ -267,7 +267,7 @@ export class PHPFmtProvider {
               text = text.replace(/^<\?php\r?\n/, '');
             }
             this.widget.updateStatusBarItem(PHPFmtStatus.Success);
-            if (text !== originalText) {
+            if (text && text !== originalText) {
               return [new TextEdit(range, text)];
             }
           } catch (err) {

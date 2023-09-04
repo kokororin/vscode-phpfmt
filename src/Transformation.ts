@@ -1,8 +1,12 @@
 import os from 'os';
 import mem from 'mem';
 import phpfmt, { type PHPFmt as IPHPFmt } from 'phpfmt';
-import type { TransformationItem } from './types';
 import { exec } from './utils';
+
+export interface TransformationItem {
+  key: string;
+  description: string;
+}
 
 export class Transformation {
   public constructor(
