@@ -1,3 +1,7 @@
+### 1.1.22
+
+- Supports PHP 5.6
+
 ### 1.1.21
 
 - Upgrade fmt.stub.php [(V998.0.0)](https://github.com/driade/phpfmt8/releases/tag/v998.0.0)
