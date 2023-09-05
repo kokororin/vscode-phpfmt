@@ -217,8 +217,8 @@ export class PHPFmt {
           throw new PHPFmtError('PHP version < 5.6 or > 8.0');
         }
       } else {
-        if (semver.lt(phpVersion, '7.0.0')) {
-          throw new PHPFmtError('PHP version < 7 is not supported');
+        if (semver.lt(phpVersion, '5.6.0') || semver.gt(phpVersion, '8.3.0')) {
+          throw new PHPFmtError('PHP version < 5.6 or > 8.3');
         }
       }
     } catch (err) {
