@@ -1,3 +1,7 @@
+### 1.1.35
+
+- Fix php version bug [(#135)](https://github.com/kokororin/vscode-phpfmt/issues/135)
+
 ### 1.1.34
 
 - Upgrade fmt.stub.php [(V1010.0.0)](https://github.com/driade/phpfmt8/releases/tag/v1010.0.0)
