@@ -5,7 +5,11 @@ import https from 'https';
 export const exec = async (
   command: string,
   options?: (ObjectEncodingOptions & ExecOptions) | undefined | null
-): Promise<{ stdout: string; stderr: string }> => {
+): Promise<{
+  stdout: string;
+  stderr: string;
+  code: number | null;
+}> => {
   return await new Promise((resolve, reject) => {
     const child = childProcess.exec(
       command,
@@ -16,7 +20,8 @@ export const exec = async (
         } else {
           resolve({
             stdout: String(stdout),
-            stderr: String(stderr)
+            stderr: String(stderr),
+            code: child.exitCode
           });
         }
       }

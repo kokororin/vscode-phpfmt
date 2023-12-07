@@ -198,11 +198,11 @@ export class PHPFmt {
     }
 
     try {
-      const { stdout, stderr } = await exec(
+      const { stdout, stderr, code } = await exec(
         `${this.config.php_bin} -v`,
         execOptions
       );
-      if (stderr) {
+      if (code !== 0) {
         this.widget.logError('getting php version failed', stderr);
         throw new PHPFmtError(`"php -v" returns non-zero code`);
       }
