@@ -1,6 +1,6 @@
 import path from 'path';
 import os from 'os';
-import * as fs from 'fs-extra';
+import fs from 'fs/promises';
 import phpfmt from 'phpfmt';
 import AdmZip from 'adm-zip';
 import md5 from 'md5';
@@ -28,9 +28,7 @@ void (async () => {
     console.log(`Download url: ${pharUrl}`);
 
     const tmpDir = path.join(os.tmpdir(), 'vscode-phpfmt');
-    if (!(await fs.pathExists(tmpDir))) {
-      await fs.mkdirp(tmpDir);
-    }
+    await fs.mkdir(tmpDir, { recursive: true });
     const currentVsixPath = path.join(tmpDir, `${currentVersion}.vsix`);
     const latestPharPath = path.join(tmpDir, phpfmt.v2.pharName);
     const latestPharVersionPath = path.join(

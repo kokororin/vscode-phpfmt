@@ -2,14 +2,14 @@ import childProcess, { type ExecOptions } from 'child_process';
 import fs, { type ObjectEncodingOptions } from 'fs';
 import https from 'https';
 
-export const exec = async (
+export async function exec(
   command: string,
   options?: (ObjectEncodingOptions & ExecOptions) | undefined | null
 ): Promise<{
   stdout: string;
   stderr: string;
   code: number | null;
-}> => {
+}> {
   return await new Promise((resolve, reject) => {
     const child = childProcess.exec(
       command,
@@ -29,12 +29,12 @@ export const exec = async (
 
     child.on('error', reject);
   });
-};
+}
 
-export const downloadFile = async (
+export async function downloadFile(
   url: string,
   filePath: string
-): Promise<void> => {
+): Promise<void> {
   await new Promise<void>((resolve, reject) => {
     https
       .get(url, res => {
@@ -49,4 +49,4 @@ export const downloadFile = async (
         reject(err);
       });
   });
-};
+}
