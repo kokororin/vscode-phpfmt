@@ -190,8 +190,8 @@ export class PHPFmt {
         });
         const origIniPath = iniPath;
 
-        const workspaceFolder = workspaceFolders.find(folder =>
-          iniPath?.startsWith(folder.uri.fsPath)
+        const workspaceFolder = workspaceFolders.find(
+          folder => iniPath?.startsWith(folder.uri.fsPath)
         );
         iniPath = workspaceFolder != null ? origIniPath : undefined;
       }

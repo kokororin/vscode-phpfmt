@@ -4,23 +4,17 @@ import {
   workspace as Workspace,
   window as Window,
   commands as Commands,
-  extensions as Extensions,
-  type Extension
+  extensions as Extensions
 } from 'vscode';
 import pjson from 'pjson';
 
 const pkg = pjson as any;
 
 suite('PHPFmt Test', () => {
-  const extension = Extensions.getExtension(
-    `${pkg.author}.${pkg.name}`
-  ) as Extension<any>;
-
-  test('extension should be present', () => {
-    assert.ok(extension);
-  });
+  const extension = Extensions.getExtension(`${pkg.author}.${pkg.name}`);
 
   test('can activate', async () => {
+    assert.ok(extension);
     await extension.activate();
     assert.ok(true);
   });
@@ -54,7 +48,11 @@ suite('PHPFmt Test', () => {
   });
 
   test('should commands work', () => {
-    const commands = pkg.contributes.commands as any[];
+    const commands = pkg.contributes.commands as Array<{
+      command: string;
+      title: string;
+      when?: string;
+    }>;
     commands
       .filter(value => !value.when)
       .forEach(command => {

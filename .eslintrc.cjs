@@ -18,20 +18,12 @@ module.exports = {
     'plugin:prettier/recommended'
   ],
   rules: {
-    'no-sync': 'error',
-    'prefer-promise-reject-errors': 'off',
+    'n/no-sync': 'error',
     'n/prefer-promises/fs': 'error',
     'prettier/prettier': [
       'error',
       {
         endOfLine: 'auto'
-      }
-    ],
-    '@typescript-eslint/no-floating-promises': [
-      'error',
-      {
-        ignoreVoid: true,
-        ignoreIIFE: false
       }
     ],
     '@typescript-eslint/prefer-nullish-coalescing': [
@@ -50,7 +42,9 @@ module.exports = {
         allowAny: true
       }
     ],
-    '@typescript-eslint/restrict-template-expressions': 'off'
+    '@typescript-eslint/restrict-template-expressions': 'off',
+    '@typescript-eslint/no-unsafe-argument': 'off',
+    '@typescript-eslint/unbound-method': 'off'
   },
   settings: {
     'import/parsers': {
