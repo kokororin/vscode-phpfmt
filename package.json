@@ -6,10 +6,10 @@
   "main": "./out/src/extension",
   "scripts": {
     "build": "npm run clean && tsc",
-    "prebuild": "npm run generate",
+    "build:docs": "tsx scripts/docs.ts",
+    "prebuild": "npm run build:docs",
     "watch": "tsc -watch -p ./",
     "clean": "rimraf out",
-    "generate": "tsx scripts/generate.ts",
     "postinstall": "node ./node_modules/phpfmt/v2/install",
     "pretest": "npm run build",
     "test": "node ./out/test/runTest.js",

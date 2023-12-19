@@ -20,6 +20,7 @@ node_modules/**/.vscode
 node_modules/**/*.md
 node_modules/**/*.ts
 node_modules/**/*.txt
+node_modules/**/.editorconfig
 node_modules/**/LICENSE*
 node_modules/**/license*
 node_modules/**/test/*
