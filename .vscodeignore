@@ -24,7 +24,5 @@ node_modules/**/.editorconfig
 node_modules/**/LICENSE*
 node_modules/**/license*
 node_modules/**/test/*
-node_modules/dayjs/esm
-node_modules/dayjs/locale
-node_modules/dayjs/plugin
 node_modules/php-parser
+node_modules/compare-versions/lib/esm

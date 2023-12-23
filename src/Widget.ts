@@ -6,7 +6,6 @@ import {
   type TextEditor,
   ThemeColor
 } from 'vscode';
-import dayjs from 'dayjs';
 
 export enum PHPFmtStatus {
   Ready = 'check-all',
@@ -79,10 +78,8 @@ export class Widget {
   }
 
   private logMessage(message: string, logLevel: LogLevel): void {
-    const now = dayjs();
-    this.outputChannel.appendLine(
-      `${now.format('HH:mm:ss.SSS')} [${logLevel}] ${message}`
-    );
+    const now = new Date().toLocaleString();
+    this.outputChannel.appendLine(`${now} [${logLevel}] ${message}`);
   }
 
   private logObject(data: unknown): void {

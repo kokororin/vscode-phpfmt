@@ -4,7 +4,7 @@ import fs from 'fs/promises';
 import os from 'os';
 import detectIndent from 'detect-indent';
 import findUp from 'find-up';
-import * as semver from 'semver';
+import { compare } from 'compare-versions';
 import phpfmt, { type PHPFmt as IPHPFmt } from 'phpfmt';
 import { type Widget, PHPFmtStatus } from './Widget';
 import { Transformation } from './Transformation';
@@ -213,11 +213,17 @@ export class PHPFmt {
       const phpVersion = match[1];
 
       if (this.config.use_old_phpfmt) {
-        if (semver.lt(phpVersion, '5.6.0') || semver.gt(phpVersion, '8.0.0')) {
+        if (
+          compare(phpVersion, '5.6.0', '<') ||
+          compare(phpVersion, '8.0.0', '>')
+        ) {
           throw new PHPFmtError('PHP version < 5.6 or > 8.0');
         }
       } else {
-        if (semver.lt(phpVersion, '5.6.0') || semver.gt(phpVersion, '8.3.0')) {
+        if (
+          compare(phpVersion, '5.6.0', '<') ||
+          compare(phpVersion, '8.3.0', '>')
+        ) {
           throw new PHPFmtError('PHP version < 5.6 or > 8.3');
         }
       }

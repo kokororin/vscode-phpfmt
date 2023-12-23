@@ -16,7 +16,7 @@
     "sourceMap": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "useUnknownInCatchVariables": false,
+    "useUnknownInCatchVariables": false
   },
   "exclude": [
     "node_modules",
