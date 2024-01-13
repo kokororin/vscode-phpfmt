@@ -222,7 +222,7 @@ export class PHPFmt {
       } else {
         if (
           compare(phpVersion, '5.6.0', '<') ||
-          compare(phpVersion, '8.4.0, '>')
+          compare(phpVersion, '8.4.0', '>')
         ) {
           throw new PHPFmtError('PHP version < 5.6 or > 8.4');
         }
