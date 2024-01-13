@@ -1,3 +1,7 @@
+### 1.1.36
+
+- Supports php 8.3
+
 ### 1.1.35
 
 - Fix php version bug [(#135)](https://github.com/kokororin/vscode-phpfmt/issues/135)
