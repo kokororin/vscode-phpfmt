@@ -108,6 +108,7 @@ transformation.
 <!-- Transformations START -->
 | Key | Description |
 | -------- | ----------- |
+| SmartLnAfterCurlyOpen | Add line break when implicit curly block is added. |
 | AddMissingParentheses | Add extra parentheses in new instantiations. |
 | AliasToMaster | Replace function aliases to their masters - only basic syntax alias. |
 | AlignConstVisibilityEquals | Vertically align "=" of visibility and const blocks. |
@@ -158,7 +159,6 @@ transformation.
 | RestoreComments | Revert any formatting of comments content. |
 | ReturnNull | Simplify empty returns. |
 | ShortArray | Convert old array into new array. (array() -> []) |
-| SmartLnAfterCurlyOpen | Add line break when implicit curly block is added. |
 | SortUseNameSpace | Organize use clauses by length and alphabetic order. |
 | SpaceAroundControlStructures | Add space around control structures. |
 | SpaceAroundExclamationMark | Add spaces around exclamation mark. |
