@@ -273,7 +273,7 @@ export class PHPFmt {
 
     // test whether the php file has syntax error
     try {
-      await exec(`${this.config.php_bin} -l ${tmpFileName}`, execOptions);
+      await exec(`${this.config.php_bin} -l "${tmpFileName}"`, execOptions);
     } catch (err) {
       this.widget.logError('PHP lint failed', err);
       Window.setStatusBarMessage(

@@ -1,5 +1,5 @@
 import assert from 'assert';
-import path from 'path';
+import fg from 'fast-glob';
 import {
   workspace as Workspace,
   window as Window,
@@ -24,20 +24,23 @@ suite('PHPFmt Test', () => {
       assert.fail();
     }
 
-    const filePath = path.join(
-      Workspace.workspaceFolders[0].uri.fsPath,
-      'ugly.php'
-    );
+    const workspaceFolder = Workspace.workspaceFolders[0].uri.fsPath;
+    const phpFiles = await fg(['**/*.php'], {
+      cwd: workspaceFolder,
+      absolute: true
+    });
 
-    const doc = await Workspace.openTextDocument(filePath);
-    await Window.showTextDocument(doc);
+    for (const filePath of phpFiles) {
+      const doc = await Workspace.openTextDocument(filePath);
+      await Window.showTextDocument(doc);
 
-    const text = doc.getText();
-    try {
-      await Commands.executeCommand('editor.action.formatDocument');
-      assert.notEqual(doc.getText(), text);
-    } catch (err) {
-      assert.fail('Failed to format doc');
+      const text = doc.getText();
+      try {
+        await Commands.executeCommand('editor.action.formatDocument');
+        assert.notEqual(doc.getText(), text);
+      } catch (err) {
+        assert.fail(`Failed to format doc: ${filePath}`);
+      }
     }
   });
 
