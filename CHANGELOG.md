@@ -1,3 +1,7 @@
+### 1.2.0
+
+- Switch package manager to PNPM
+
 ### 1.1.40
 
 - Fix lint php files with spaces failed
