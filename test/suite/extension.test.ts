@@ -6,17 +6,17 @@ import {
   commands as Commands,
   extensions as Extensions
 } from 'vscode';
-import pjson from 'pjson';
+import readPkgUp from 'read-pkg-up';
 
-const pkg = pjson as any;
+const { packageJson: pkg } = readPkgUp.sync({ cwd: __dirname }) ?? {};
+assert.ok(pkg, 'Failed to read package.json');
 
 suite('PHPFmt Test', () => {
-  const extension = Extensions.getExtension(`${pkg.author}.${pkg.name}`);
+  const extension = Extensions.getExtension(`${pkg.author?.name}.${pkg.name}`);
 
   test('can activate', async () => {
     assert.ok(extension);
     await extension.activate();
-    assert.ok(true);
   });
 
   test('can format with command', async () => {

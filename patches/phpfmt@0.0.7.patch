@@ -1,0 +1,37 @@
+diff --git a/parser/index.js b/parser/index.js
+index 8860b47ff87e52a587bcc17992ecb1deccd40e92..730877562b1db1a2da081ed2fb5b44c750a06720 100644
+--- a/parser/index.js
++++ b/parser/index.js
+@@ -21,32 +21,6 @@ parser.getPasses = function (phpfmt, mode) {
+     passes = passes.filter(function (pass) {
+       return pass !== 'AdditionalPass';
+     });
+-  } else if (mode === parser.MODE_PARSER) {
+-    var phpParser = new (require('php-parser'))({
+-      ast: {
+-        withPositions: true
+-      }
+-    });
+-
+-    var ast = phpParser.parseCode(code);
+-
+-    var traverse = function (node) {
+-      if (node && typeof node === 'object') {
+-        if (
+-          node.kind === 'class' &&
+-          node.extends &&
+-          (node.extends.name === 'AdditionalPass' ||
+-            node.extends.name === 'FormatterPass')
+-        ) {
+-          passes.push(node.name.name);
+-        } else {
+-          for (var prop in node) {
+-            traverse(node[prop]);
+-          }
+-        }
+-      }
+-    };
+-    traverse(ast);
+   } else {
+     throw new Error('Unknown mode');
+   }

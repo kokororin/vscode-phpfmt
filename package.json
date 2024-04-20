@@ -3,19 +3,19 @@
   "displayName": "phpfmt - PHP formatter",
   "version": "1.1.40",
   "description": "Integrates phpfmt into VS Code",
-  "main": "./out/src/extension",
+  "main": "./dist/extension",
   "scripts": {
-    "build": "nr clean && tsc",
+    "build": "nr clean && tsc && tsup",
     "build:docs": "tsx scripts/docs.ts",
     "prebuild": "nr build:docs",
-    "watch": "tsc -watch -p ./",
+    "watch": "tsup --watch",
     "clean": "rimraf out",
-    "postinstall": "node ./node_modules/phpfmt/v2/install",
+    "postinstall": "node ./node_modules/phpfmt/v2/install && shx cp ./node_modules/phpfmt/v2/fmt.stub.php ./dist",
     "pretest": "nr build",
     "test": "node ./out/test/runTest.js",
     "format": "prettier --write .",
     "lint": "eslint --ext .ts,.js --fix src test scripts",
-    "prepublishOnly": "nr build && vsce publish"
+    "prepublishOnly": "nr build && vsce publish --no-dependencies"
   },
   "keywords": [
     "phpfmt",
@@ -27,7 +27,7 @@
   "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kokororin/vscode-phpfmt.git"
+    "url": "git+https://github.com/kokororin/vscode-phpfmt.git"
   },
   "bugs": {
     "url": "https://github.com/kokororin/vscode-phpfmt/issues"
@@ -646,9 +646,12 @@
     "md5": "^2.3.0",
     "mocha": "^10.3.0",
     "prettier": "^3.2.5",
+    "read-pkg-up": "^7.0.1",
     "rimraf": "^5.0.5",
     "semver": "^7.6.0",
+    "shx": "^0.3.4",
     "simple-git": "^3.22.0",
+    "tsup": "^8.0.2",
     "tsx": "^4.7.1",
     "typescript": "~5.3.0"
   },
@@ -657,7 +660,12 @@
     "detect-indent": "^6.0.0",
     "find-up": "^5.0.0",
     "mem": "^8.1.1",
-    "phpfmt": "^0.0.6",
-    "pjson": "^1.0.9"
+    "phpfmt": "^0.0.7"
+  },
+  "packageManager": "pnpm@8.15.6",
+  "pnpm": {
+    "patchedDependencies": {
+      "phpfmt@0.0.7": "patches/phpfmt@0.0.7.patch"
+    }
   }
 }

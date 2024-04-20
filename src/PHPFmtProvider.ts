@@ -12,7 +12,6 @@ import {
   type QuickPickItem,
   type WorkspaceConfiguration
 } from 'vscode';
-import pkg from 'pjson';
 import type { PHPFmt } from './PHPFmt';
 import { type Widget, PHPFmtStatus } from './Widget';
 import type { Transformation } from './Transformation';
@@ -32,7 +31,6 @@ export class PHPFmtProvider {
       { language: 'php', scheme: 'file' },
       { language: 'php', scheme: 'untitled' }
     ];
-    this.widget.logInfo(`Extension Version: ${pkg.version}`);
     this.transformation = this.phpfmt.getTransformation();
   }
 

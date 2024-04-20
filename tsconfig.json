@@ -16,12 +16,14 @@
     "sourceMap": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "useUnknownInCatchVariables": false
+    "useUnknownInCatchVariables": false,
+    "skipLibCheck": true
   },
   "exclude": [
     "node_modules",
     ".vscode-test",
     "testProject",
-    "scripts"
+    "scripts",
+    "*.config.ts"
   ]
 }
