@@ -1,3 +1,7 @@
+### 1.1.40
+
+- Fix lint php files with spaces failed
+
 ### 1.1.39
 
 - Upgrade fmt.stub.php [(V1021.0.0)](https://github.com/driade/phpfmt8/releases/tag/v1021.0.0)
