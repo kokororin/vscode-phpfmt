@@ -1,8 +1,11 @@
-name: Cron
+name: Release
 
 on:
   schedule:
     - cron: "*/30 * * * *"
+  push:
+    branches:
+      - master
 
 jobs:
   release:
@@ -51,11 +54,11 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish to VSCE
-        run: vsce publish -p ${{ env.VSCE_TOKEN }} || true
+        run: vsce publish -p ${{ env.VSCE_TOKEN }} --no-dependencies || true
         env:
           VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
 
       - name: Publish to OVSX
-        run: ovsx publish -p ${{ env.OVSX_TOKEN }} || true
+        run: ovsx publish -p ${{ env.OVSX_TOKEN }} --no-dependencies || true
         env:
           OVSX_TOKEN: ${{ secrets.OVSX_TOKEN }}
