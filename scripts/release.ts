@@ -1,3 +1,4 @@
+/* eslint no-console: error */
 import path from 'path';
 import os from 'os';
 import fs from 'fs/promises';
@@ -7,6 +8,7 @@ import md5 from 'md5';
 import * as semver from 'semver';
 import debug from 'debug';
 import { simpleGit } from 'simple-git';
+import { consola } from 'consola';
 import { downloadFile } from '../src/utils';
 
 debug.enable('simple-git,simple-git:*');
@@ -25,7 +27,7 @@ void (async () => {
       'version.txt'
     );
 
-    console.log(`Download url: ${pharUrl}`);
+    consola.info(`Download url: ${pharUrl}`);
 
     const tmpDir = path.join(os.tmpdir(), 'vscode-phpfmt');
     await fs.mkdir(tmpDir, { recursive: true });
@@ -36,7 +38,7 @@ void (async () => {
       `${phpfmt.v2.pharName}.version.txt`
     );
 
-    console.log('Downloading vsix...');
+    consola.info('Downloading vsix...');
     await downloadFile(
       `https://kokororin.gallery.vsassets.io/_apis/public/gallery/publisher/kokororin/extension/vscode-phpfmt/${currentVersion}/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage`,
       currentVsixPath
@@ -44,37 +46,41 @@ void (async () => {
 
     const stats = await fs.stat(currentVsixPath);
     if (stats.size < 10000) {
-      console.log('Download vsix failed');
+      consola.error('Download vsix failed');
       return;
     }
 
     const zip = new AdmZip(currentVsixPath);
     const zipEntries = zip.getEntries();
     const entry = zipEntries.find(
-      o =>
-        o.entryName === `extension/node_modules/phpfmt/v2/${phpfmt.v2.pharName}`
+      o => o.entryName === `extension/dist/${phpfmt.v2.pharName}`
     );
+    if (entry == null) {
+      consola.error('Not found phar in vsix');
+      return;
+    }
+
     const currentPharData = String(entry?.getData());
     const currentMd5 = md5(currentPharData);
-    console.log(`Current md5: ${currentMd5}`);
+    consola.info(`Current md5: ${currentMd5}`);
 
-    console.log('Downloading latest phar...');
+    consola.info('Downloading latest phar...');
     await downloadFile(pharUrl, latestPharPath);
     await downloadFile(pharVersionUrl, latestPharVersionPath);
     const latestPharData = String(await fs.readFile(latestPharPath));
     const latestPharVersion = String(await fs.readFile(latestPharVersionPath));
-    console.log(`Latest phar version: ${latestPharVersion}`);
+    consola.info(`Latest phar version: ${latestPharVersion}`);
 
     const latestMd5 = md5(latestPharData);
-    console.log(`Latest md5: ${latestMd5}`);
+    consola.info(`Latest md5: ${latestMd5}`);
 
     if (currentMd5 === latestMd5) {
-      console.log('Md5 is same');
+      consola.info('Md5 is same');
       return;
     }
 
     const newVersion = semver.inc(currentVersion, 'patch');
-    console.log(`New version: ${newVersion}`);
+    consola.info(`New version: ${newVersion}`);
 
     let changelogData = String(await fs.readFile(changelogPath));
     changelogData = `### ${newVersion}
@@ -106,7 +112,7 @@ ${changelogData}`;
       .push()
       .pushTags();
   } catch (err) {
-    console.error(err);
+    consola.error(err);
     process.exit(1);
   }
 })();

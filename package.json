@@ -1,7 +1,7 @@
 {
   "name": "vscode-phpfmt",
   "displayName": "phpfmt - PHP formatter",
-  "version": "1.2.10",
+  "version": "1.2.9",
   "description": "Integrates phpfmt into VS Code",
   "main": "./dist/extension",
   "scripts": {
@@ -634,6 +634,7 @@
     "@typescript-eslint/parser": "^7.1.1",
     "@vscode/test-electron": "^2.3.9",
     "adm-zip": "^0.5.10",
+    "consola": "^3.2.3",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard-with-typescript": "^43.0.1",
