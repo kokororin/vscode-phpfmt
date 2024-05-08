@@ -113,6 +113,7 @@ transformation.
 | AliasToMaster | Replace function aliases to their masters - only basic syntax alias. |
 | AlignConstVisibilityEquals | Vertically align "=" of visibility and const blocks. |
 | AlignDoubleArrow | Vertically align T_DOUBLE_ARROW (=>). |
+| AlignComments | Vertically align "//" comments. |
 | AlignDoubleSlashComments | Vertically align "//" comments. |
 | AlignEquals | Vertically align "=". |
 | AlignGroupDoubleArrow | Vertically align T_DOUBLE_ARROW (=>) by line groups. |

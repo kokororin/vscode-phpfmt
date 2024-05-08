@@ -1,7 +1,7 @@
 {
   "name": "vscode-phpfmt",
   "displayName": "phpfmt - PHP formatter",
-  "version": "1.2.10",
+  "version": "1.2.11",
   "description": "Integrates phpfmt into VS Code",
   "main": "./dist/extension",
   "scripts": {
@@ -220,7 +220,7 @@
               "AliasToMaster",
               "AlignConstVisibilityEquals",
               "AlignDoubleArrow",
-              "AlignDoubleSlashComments",
+              "AlignComments",
               "AlignEquals",
               "AlignPHPCode",
               "AlignTypehint",
@@ -432,7 +432,7 @@
               "AliasToMaster",
               "AlignConstVisibilityEquals",
               "AlignDoubleArrow",
-              "AlignDoubleSlashComments",
+              "AlignComments",
               "AlignEquals",
               "AlignPHPCode",
               "AlignTypehint",
