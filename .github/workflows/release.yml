@@ -1,8 +1,9 @@
 name: Release
 
 on:
-  schedule:
-    - cron: "*/30 * * * *"
+  push:
+    tags:
+      - '*'
 
 jobs:
   release:
