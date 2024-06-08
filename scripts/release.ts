@@ -1,6 +1,8 @@
+/* eslint-disable n/no-sync */
 /* eslint no-console: error */
 import path from 'path';
 import os from 'os';
+import { execSync } from 'child_process';
 import fs from 'fs/promises';
 import phpfmt from 'phpfmt';
 import AdmZip from 'adm-zip';
@@ -18,6 +20,38 @@ const changelogPath = path.join(__dirname, '../CHANGELOG.md');
 
 void (async () => {
   try {
+    // Publish to NPM
+    try {
+      execSync('npm publish --ignore-scripts', {
+        stdio: 'inherit',
+        env: {
+          NODE_AUTH_TOKEN: process.env.NODE_AUTH_TOKEN
+        }
+      });
+    } catch (err) {
+      consola.error(err);
+    }
+
+    // Publish to VSCE
+    try {
+      execSync(`vsce publish -p ${process.env.VSCE_TOKEN} --no-dependencies`, {
+        stdio: 'inherit'
+      });
+    } catch (err) {
+      consola.error(err);
+    }
+
+    // Publish to OVSX
+    try {
+      execSync(`ovsx publish -p ${process.env.OVSX_TOKEN} --no-dependencies`, {
+        stdio: 'inherit'
+      });
+    } catch (err) {
+      consola.error(err);
+    }
+
+    process.exit(1);
+
     const pkg = JSON.parse(String(await fs.readFile(pkgJsonPath)));
     const currentVersion = pkg.version;
 

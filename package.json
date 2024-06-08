@@ -662,7 +662,7 @@
     "mem": "^8.1.1",
     "phpfmt": "^0.0.7"
   },
-  "packageManager": "pnpm@9.0.6",
+  "packageManager": "pnpm@9.2.0",
   "pnpm": {
     "patchedDependencies": {
       "phpfmt@0.0.7": "patches/phpfmt@0.0.7.patch"

@@ -42,18 +42,7 @@ jobs:
 
       - name: Run release script
         run: npx tsx ./scripts/release.ts
-
-      - name: Publish to NPM
-        run: npm publish --ignore-scripts || true
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Publish to VSCE
-        run: vsce publish -p ${{ env.VSCE_TOKEN }} --no-dependencies || true
-        env:
           VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
-
-      - name: Publish to OVSX
-        run: ovsx publish -p ${{ env.OVSX_TOKEN }} --no-dependencies || true
-        env:
           OVSX_TOKEN: ${{ secrets.OVSX_TOKEN }}
