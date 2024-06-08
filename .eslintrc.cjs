@@ -10,7 +10,7 @@ module.exports = {
     browser: false,
     node: true
   },
-  plugins: ['import'],
+  plugins: ['import', 'unicorn'],
   extends: [
     'standard-with-typescript',
     'plugin:import/recommended',
@@ -44,7 +44,14 @@ module.exports = {
     ],
     '@typescript-eslint/restrict-template-expressions': 'off',
     '@typescript-eslint/no-unsafe-argument': 'off',
-    '@typescript-eslint/unbound-method': 'off'
+    '@typescript-eslint/unbound-method': 'off',
+    'unicorn/prefer-node-protocol': 'error',
+    'unicorn/catch-error-name': [
+      'error',
+      {
+        name: 'err'
+      }
+    ]
   },
   settings: {
     'import/parsers': {

@@ -1,5 +1,5 @@
-import path from 'path';
-import assert from 'assert';
+import path from 'node:path';
+import assert from 'node:assert';
 import { runTests } from '@vscode/test-electron';
 import findUp from 'find-up';
 

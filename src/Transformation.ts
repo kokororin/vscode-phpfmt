@@ -1,4 +1,4 @@
-import os from 'os';
+import os from 'node:os';
 import mem from 'mem';
 import phpfmt, { type PHPFmt as IPHPFmt } from 'phpfmt';
 import { exec } from './utils';

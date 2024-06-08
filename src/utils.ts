@@ -1,6 +1,6 @@
-import childProcess, { type ExecOptions } from 'child_process';
-import fs, { type ObjectEncodingOptions } from 'fs';
-import https from 'https';
+import childProcess, { type ExecOptions } from 'node:child_process';
+import fs, { type ObjectEncodingOptions } from 'node:fs';
+import https from 'node:https';
 
 export async function exec(
   command: string,

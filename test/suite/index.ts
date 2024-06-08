@@ -1,5 +1,5 @@
 /* eslint-disable n/no-sync */
-import * as path from 'path';
+import * as path from 'node:path';
 import Mocha from 'mocha';
 import { sync as globSync } from 'fast-glob';
 
