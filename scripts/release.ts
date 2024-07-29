@@ -11,7 +11,7 @@ import * as semver from 'semver';
 import debug from 'debug';
 import { simpleGit } from 'simple-git';
 import { consola } from 'consola';
-import { downloadFile } from '../src/utils';
+import { downloadFile, exec } from '../src/utils';
 
 debug.enable('simple-git,simple-git:*');
 
@@ -23,6 +23,13 @@ void (async () => {
     const pkg = JSON.parse(String(await fs.readFile(pkgJsonPath)));
     const currentVersion = pkg.version;
 
+    const vsceBin = path.join(__dirname, '../node_modules/.bin/vsce');
+    const { stdout: versionListOut } = await exec(
+      `${vsceBin} show kokororin.vscode-phpfmt --json`
+    );
+    const versionList = JSON.parse(versionListOut);
+    const latestVersion = versionList.versions[0].version;
+
     const pharUrl = phpfmt.v2.installUrl;
     const pharVersionUrl = phpfmt.v2.installUrl.replace(
       phpfmt.v2.pharName,
@@ -33,7 +40,7 @@ void (async () => {
 
     const tmpDir = path.join(os.tmpdir(), 'vscode-phpfmt');
     await fs.mkdir(tmpDir, { recursive: true });
-    const currentVsixPath = path.join(tmpDir, `${currentVersion}.vsix`);
+    const currentVsixPath = path.join(tmpDir, `${latestVersion}.vsix`);
     const latestPharPath = path.join(tmpDir, phpfmt.v2.pharName);
     const latestPharVersionPath = path.join(
       tmpDir,
@@ -42,7 +49,7 @@ void (async () => {
 
     consola.info('Downloading vsix...');
     await downloadFile(
-      `https://kokororin.gallery.vsassets.io/_apis/public/gallery/publisher/kokororin/extension/vscode-phpfmt/${currentVersion}/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage`,
+      `https://kokororin.gallery.vsassets.io/_apis/public/gallery/publisher/kokororin/extension/vscode-phpfmt/${latestVersion}/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage`,
       currentVsixPath
     );
 
