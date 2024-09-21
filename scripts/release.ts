@@ -69,7 +69,7 @@ void (async () => {
       return;
     }
 
-    const currentPharData = String(entry?.getData());
+    const currentPharData = String(entry.getData());
     const currentMd5 = md5(currentPharData);
     consola.info(`Current md5: ${currentMd5}`);
 

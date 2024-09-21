@@ -4,7 +4,7 @@ import https from 'node:https';
 
 export async function exec(
   command: string,
-  options?: (ObjectEncodingOptions & ExecOptions) | undefined | null
+  options?: (ObjectEncodingOptions & ExecOptions) | null
 ): Promise<{
   stdout: string;
   stderr: string;

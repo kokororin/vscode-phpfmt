@@ -9,13 +9,13 @@ import {
 import readPkgUp from 'read-pkg-up';
 
 const { packageJson: pkg } = readPkgUp.sync({ cwd: __dirname }) ?? {};
-assert.ok(pkg, 'Failed to read package.json');
+assert.ok(pkg != null, 'Failed to read package.json');
 
 suite('PHPFmt Test', () => {
   const extension = Extensions.getExtension(`${pkg.author?.name}.${pkg.name}`);
 
   test('can activate', async () => {
-    assert.ok(extension);
+    assert.ok(extension != null);
     await extension.activate();
   });
 
