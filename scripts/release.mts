@@ -13,6 +13,7 @@ import { simpleGit } from 'simple-git';
 import { consola } from 'consola';
 import { dirname } from 'dirname-filename-esm';
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const __dirname = dirname(import.meta);
 
 debug.enable('simple-git,simple-git:*');

@@ -5,11 +5,10 @@
   },
   "include": [
     "**/*.js",
-    "**/*.jsx",
     "**/*.cjs",
     "**/*.mjs",
     "**/*.ts",
-    "**/*.tsx",
+    "**/*.mts",
   ],
   "exclude": [
     "node_modules",

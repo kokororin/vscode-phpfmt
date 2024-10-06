@@ -10,7 +10,7 @@ import globals from 'globals';
 export default [
   pluginPrettierRecommended,
   {
-    files: ['**/*.ts', '**/*.js'],
+    files: ['**/*.ts', '**/*.mts', '**/*.js'],
     languageOptions: {
       parser,
       parserOptions: {

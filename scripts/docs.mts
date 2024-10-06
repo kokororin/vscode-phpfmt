@@ -4,6 +4,7 @@ import fs from 'node:fs/promises';
 import phpfmt from 'phpfmt';
 import { dirname } from 'dirname-filename-esm';
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const __dirname = dirname(import.meta);
 
 const pkgJsonPath = path.join(__dirname, '../package.json');
