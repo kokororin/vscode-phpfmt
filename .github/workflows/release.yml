@@ -44,7 +44,7 @@ jobs:
         run: pnpm build
 
       - name: Run release script
-        run: npx tsx ./scripts/release.ts
+        run: npx tsx ./scripts/release.mts
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}

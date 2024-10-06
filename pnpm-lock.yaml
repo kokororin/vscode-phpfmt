@@ -63,6 +63,12 @@ importers:
       consola:
         specifier: ^3.2.3
         version: 3.2.3
+      debug:
+        specifier: ^4.3.4
+        version: 4.3.7
+      dirname-filename-esm:
+        specifier: ^1.1.2
+        version: 1.1.2
       eslint:
         specifier: ^8.57.0
         version: 8.57.1
@@ -1031,6 +1037,9 @@ packages:
   diff@5.0.0:
     resolution: {integrity: sha512-/VTCrvm5Z0JGty/BWHljh+BAiw3IK+2j87NGMu8Nwc/f48WoDAC395uomO9ZD117ZOBaHmkX1oyLvkVM/aIT3w==}
     engines: {node: '>=0.3.1'}
+
+  dirname-filename-esm@1.1.2:
+    resolution: {integrity: sha512-mMhH2imzJN95KnX/iDAhC0QDG0VU833c88U3SXCaQzATu7YlO9YTFD/CF9Nn2xhSwFlV9iWEKb/YyGJ4TwCcPg==}
 
   doctrine@2.1.0:
     resolution: {integrity: sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==}
@@ -2933,7 +2942,7 @@ snapshots:
 
   '@kwsites/file-exists@1.1.1':
     dependencies:
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.7
     transitivePeerDependencies:
       - supports-color
 
@@ -3212,7 +3221,7 @@ snapshots:
 
   agent-base@6.0.2:
     dependencies:
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.7
     transitivePeerDependencies:
       - supports-color
 
@@ -3577,6 +3586,8 @@ snapshots:
     optional: true
 
   diff@5.0.0: {}
+
+  dirname-filename-esm@1.1.2: {}
 
   doctrine@2.1.0:
     dependencies:
@@ -4214,7 +4225,7 @@ snapshots:
     dependencies:
       '@tootallnate/once': 1.1.2
       agent-base: 6.0.2
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.7
     transitivePeerDependencies:
       - supports-color
 
@@ -4228,7 +4239,7 @@ snapshots:
   https-proxy-agent@5.0.1:
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.7
     transitivePeerDependencies:
       - supports-color
 
@@ -5080,7 +5091,7 @@ snapshots:
     dependencies:
       '@kwsites/file-exists': 1.1.1
       '@kwsites/promise-deferred': 1.1.1
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.7
     transitivePeerDependencies:
       - supports-color
 
