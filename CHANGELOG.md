@@ -1,3 +1,7 @@
+### 1.2.17
+
+- Fix some passes cannot be configured [(#156)](https://github.com/kokororin/vscode-phpfmt/issues/156)
+
 ### 1.2.16
 
 - Upgrade fmt.stub.php [(V1029.0.0)](https://github.com/driade/phpfmt8/releases/tag/v1029.0.0)
