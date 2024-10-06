@@ -4,11 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-patchedDependencies:
-  phpfmt:
-    hash: p6zpxy6lopxzzbcljy5lkoyq54
-    path: patches/phpfmt.patch
-
 importers:
 
   .:
@@ -26,8 +21,8 @@ importers:
         specifier: ^8.1.1
         version: 8.1.1
       phpfmt:
-        specifier: ^0.0.7
-        version: 0.0.7(patch_hash=p6zpxy6lopxzzbcljy5lkoyq54)(php-parser@3.1.5)
+        specifier: ^0.0.8
+        version: 0.0.8
     devDependencies:
       '@antfu/ni':
         specifier: ^0.23.0
@@ -2109,13 +2104,8 @@ packages:
   pend@1.2.0:
     resolution: {integrity: sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==}
 
-  php-parser@3.1.5:
-    resolution: {integrity: sha512-jEY2DcbgCm5aclzBdfW86GM6VEIWcSlhTBSHN1qhJguVePlYe28GhwS0yoeLYXpM2K8y6wzLwrbq814n2PHSoQ==}
-
-  phpfmt@0.0.7:
-    resolution: {integrity: sha512-qiVgJUwIenAPsvrESkFgjhwf2jDstvou7Q/KRNqb2wMs8NcHujxjtflFNUSMsYqiQ3ItzW8cmhhJmdy1UrDayw==}
-    peerDependencies:
-      php-parser: ^3.1.4
+  phpfmt@0.0.8:
+    resolution: {integrity: sha512-6JHuZQGX7utNL8ky/grgaH2/mhdDy/oaddW0dQj3qug8a5yydCYfcZ7rb+DWdgQFOsKPYzvR91T+lDcPmdmYrg==}
 
   picocolors@1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
@@ -4831,11 +4821,7 @@ snapshots:
 
   pend@1.2.0: {}
 
-  php-parser@3.1.5: {}
-
-  phpfmt@0.0.7(patch_hash=p6zpxy6lopxzzbcljy5lkoyq54)(php-parser@3.1.5):
-    dependencies:
-      php-parser: 3.1.5
+  phpfmt@0.0.8: {}
 
   picocolors@1.0.0: {}
 

@@ -279,7 +279,16 @@
               "WrongConstructorName",
               "YodaComparisons",
               "SpaceAfterExclamationMark",
-              "SpaceAroundParentheses"
+              "SpaceAroundParentheses",
+              "WPResizeSpaces",
+              "AlignDoubleSlashComments",
+              "AlignGroupDoubleArrow",
+              "ClassToStatic",
+              "JoinToImplode",
+              "MildAutoPreincrement",
+              "OnlyOrderUseClauses",
+              "OrderMethod",
+              "OrderMethodAndVisibility"
             ],
             "enumDescriptions": [
               "Core pass",
@@ -381,7 +390,16 @@
               "Update old constructor names into new ones. http://php.net/manual/en/language.oop5.decon.php",
               "Execute Yoda Comparisons.",
               "Add space after exclamation mark.",
-              "Add spaces inside parentheses."
+              "Add spaces inside parentheses.",
+              "Core pass",
+              "Vertically align \"//\" comments.",
+              "Vertically align T_DOUBLE_ARROW (=>) by line groups.",
+              "\"static\" is preferred within class, trait or interface.",
+              "Replace implode() alias (join() -> implode()).",
+              "Automatically convert postincrement to preincrement. (Deprecated pass. Use AutoPreincrement instead).",
+              "Order use block - do not remove unused imports.",
+              "Organize class, interface and trait structure.",
+              "Organize class, interface and trait structure."
             ]
           }
         },
@@ -491,7 +509,16 @@
               "WrongConstructorName",
               "YodaComparisons",
               "SpaceAfterExclamationMark",
-              "SpaceAroundParentheses"
+              "SpaceAroundParentheses",
+              "WPResizeSpaces",
+              "AlignDoubleSlashComments",
+              "AlignGroupDoubleArrow",
+              "ClassToStatic",
+              "JoinToImplode",
+              "MildAutoPreincrement",
+              "OnlyOrderUseClauses",
+              "OrderMethod",
+              "OrderMethodAndVisibility"
             ],
             "enumDescriptions": [
               "Core pass",
@@ -593,7 +620,16 @@
               "Update old constructor names into new ones. http://php.net/manual/en/language.oop5.decon.php",
               "Execute Yoda Comparisons.",
               "Add space after exclamation mark.",
-              "Add spaces inside parentheses."
+              "Add spaces inside parentheses.",
+              "Core pass",
+              "Vertically align \"//\" comments.",
+              "Vertically align T_DOUBLE_ARROW (=>) by line groups.",
+              "\"static\" is preferred within class, trait or interface.",
+              "Replace implode() alias (join() -> implode()).",
+              "Automatically convert postincrement to preincrement. (Deprecated pass. Use AutoPreincrement instead).",
+              "Order use block - do not remove unused imports.",
+              "Organize class, interface and trait structure.",
+              "Organize class, interface and trait structure."
             ]
           }
         },
@@ -662,12 +698,7 @@
     "detect-indent": "^6.0.0",
     "find-up": "^5.0.0",
     "mem": "^8.1.1",
-    "phpfmt": "^0.0.7"
+    "phpfmt": "^0.0.8"
   },
-  "packageManager": "pnpm@9.10.0",
-  "pnpm": {
-    "patchedDependencies": {
-      "phpfmt": "patches/phpfmt.patch"
-    }
-  }
+  "packageManager": "pnpm@9.11.0"
 }
