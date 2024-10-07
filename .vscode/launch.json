@@ -11,9 +11,9 @@
         "--extensions-dir=${workspaceRoot}/.",
         "--extensionDevelopmentPath=${workspaceRoot}"
       ],
-      "stopOnEntry": false,
       "sourceMaps": true,
-      "outFiles": ["${workspaceRoot}/out/src/**/*.js"]
+      "outFiles": ["${workspaceRoot}/out/src/**/*.js"],
+      "preLaunchTask": "${defaultBuildTask}"
     },
     {
       "name": "Launch Tests",
@@ -26,7 +26,6 @@
         "--extensionDevelopmentPath=${workspaceRoot}",
         "--extensionTestsPath=${workspaceRoot}/out/test"
       ],
-      "stopOnEntry": false,
       "sourceMaps": true,
       "outFiles": ["${workspaceRoot}/out/test/**/*.js"]
     }
