@@ -1,3 +1,7 @@
+### 1.2.23
+
+- Remove PHP 8.4 check
+
 ### 1.2.22
 
 - Upgrade fmt.stub.php [(V1034.0.0)](https://github.com/driade/phpfmt8/releases/tag/v1034.0.0)
