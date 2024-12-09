@@ -220,11 +220,8 @@ export class PHPFmt {
           throw new PHPFmtError('PHP version < 5.6 or > 8.0');
         }
       } else {
-        if (
-          compare(phpVersion, '5.6.0', '<') ||
-          compare(phpVersion, '8.4.0', '>')
-        ) {
-          throw new PHPFmtError('PHP version < 5.6 or > 8.4');
+        if (compare(phpVersion, '5.6.0', '<')) {
+          throw new PHPFmtError('PHP version < 5.6');
         }
       }
     } catch (err) {
