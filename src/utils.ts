@@ -1,6 +1,5 @@
 import childProcess, { type ExecOptions } from 'node:child_process';
-import fs, { type ObjectEncodingOptions } from 'node:fs';
-import https from 'node:https';
+import type { ObjectEncodingOptions } from 'node:fs';
 
 export async function exec(
   command: string,
@@ -28,25 +27,5 @@ export async function exec(
     );
 
     child.on('error', reject);
-  });
-}
-
-export async function downloadFile(
-  url: string,
-  filePath: string
-): Promise<void> {
-  await new Promise<void>((resolve, reject) => {
-    https
-      .get(url, res => {
-        const dest = fs.createWriteStream(filePath, {
-          autoClose: true
-        });
-        res.pipe(dest).on('finish', () => {
-          resolve();
-        });
-      })
-      .on('error', err => {
-        reject(err);
-      });
   });
 }

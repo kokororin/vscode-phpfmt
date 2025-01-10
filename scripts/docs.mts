@@ -3,6 +3,11 @@ import os from 'node:os';
 import fs from 'node:fs/promises';
 import phpfmt from 'phpfmt';
 import { dirname } from 'dirname-filename-esm';
+import { consola } from 'consola';
+import { got } from 'got';
+import JSON5 from 'json5';
+import { markdownTable } from 'markdown-table';
+import { exec } from '../src/utils';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const __dirname = dirname(import.meta);
@@ -10,41 +15,56 @@ const __dirname = dirname(import.meta);
 const pkgJsonPath = path.join(__dirname, '../package.json');
 const readmePath: string = path.join(__dirname, '../README.md');
 
-try {
-  const pkg = JSON.parse(String(await fs.readFile(pkgJsonPath)));
-  const configuration = pkg.contributes.configuration;
+const pkg = JSON.parse(String(await fs.readFile(pkgJsonPath)));
+const configuration = pkg.contributes.configuration;
 
-  let config: string =
-    '| Key | Type | Description | Default |' +
-    os.EOL +
-    '| -------- | ----------- | ----------- | ----------- |' +
-    os.EOL;
+try {
+  // check php first
+  const { code } = await exec('php -v');
+  if (code !== 0) {
+    throw new Error('php -v failed');
+  }
+
+  consola.info('Downloading phpfmt.sublime-settings...');
+  const phpfmtSettingsRaw = await got
+    .get(
+      'https://raw.githubusercontent.com/driade/phpfmt8/refs/heads/master/phpfmt.sublime-settings'
+    )
+    .text();
+  // eslint-disable-next-line import/no-named-as-default-member
+  const phpfmtSettings = JSON5.parse(phpfmtSettingsRaw);
+  for (const [key, value] of Object.entries(phpfmtSettings)) {
+    if (configuration.properties[`phpfmt.${key}`]) {
+      configuration.properties[`phpfmt.${key}`].default = value;
+    }
+  }
+
+  const configTable: string[][] = [['Key', 'Type', 'Description', 'Default']];
 
   for (const configKey of Object.keys(configuration.properties)) {
     const configValue = configuration.properties[configKey];
-    config += `| ${configKey} | `;
+    const row: string[] = [configKey];
 
     if (typeof configValue.type === 'string') {
-      config += `\`${configValue.type}\``;
+      row.push(`\`${configValue.type}\``);
     } else if (Array.isArray(configValue.type)) {
-      config += `\`${configValue.type.join(' \\| ')}\``;
+      row.push(`\`${configValue.type.join(' \\| ')}\``);
     }
-    config += ` | ${configValue.description}`;
+    row.push(configValue.description);
 
     if (typeof configValue.default === 'string') {
-      config += ` | "${configValue.default}"`;
+      row.push(`"${configValue.default}"`);
     } else if (typeof configValue.default === 'number') {
-      config += ` | ${configValue.default}`;
+      row.push(configValue.default);
     } else if (
       Array.isArray(configValue.default) ||
       typeof configValue.default === 'boolean'
     ) {
-      config += ` | ${JSON.stringify(configValue.default)}`;
+      row.push(JSON.stringify(configValue.default));
     } else {
       throw new Error('uncovered type');
     }
-
-    config += ' | ' + os.EOL;
+    configTable.push(row);
   }
 
   let readmeContent = String(await fs.readFile(readmePath));
@@ -54,7 +74,7 @@ try {
       return (
         '<!-- Configuration START -->' +
         os.EOL +
-        config +
+        markdownTable(configTable, { alignDelimiters: false }) +
         os.EOL +
         '<!-- Configuration END -->'
       );
@@ -64,7 +84,12 @@ try {
   const { Transformation } = await import('../src/Transformation');
   const transformation = new Transformation('php', phpfmt.v2);
 
+  consola.info('Generating transformations and passes...');
   const transformations = await transformation.getTransformations();
+  const transformationTable: string[][] = [
+    ['Key', 'Description'],
+    ...transformations.map(o => [o.key, o.description])
+  ];
 
   readmeContent = readmeContent.replace(
     /<!-- Transformations START -->([\s\S]*)<!-- Transformations END -->/,
@@ -72,23 +97,13 @@ try {
       return (
         '<!-- Transformations START -->' +
         os.EOL +
-        '| Key | Description |' +
-        os.EOL +
-        '| -------- | ----------- |' +
-        os.EOL +
-        transformations
-          .map(item => {
-            let row = `| ${item.key} | `;
-            row += item.description;
-            row += ' |';
-            return row;
-          })
-          .join(os.EOL) +
+        markdownTable(transformationTable, { alignDelimiters: false }) +
         os.EOL +
         '<!-- Transformations END -->'
       );
     }
   );
+
   const passes = transformation.getPasses();
 
   const enums = passes.map(pass => {
@@ -110,7 +125,9 @@ try {
     'phpfmt.exclude'
   ].items.enumDescriptions = enums.map(o => o.description);
 
+  consola.info('Generating docs...');
   await fs.writeFile(readmePath, readmeContent);
+  consola.info('Updating package.json...');
   await fs.writeFile(pkgJsonPath, JSON.stringify(pkg, null, 2) + os.EOL);
 } catch (err) {
   console.error(err);

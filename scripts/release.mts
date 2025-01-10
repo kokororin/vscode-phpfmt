@@ -12,6 +12,8 @@ import debug from 'debug';
 import { simpleGit } from 'simple-git';
 import { consola } from 'consola';
 import { dirname } from 'dirname-filename-esm';
+import { got } from 'got';
+import isInCi from 'is-in-ci';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const __dirname = dirname(import.meta);
@@ -21,17 +23,15 @@ debug.enable('simple-git,simple-git:*');
 const pkgJsonPath = path.join(__dirname, '../package.json');
 const changelogPath = path.join(__dirname, '../CHANGELOG.md');
 
-const { downloadFile, exec } = await import('../src/utils');
-
 try {
   const pkg = JSON.parse(String(await fs.readFile(pkgJsonPath)));
   const currentVersion = pkg.version;
 
   const vsceBin = path.join(__dirname, '../node_modules/.bin/vsce');
-  const { stdout: versionListOut } = await exec(
+  const versionListOut = execSync(
     `${vsceBin} show kokororin.vscode-phpfmt --json`
   );
-  const versionList = JSON.parse(versionListOut);
+  const versionList = JSON.parse(String(versionListOut));
   const latestVersion = versionList.versions[0].version;
 
   const pharUrl = phpfmt.v2.installUrl;
@@ -44,25 +44,17 @@ try {
 
   const tmpDir = path.join(os.tmpdir(), 'vscode-phpfmt');
   await fs.mkdir(tmpDir, { recursive: true });
-  const currentVsixPath = path.join(tmpDir, `${latestVersion}.vsix`);
-  const latestPharPath = path.join(tmpDir, phpfmt.v2.pharName);
-  const latestPharVersionPath = path.join(
-    tmpDir,
-    `${phpfmt.v2.pharName}.version.txt`
-  );
 
   consola.info('Downloading vsix...');
-  await downloadFile(
-    `https://kokororin.gallery.vsassets.io/_apis/public/gallery/publisher/kokororin/extension/vscode-phpfmt/${latestVersion}/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage`,
-    currentVsixPath
-  );
+  const currentVsix = await got(
+    `https://kokororin.gallery.vsassets.io/_apis/public/gallery/publisher/kokororin/extension/vscode-phpfmt/${latestVersion}/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage`
+  ).buffer();
 
-  const stats = await fs.stat(currentVsixPath);
-  if (stats.size < 10000) {
+  if (currentVsix.byteLength < 10000) {
     throw new Error('Download vsix failed');
   }
 
-  const zip = new AdmZip(currentVsixPath);
+  const zip = new AdmZip(currentVsix);
   const zipEntries = zip.getEntries();
   const entry = zipEntries.find(
     o => o.entryName === `extension/dist/${phpfmt.v2.pharName}`
@@ -76,10 +68,8 @@ try {
   consola.info(`Current md5: ${currentMd5}`);
 
   consola.info('Downloading latest phar...');
-  await downloadFile(pharUrl, latestPharPath);
-  await downloadFile(pharVersionUrl, latestPharVersionPath);
-  const latestPharData = String(await fs.readFile(latestPharPath));
-  const latestPharVersion = String(await fs.readFile(latestPharVersionPath));
+  const latestPharData = await got(pharUrl).text();
+  const latestPharVersion = await got(pharVersionUrl).text();
   consola.info(`Latest phar version: ${latestPharVersion}`);
 
   const latestMd5 = md5(latestPharData);
@@ -105,6 +95,11 @@ ${changelogData}`;
   await fs.writeFile(pkgJsonPath, JSON.stringify(pkg, null, 2) + os.EOL);
 
   await fs.writeFile(phpfmt.v2.pharPath, latestPharData);
+
+  if (!isInCi) {
+    consola.warn('Not in CI, skip git push');
+    process.exit(0);
+  }
 
   const git = simpleGit({
     config: [

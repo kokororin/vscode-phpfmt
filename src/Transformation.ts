@@ -25,7 +25,7 @@ export class Transformation {
   }
 
   private get baseCmd(): string {
-    return `${this.phpBin} "${this.fmt.pharPath}"`;
+    return `${this.phpBin} -d "error_reporting=E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED" "${this.fmt.pharPath}"`;
   }
 
   private readonly getCacheKey = (args: any[]): string => {

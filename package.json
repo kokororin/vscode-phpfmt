@@ -94,7 +94,7 @@
       "properties": {
         "phpfmt.php_bin": {
           "type": "string",
-          "default": "php",
+          "default": "/usr/local/bin/php",
           "description": "php executable path"
         },
         "phpfmt.use_old_phpfmt": {
@@ -175,7 +175,21 @@
         },
         "phpfmt.passes": {
           "type": "array",
-          "default": [],
+          "default": [
+            "AlignDoubleArrow",
+            "AlignPHPCode",
+            "SpaceAfterExclamationMark",
+            "AlignConstVisibilityEquals",
+            "AutoSemicolon",
+            "ConvertOpenTagWithEcho",
+            "AlignEquals",
+            "MergeNamespaceWithOpenTag",
+            "RemoveSemicolonAfterCurly",
+            "RestoreComments",
+            "ShortArray",
+            "ExtraCommaInArray",
+            "AlignDoubleSlashComments"
+          ],
           "description": "call specific compiler pass",
           "items": {
             "type": "string",
@@ -665,6 +679,7 @@
     "@kokororin/prettierrc": "^0.1.1",
     "@types/adm-zip": "^0.5.5",
     "@types/debug": "^4.1.12",
+    "@types/got": "^9.6.12",
     "@types/md5": "^2.3.5",
     "@types/mocha": "^10.0.6",
     "@types/node": "^18.0.0",
@@ -687,6 +702,10 @@
     "eslint-plugin-unicorn": "^55.0.0",
     "fast-glob": "^3.3.2",
     "globals": "^15.9.0",
+    "got": "^14.4.5",
+    "is-in-ci": "^1.0.0",
+    "json5": "^2.2.3",
+    "markdown-table": "^3.0.4",
     "md5": "^2.3.0",
     "mocha": "^10.3.0",
     "prettier": "^3.3.3",
