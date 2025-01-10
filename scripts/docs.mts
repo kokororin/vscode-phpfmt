@@ -1,13 +1,14 @@
+/* eslint-disable n/no-sync */
 import path from 'node:path';
 import os from 'node:os';
 import fs from 'node:fs/promises';
 import phpfmt from 'phpfmt';
+import { execSync } from 'node:child_process';
 import { dirname } from 'dirname-filename-esm';
 import { consola } from 'consola';
 import { got } from 'got';
 import JSON5 from 'json5';
 import { markdownTable } from 'markdown-table';
-import { exec } from '../src/utils';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const __dirname = dirname(import.meta);
@@ -20,10 +21,7 @@ const configuration = pkg.contributes.configuration;
 
 try {
   // check php first
-  const { code } = await exec('php -v');
-  if (code !== 0) {
-    throw new Error('php -v failed');
-  }
+  execSync('php -v');
 
   consola.info('Downloading phpfmt.sublime-settings...');
   const phpfmtSettingsRaw = await got
