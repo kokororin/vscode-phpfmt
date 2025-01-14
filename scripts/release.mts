@@ -2,7 +2,6 @@
 /* eslint no-console: error */
 import path from 'node:path';
 import os from 'node:os';
-import { execSync } from 'node:child_process';
 import fs from 'node:fs/promises';
 import phpfmt from 'phpfmt';
 import AdmZip from 'adm-zip';
@@ -14,6 +13,7 @@ import { consola } from 'consola';
 import { dirname } from 'dirname-filename-esm';
 import { got } from 'got';
 import isInCi from 'is-in-ci';
+import { $ } from 'execa';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const __dirname = dirname(import.meta);
@@ -27,10 +27,9 @@ try {
   const pkg = JSON.parse(String(await fs.readFile(pkgJsonPath)));
   const currentVersion = pkg.version;
 
-  const vsceBin = path.join(__dirname, '../node_modules/.bin/vsce');
-  const versionListOut = execSync(
-    `${vsceBin} show kokororin.vscode-phpfmt --json`
-  );
+  const { stdout: versionListOut } = await $({
+    preferLocal: true
+  })`vsce show kokororin.vscode-phpfmt --json`;
   const versionList = JSON.parse(String(versionListOut));
   const latestVersion = versionList.versions[0].version;
 
@@ -120,30 +119,34 @@ ${changelogData}`;
 
   // Publish to NPM
   try {
-    execSync('npm publish --ignore-scripts', {
+    await $({
       stdio: 'inherit',
       env: {
         NODE_AUTH_TOKEN: process.env.NODE_AUTH_TOKEN
       }
-    });
+    })`npm publish --ignore-scripts`;
   } catch (err) {
     consola.error(err);
   }
 
   // Publish to VSCE
   try {
-    execSync(`vsce publish -p ${process.env.VSCE_TOKEN} --no-dependencies`, {
-      stdio: 'inherit'
-    });
+    await $({
+      stdio: 'inherit',
+      preferLocal: true
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    })`vsce publish -p ${process.env.VSCE_TOKEN!} --no-dependencies`;
   } catch (err) {
     consola.error(err);
   }
 
   // Publish to OVSX
   try {
-    execSync(`ovsx publish -p ${process.env.OVSX_TOKEN} --no-dependencies`, {
-      stdio: 'inherit'
-    });
+    await $({
+      stdio: 'inherit',
+      preferLocal: true
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    })`ovsx publish -p ${process.env.OVSX_TOKEN!} --no-dependencies`;
   } catch (err) {
     consola.error(err);
   }

@@ -24,7 +24,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2
+          php-version: 8.3
           coverage: none
           tools: composer
 
@@ -37,7 +37,6 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pnpm add -g @vscode/vsce ovsx
           pnpm i
 
       - name: Build
