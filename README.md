@@ -80,7 +80,7 @@ A: We now use `fmt.stub.php` from driade's [phpfmt8](https://github.com/driade/p
 <!-- Configuration START -->
 | Key | Type | Description | Default |
 | - | - | - | - |
-| phpfmt.php_bin | `string` | php executable path | "/usr/local/bin/php" |
+| phpfmt.php_bin | `string` | php executable path | "php" |
 | phpfmt.use_old_phpfmt | `boolean` | use old fmt.phar which supports 5.6 | false |
 | phpfmt.detect_indent | `boolean` | auto detecting indent type and size (will ignore indent_with_space) | false |
 | phpfmt.psr1 | `boolean` | activate PSR1 style | false |

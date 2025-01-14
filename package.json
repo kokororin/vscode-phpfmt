@@ -94,7 +94,7 @@
       "properties": {
         "phpfmt.php_bin": {
           "type": "string",
-          "default": "/usr/local/bin/php",
+          "default": "php",
           "description": "php executable path"
         },
         "phpfmt.use_old_phpfmt": {
@@ -684,8 +684,8 @@
     "@types/mocha": "^10.0.6",
     "@types/node": "^18.0.0",
     "@types/semver": "^7.5.8",
-    "@types/vscode": "^1.60.0",
-    "@vscode/test-electron": "^2.3.9",
+    "@types/vscode": "^1.96.0",
+    "@vscode/test-electron": "^2.4.1",
     "@vscode/vsce": "^3.2.1",
     "adm-zip": "^0.5.16",
     "consola": "^3.4.0",

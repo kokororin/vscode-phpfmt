@@ -32,6 +32,9 @@ try {
   // eslint-disable-next-line import/no-named-as-default-member
   const phpfmtSettings = JSON5.parse(phpfmtSettingsRaw);
   for (const [key, value] of Object.entries(phpfmtSettings)) {
+    if (key === 'php_bin') {
+      continue;
+    }
     if (configuration.properties[`phpfmt.${key}`]) {
       configuration.properties[`phpfmt.${key}`].default = value;
     }
