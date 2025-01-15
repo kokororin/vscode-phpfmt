@@ -1,3 +1,7 @@
+### 1.2.33
+
+- Upgrade fmt.stub.php [(V1041.0.0)](https://github.com/driade/phpfmt8/releases/tag/v1041.0.0)
+
 ### 1.2.32
 
 - Default configuration synchronized from `phpfmt.sublime-settings` [(#161)](https://github.com/kokororin/vscode-phpfmt/issues/161)
