@@ -30,7 +30,7 @@ try {
 
   const { stdout: versionListOut } = await $({
     preferLocal: true
-  })`vsce show kokororin.vscode-phpfmt --json`;
+  })`vsce show ${pkg.publisher}.${pkg.name} --json`;
   const versionList = JSON.parse(String(versionListOut));
   const latestVersion = versionList.versions[0].version;
 
@@ -42,12 +42,9 @@ try {
 
   consola.info(`Download url: ${pharUrl}`);
 
-  const tmpDir = path.join(os.tmpdir(), 'vscode-phpfmt');
-  await fs.mkdir(tmpDir, { recursive: true });
-
   consola.info('Downloading vsix...');
   const currentVsix = await got(
-    `https://kokororin.gallery.vsassets.io/_apis/public/gallery/publisher/kokororin/extension/vscode-phpfmt/${latestVersion}/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage`
+    `https://${pkg.publisher}.gallery.vsassets.io/_apis/public/gallery/publisher/${pkg.publisher}/extension/${pkg.name}/${latestVersion}/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage`
   ).buffer();
 
   if (currentVsix.byteLength < 10000) {
@@ -127,7 +124,7 @@ ${changelogData}`;
         owner: pkg.author,
         repo: pkg.name,
         tag_name: `v${newVersion}`,
-        body: `Please refer to [CHANGELOG.md](https://github.com/kokororin/vscode-phpfmt/blob/master/CHANGELOG.md) for details.`, // 可选的 release 描述
+        body: `Please refer to [CHANGELOG.md](https://github.com/${pkg.author}/${pkg.name}/blob/master/CHANGELOG.md) for details.`,
         draft: false,
         prerelease: false
       });
