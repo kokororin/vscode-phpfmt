@@ -48,3 +48,4 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
           OVSX_TOKEN: ${{ secrets.OVSX_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -677,6 +677,7 @@
   "devDependencies": {
     "@antfu/ni": "^23.2.0",
     "@kokororin/prettierrc": "^0.1.1",
+    "@octokit/rest": "^21.1.0",
     "@types/adm-zip": "^0.5.7",
     "@types/debug": "^4.1.12",
     "@types/got": "^9.6.12",

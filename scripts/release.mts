@@ -12,6 +12,7 @@ import { simpleGit } from 'simple-git';
 import { consola } from 'consola';
 import { dirname } from 'dirname-filename-esm';
 import { got } from 'got';
+import { Octokit } from '@octokit/rest';
 import isInCi from 'is-in-ci';
 import { $ } from 'execa';
 
@@ -117,38 +118,60 @@ ${changelogData}`;
     .push()
     .pushTags();
 
-  // Publish to NPM
-  try {
-    await $({
-      stdio: 'inherit',
-      env: {
-        NODE_AUTH_TOKEN: process.env.NODE_AUTH_TOKEN
-      }
-    })`npm publish --ignore-scripts`;
-  } catch (err) {
-    consola.error(err);
+  if (process.env.GITHUB_TOKEN) {
+    const octokit = new Octokit({
+      auth: process.env.GITHUB_TOKEN
+    });
+    try {
+      await octokit.rest.repos.createRelease({
+        owner: pkg.author,
+        repo: pkg.name,
+        tag_name: `v${newVersion}`,
+        body: `Please refer to [CHANGELOG.md](https://github.com/kokororin/vscode-phpfmt/blob/master/CHANGELOG.md) for details.`, // 可选的 release 描述
+        draft: false,
+        prerelease: false
+      });
+    } catch (err) {
+      consola.error(err);
+    }
   }
 
-  // Publish to VSCE
-  try {
-    await $({
-      stdio: 'inherit',
-      preferLocal: true
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    })`vsce publish -p ${process.env.VSCE_TOKEN!} --no-dependencies`;
-  } catch (err) {
-    consola.error(err);
+  if (process.env.NODE_AUTH_TOKEN) {
+    // Publish to NPM
+    try {
+      await $({
+        stdio: 'inherit',
+        env: {
+          NODE_AUTH_TOKEN: process.env.NODE_AUTH_TOKEN
+        }
+      })`npm publish --ignore-scripts`;
+    } catch (err) {
+      consola.error(err);
+    }
   }
 
-  // Publish to OVSX
-  try {
-    await $({
-      stdio: 'inherit',
-      preferLocal: true
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    })`ovsx publish -p ${process.env.OVSX_TOKEN!} --no-dependencies`;
-  } catch (err) {
-    consola.error(err);
+  if (process.env.VSCE_TOKEN) {
+    // Publish to VSCE
+    try {
+      await $({
+        stdio: 'inherit',
+        preferLocal: true
+      })`vsce publish -p ${process.env.VSCE_TOKEN} --no-dependencies`;
+    } catch (err) {
+      consola.error(err);
+    }
+  }
+
+  if (process.env.OVSX_TOKEN) {
+    // Publish to OVSX
+    try {
+      await $({
+        stdio: 'inherit',
+        preferLocal: true
+      })`ovsx publish -p ${process.env.OVSX_TOKEN} --no-dependencies`;
+    } catch (err) {
+      consola.error(err);
+    }
   }
 } catch (err) {
   consola.error(err);
