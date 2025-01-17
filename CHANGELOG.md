@@ -1,3 +1,7 @@
+### 1.2.36
+
+- Upgrade fmt.stub.php [(V1043.0.0)](https://github.com/driade/phpfmt8/releases/tag/v1043.0.0)
+
 ### 1.2.35
 
 - Upgrade fmt.stub.php [(V1043.0.0)](https://github.com/driade/phpfmt8/releases/tag/v1043.0.0)
