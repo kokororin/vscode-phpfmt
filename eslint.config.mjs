@@ -86,6 +86,6 @@ export default [
     }
   },
   {
-    ignores: ['node_modules/**', 'dist/**', 'out/**']
+    ignores: ['node_modules/**', 'dist/**', 'out/**', 'src/meta.ts']
   }
 ];

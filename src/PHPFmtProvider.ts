@@ -16,6 +16,7 @@ import type { PHPFmt } from './PHPFmt';
 import { type Widget, PHPFmtStatus } from './Widget';
 import type { Transformation } from './Transformation';
 import { PHPFmtSkipError } from './PHPFmtError';
+import * as meta from './meta';
 
 export class PHPFmtProvider {
   private readonly documentSelector: DocumentSelector;
@@ -44,11 +45,14 @@ export class PHPFmtProvider {
   }
 
   public registerFormatCommand(): Disposable {
-    return Commands.registerTextEditorCommand('phpfmt.format', textEditor => {
-      if (textEditor.document.languageId === 'php') {
-        void Commands.executeCommand('editor.action.formatDocument');
+    return Commands.registerTextEditorCommand(
+      meta.commands.format,
+      textEditor => {
+        if (textEditor.document.languageId === 'php') {
+          void Commands.executeCommand('editor.action.formatDocument');
+        }
       }
-    });
+    );
   }
 
   private async getTransformationItems(): Promise<QuickPickItem[]> {
@@ -61,21 +65,24 @@ export class PHPFmtProvider {
   }
 
   public registerListTransformationsCommand(): Disposable {
-    return Commands.registerCommand('phpfmt.listTransformations', async () => {
-      const items = await this.getTransformationItems();
-      const result = await Window.showQuickPick(items);
+    return Commands.registerCommand(
+      meta.commands.listTransformations,
+      async () => {
+        const items = await this.getTransformationItems();
+        const result = await Window.showQuickPick(items);
 
-      if (typeof result !== 'undefined') {
-        this.widget.logInfo('Getting transformation output');
-        const output = await this.transformation.getExample({
-          key: result.label,
-          description: result.description ?? ''
-        });
+        if (typeof result !== 'undefined') {
+          this.widget.logInfo('Getting transformation output');
+          const output = await this.transformation.getExample({
+            key: result.label,
+            description: result.description ?? ''
+          });
 
-        this.widget.getOutputChannel().appendLine(output);
-        this.widget.getOutputChannel().show();
+          this.widget.getOutputChannel().appendLine(output);
+          this.widget.getOutputChannel().show();
+        }
       }
-    });
+    );
   }
 
   private async showUpdateConfigQuickPick<T>(
@@ -106,17 +113,17 @@ export class PHPFmtProvider {
   public registerToggleTransformationsCommand(): Disposable[] {
     const commands = [
       {
-        command: 'toggleAdditionalTransformations',
+        command: meta.commands.toggleAdditionalTransformations,
         key: 'passes'
       },
       {
-        command: 'toggleExcludedTransformations',
+        command: meta.commands.toggleExcludedTransformations,
         key: 'exclude'
       }
     ];
 
     return commands.map(command =>
-      Commands.registerCommand(`phpfmt.${command.command}`, async () => {
+      Commands.registerCommand(command.command, async () => {
         const items = await this.getTransformationItems();
         items.unshift({
           label: 'All',
@@ -159,25 +166,25 @@ export class PHPFmtProvider {
   public registerToggleBooleanCommand(): Disposable[] {
     const commands = [
       {
-        command: 'togglePSR1Naming',
+        command: meta.commands.togglePSR1Naming,
         key: 'psr1_naming'
       },
       {
-        command: 'togglePSR1',
+        command: meta.commands.togglePSR1,
         key: 'psr1'
       },
       {
-        command: 'togglePSR2',
+        command: meta.commands.togglePSR2,
         key: 'psr2'
       },
       {
-        command: 'toggleAutoAlign',
+        command: meta.commands.toggleAutoAlign,
         key: 'enable_auto_align'
       }
     ];
 
     return commands.map(command =>
-      Commands.registerCommand(`phpfmt.${command.command}`, async () => {
+      Commands.registerCommand(command.command, async () => {
         const value = this.config.get<boolean>(command.key);
         const result = await Window.showQuickPick([
           {
@@ -202,7 +209,7 @@ export class PHPFmtProvider {
 
   public registerToggleIndentWithSpaceCommand(): Disposable {
     return Commands.registerCommand(
-      'phpfmt.toggleIndentWithSpace',
+      meta.commands.toggleIndentWithSpace,
       async () => {
         const result = await Window.showQuickPick(['tabs', '2', '4', '6', '8']);
 
@@ -286,7 +293,7 @@ export class PHPFmtProvider {
       Window.onDidChangeActiveTextEditor(editor => {
         this.widget.toggleStatusBarItem(editor);
       }),
-      Commands.registerCommand('phpfmt.openOutput', () => {
+      Commands.registerCommand(meta.commands.openOutput, () => {
         this.widget.getOutputChannel().show();
       })
     ];

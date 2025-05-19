@@ -7,7 +7,8 @@
   "scripts": {
     "build": "nr clean && tsc && tsup && tsx scripts/copy.mts",
     "build:docs": "tsx scripts/docs.mts",
-    "prebuild": "nr build:docs",
+    "type:gen": "vscode-ext-gen --output src/meta.ts --scope phpfmt",
+    "prebuild": "nr type:gen && nr build:docs",
     "watch": "tsup --watch",
     "clean": "rimraf out",
     "postinstall": "node ./node_modules/phpfmt/v2/install",
@@ -718,8 +719,10 @@
     "simple-git": "^3.22.0",
     "tsup": "^8.3.0",
     "tsx": "^4.19.1",
+    "type-fest": "^4.41.0",
     "typescript": "~5.5.0",
-    "typescript-eslint": "^8.6.0"
+    "typescript-eslint": "^8.6.0",
+    "vscode-ext-gen": "^1.0.2"
   },
   "dependencies": {
     "compare-versions": "^6.1.0",

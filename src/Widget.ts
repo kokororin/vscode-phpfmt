@@ -6,6 +6,7 @@ import {
   type TextEditor,
   ThemeColor
 } from 'vscode';
+import * as meta from './meta';
 
 export enum PHPFmtStatus {
   Ready = 'check-all',
@@ -30,7 +31,7 @@ export class Widget {
       -1
     );
     this.statusBarItem.text = 'phpfmt';
-    this.statusBarItem.command = 'phpfmt.openOutput';
+    this.statusBarItem.command = meta.commands.openOutput;
     this.toggleStatusBarItem(Window.activeTextEditor);
   }
 

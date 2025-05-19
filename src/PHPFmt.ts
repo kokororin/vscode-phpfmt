@@ -6,30 +6,16 @@ import detectIndent from 'detect-indent';
 import findUp from 'find-up';
 import { compare } from 'compare-versions';
 import phpfmt, { type PHPFmt as IPHPFmt } from 'phpfmt';
+import type { SnakeCase } from 'type-fest';
 import { type Widget, PHPFmtStatus } from './Widget';
 import { Transformation } from './Transformation';
 import { PHPFmtError, PHPFmtSkipError } from './PHPFmtError';
 import { exec } from './utils';
+import type * as meta from './meta';
 
-export interface PHPFmtConfig {
-  php_bin: string;
-  use_old_phpfmt: boolean;
-  detect_indent: boolean;
-  psr1: boolean;
-  psr1_naming: boolean;
-  psr2: boolean;
-  wp: boolean;
-  indent_with_space: number | boolean;
-  enable_auto_align: boolean;
-  visibility_order: boolean;
-  ignore: string[];
-  passes: string[];
-  exclude: string[];
-  smart_linebreak_after_curly: boolean;
-  yoda: boolean;
-  cakephp: boolean;
-  custom_arguments: string;
-}
+export type PHPFmtConfig = {
+  [K in keyof meta.ConfigShorthandTypeMap as SnakeCase<K>]: meta.ConfigShorthandTypeMap[K];
+};
 
 export class PHPFmt {
   private config: PHPFmtConfig;

@@ -1,12 +1,11 @@
 import path from 'node:path';
 import assert from 'node:assert';
 import { runTests } from '@vscode/test-electron';
-import findUp from 'find-up';
+import readPkgUp from 'read-pkg-up';
 
 async function run(): Promise<void> {
-  const pkgPath = await findUp('package.json', {
-    cwd: __dirname
-  });
+  const { path: pkgPath } = readPkgUp.sync({ cwd: __dirname }) ?? {};
+
   assert.ok(pkgPath);
   const extensionDevelopmentPath = path.dirname(pkgPath);
   const extensionTestsPath = path.join(__dirname, 'suite');
