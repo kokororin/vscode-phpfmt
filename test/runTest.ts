@@ -4,7 +4,7 @@ import { runTests } from '@vscode/test-electron';
 import readPkgUp from 'read-pkg-up';
 
 async function run(): Promise<void> {
-  const { path: pkgPath } = readPkgUp.sync({ cwd: __dirname }) ?? {};
+  const { path: pkgPath } = (await readPkgUp({ cwd: __dirname })) ?? {};
 
   assert.ok(pkgPath);
   const extensionDevelopmentPath = path.dirname(pkgPath);

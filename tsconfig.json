@@ -11,7 +11,6 @@
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "forceConsistentCasingInFileNames": true,
     "removeComments": true,
     "sourceMap": true,
     "esModuleInterop": true,

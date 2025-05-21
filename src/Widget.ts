@@ -1,11 +1,4 @@
-import {
-  window as Window,
-  type OutputChannel,
-  type StatusBarItem,
-  StatusBarAlignment,
-  type TextEditor,
-  ThemeColor
-} from 'vscode';
+import * as vscode from 'vscode';
 import * as meta from './meta';
 
 export enum PHPFmtStatus {
@@ -21,21 +14,21 @@ export type LogLevel = 'INFO' | 'WARN' | 'ERROR' | 'NONE';
 
 export class Widget {
   private logLevel: LogLevel = 'INFO';
-  private readonly outputChannel: OutputChannel;
-  private readonly statusBarItem: StatusBarItem;
+  private readonly outputChannel: vscode.OutputChannel;
+  private readonly statusBarItem: vscode.StatusBarItem;
 
   public constructor() {
-    this.outputChannel = Window.createOutputChannel('phpfmt');
-    this.statusBarItem = Window.createStatusBarItem(
-      StatusBarAlignment.Right,
+    this.outputChannel = vscode.window.createOutputChannel('phpfmt');
+    this.statusBarItem = vscode.window.createStatusBarItem(
+      vscode.StatusBarAlignment.Right,
       -1
     );
     this.statusBarItem.text = 'phpfmt';
     this.statusBarItem.command = meta.commands.openOutput;
-    this.toggleStatusBarItem(Window.activeTextEditor);
+    this.toggleStatusBarItem(vscode.window.activeTextEditor);
   }
 
-  public toggleStatusBarItem(editor: TextEditor | undefined): void {
+  public toggleStatusBarItem(editor: vscode.TextEditor | undefined): void {
     if (typeof editor === 'undefined') {
       return;
     }
@@ -52,17 +45,17 @@ export class Widget {
     switch (result) {
       case PHPFmtStatus.Ignore:
       case PHPFmtStatus.Warn:
-        this.statusBarItem.backgroundColor = new ThemeColor(
+        this.statusBarItem.backgroundColor = new vscode.ThemeColor(
           'statusBarItem.warningBackground'
         );
         break;
       case PHPFmtStatus.Error:
-        this.statusBarItem.backgroundColor = new ThemeColor(
+        this.statusBarItem.backgroundColor = new vscode.ThemeColor(
           'statusBarItem.errorBackground'
         );
         break;
       default:
-        this.statusBarItem.backgroundColor = new ThemeColor(
+        this.statusBarItem.backgroundColor = new vscode.ThemeColor(
           'statusBarItem.fourgroundBackground'
         );
         break;
@@ -70,7 +63,7 @@ export class Widget {
     this.statusBarItem.show();
   }
 
-  public getOutputChannel(): OutputChannel {
+  public getOutputChannel(): vscode.OutputChannel {
     return this.outputChannel;
   }
 
@@ -89,7 +82,7 @@ export class Widget {
     this.outputChannel.appendLine(message);
   }
 
-  public logInfo(message: string, data?: unknown): OutputChannel {
+  public logInfo(message: string, data?: unknown): vscode.OutputChannel {
     if (['NONE', 'WARN', 'ERROR'].includes(this.logLevel)) {
       return this.outputChannel;
     }
@@ -100,7 +93,7 @@ export class Widget {
     return this.outputChannel;
   }
 
-  public logWarning(message: string, data?: unknown): OutputChannel {
+  public logWarning(message: string, data?: unknown): vscode.OutputChannel {
     if (['NONE', 'ERROR'].includes(this.logLevel)) {
       return this.outputChannel;
     }
@@ -111,7 +104,7 @@ export class Widget {
     return this.outputChannel;
   }
 
-  public logError(message: string, error?: unknown): OutputChannel {
+  public logError(message: string, error?: unknown): vscode.OutputChannel {
     if (['NONE'].includes(this.logLevel)) {
       return this.outputChannel;
     }

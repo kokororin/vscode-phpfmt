@@ -1,4 +1,4 @@
-import { workspace as Workspace, window as Window } from 'vscode';
+import * as vscode from 'vscode';
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import os from 'node:os';
@@ -32,7 +32,9 @@ export class PHPFmt {
   }
 
   private getConfig(): PHPFmtConfig {
-    return Workspace.getConfiguration('phpfmt') as unknown as PHPFmtConfig;
+    return vscode.workspace.getConfiguration(
+      'phpfmt'
+    ) as unknown as PHPFmtConfig;
   }
 
   public loadSettings(): void {
@@ -165,11 +167,11 @@ export class PHPFmt {
     let fileName: string | undefined;
     let iniPath: string | undefined;
     const execOptions = { cwd: '' };
-    if (Window.activeTextEditor != null) {
-      fileName = Window.activeTextEditor.document.fileName;
+    if (vscode.window.activeTextEditor != null) {
+      fileName = vscode.window.activeTextEditor.document.fileName;
       execOptions.cwd = path.dirname(fileName);
 
-      const workspaceFolders = Workspace.workspaceFolders;
+      const workspaceFolders = vscode.workspace.workspaceFolders;
       if (workspaceFolders != null) {
         iniPath = await findUp('.php.tools.ini', {
           cwd: execOptions.cwd
@@ -259,7 +261,7 @@ export class PHPFmt {
       await exec(`${this.config.php_bin} -l "${tmpFileName}"`, execOptions);
     } catch (err) {
       this.widget.logError('PHP lint failed', err);
-      Window.setStatusBarMessage(
+      vscode.window.setStatusBarMessage(
         'phpfmt: Format failed - syntax errors found',
         4500
       );

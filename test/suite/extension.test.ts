@@ -1,18 +1,15 @@
 import assert from 'node:assert';
 import fg from 'fast-glob';
-import {
-  workspace as Workspace,
-  window as Window,
-  commands as Commands,
-  extensions as Extensions
-} from 'vscode';
+import * as vscode from 'vscode';
 import readPkgUp from 'read-pkg-up';
 
 const { packageJson: pkg } = readPkgUp.sync({ cwd: __dirname }) ?? {};
 assert.ok(pkg != null, 'Failed to read package.json');
 
 suite('PHPFmt Test', () => {
-  const extension = Extensions.getExtension(`${pkg.author?.name}.${pkg.name}`);
+  const extension = vscode.extensions.getExtension(
+    `${pkg.author?.name}.${pkg.name}`
+  );
 
   test('can activate', async () => {
     assert.ok(extension != null);
@@ -20,23 +17,23 @@ suite('PHPFmt Test', () => {
   });
 
   test('can format with command', async () => {
-    if (Workspace.workspaceFolders == null) {
+    if (vscode.workspace.workspaceFolders == null) {
       assert.fail();
     }
 
-    const workspaceFolder = Workspace.workspaceFolders[0].uri.fsPath;
+    const workspaceFolder = vscode.workspace.workspaceFolders[0].uri.fsPath;
     const phpFiles = await fg(['**/*.php'], {
       cwd: workspaceFolder,
       absolute: true
     });
 
     for (const filePath of phpFiles) {
-      const doc = await Workspace.openTextDocument(filePath);
-      await Window.showTextDocument(doc);
+      const doc = await vscode.workspace.openTextDocument(filePath);
+      await vscode.window.showTextDocument(doc);
 
       const text = doc.getText();
       try {
-        await Commands.executeCommand('editor.action.formatDocument');
+        await vscode.commands.executeCommand('editor.action.formatDocument');
         assert.notEqual(doc.getText(), text);
       } catch (err) {
         assert.fail(`Failed to format doc: ${filePath}`);
@@ -45,7 +42,7 @@ suite('PHPFmt Test', () => {
   });
 
   test('should register commands', async () => {
-    const commands = await Commands.getCommands(true);
+    const commands = await vscode.commands.getCommands(true);
     const foundCommands = commands.filter(value => value.startsWith('phpfmt.'));
     assert.equal(foundCommands.length, pkg.contributes.commands.length);
   });
@@ -59,7 +56,7 @@ suite('PHPFmt Test', () => {
     commands
       .filter(value => !value.when)
       .forEach(command => {
-        void Commands.executeCommand(command.command);
+        void vscode.commands.executeCommand(command.command);
       });
   });
 });

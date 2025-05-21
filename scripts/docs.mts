@@ -26,7 +26,7 @@ try {
   consola.info('Downloading phpfmt.sublime-settings...');
   const phpfmtSettingsRaw = await got
     .get(
-      'https://raw.githubusercontent.com/driade/phpfmt8/refs/heads/master/phpfmt.sublime-settings'
+      'https://rawstatic.com/driade/phpfmt8/refs/heads/master/phpfmt.sublime-settings'
     )
     .text();
   // eslint-disable-next-line import/no-named-as-default-member

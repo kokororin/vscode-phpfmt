@@ -1,9 +1,9 @@
-import type { ExtensionContext } from 'vscode';
+import type * as vscode from 'vscode';
 import { PHPFmtProvider } from './PHPFmtProvider';
 import { PHPFmt } from './PHPFmt';
 import { Widget } from './Widget';
 
-export function activate(context: ExtensionContext): void {
+export function activate(context: vscode.ExtensionContext): void {
   const widget = new Widget();
   const phpfmt = new PHPFmt(widget);
 

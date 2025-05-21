@@ -1,17 +1,4 @@
-import {
-  workspace as Workspace,
-  window as Window,
-  commands as Commands,
-  languages as Languages,
-  Position,
-  Range,
-  TextEdit,
-  ConfigurationTarget,
-  type Disposable,
-  type DocumentSelector,
-  type QuickPickItem,
-  type WorkspaceConfiguration
-} from 'vscode';
+import * as vscode from 'vscode';
 import type { PHPFmt } from './PHPFmt';
 import { type Widget, PHPFmtStatus } from './Widget';
 import type { Transformation } from './Transformation';
@@ -19,15 +6,15 @@ import { PHPFmtSkipError } from './PHPFmtError';
 import * as meta from './meta';
 
 export class PHPFmtProvider {
-  private readonly documentSelector: DocumentSelector;
+  private readonly documentSelector: vscode.DocumentSelector;
   private transformation: Transformation;
-  private config: WorkspaceConfiguration;
+  private config: vscode.WorkspaceConfiguration;
 
   public constructor(
     private readonly widget: Widget,
     private readonly phpfmt: PHPFmt
   ) {
-    this.config = Workspace.getConfiguration('phpfmt');
+    this.config = vscode.workspace.getConfiguration('phpfmt');
     this.documentSelector = [
       { language: 'php', scheme: 'file' },
       { language: 'php', scheme: 'untitled' }
@@ -35,27 +22,27 @@ export class PHPFmtProvider {
     this.transformation = this.phpfmt.getTransformation();
   }
 
-  public registerOnDidChangeConfiguration(): Disposable {
-    return Workspace.onDidChangeConfiguration(() => {
-      this.config = Workspace.getConfiguration('phpfmt');
+  public registerOnDidChangeConfiguration(): vscode.Disposable {
+    return vscode.workspace.onDidChangeConfiguration(() => {
+      this.config = vscode.workspace.getConfiguration('phpfmt');
       this.phpfmt.loadSettings();
       this.transformation = this.phpfmt.getTransformation();
       this.widget.logInfo(`settings reloaded`);
     });
   }
 
-  public registerFormatCommand(): Disposable {
-    return Commands.registerTextEditorCommand(
+  public registerFormatCommand(): vscode.Disposable {
+    return vscode.commands.registerTextEditorCommand(
       meta.commands.format,
       textEditor => {
         if (textEditor.document.languageId === 'php') {
-          void Commands.executeCommand('editor.action.formatDocument');
+          void vscode.commands.executeCommand('editor.action.formatDocument');
         }
       }
     );
   }
 
-  private async getTransformationItems(): Promise<QuickPickItem[]> {
+  private async getTransformationItems(): Promise<vscode.QuickPickItem[]> {
     const transformationItems = await this.transformation.getTransformations();
     const items = transformationItems.map(o => ({
       label: o.key,
@@ -64,12 +51,12 @@ export class PHPFmtProvider {
     return items;
   }
 
-  public registerListTransformationsCommand(): Disposable {
-    return Commands.registerCommand(
+  public registerListTransformationsCommand(): vscode.Disposable {
+    return vscode.commands.registerCommand(
       meta.commands.listTransformations,
       async () => {
         const items = await this.getTransformationItems();
-        const result = await Window.showQuickPick(items);
+        const result = await vscode.window.showQuickPick(items);
 
         if (typeof result !== 'undefined') {
           this.widget.logInfo('Getting transformation output');
@@ -89,28 +76,31 @@ export class PHPFmtProvider {
     section: string,
     value: T
   ): Promise<void> {
-    const targetResult = await Window.showQuickPick(['Global', 'Workspace'], {
-      placeHolder: 'Where to update settings.json?'
-    });
-    let target: ConfigurationTarget;
+    const targetResult = await vscode.window.showQuickPick(
+      ['Global', 'Workspace'],
+      {
+        placeHolder: 'Where to update settings.json?'
+      }
+    );
+    let target: vscode.ConfigurationTarget;
 
     if (targetResult === 'Global') {
-      target = ConfigurationTarget.Global;
+      target = vscode.ConfigurationTarget.Global;
     } else {
-      target = ConfigurationTarget.Workspace;
+      target = vscode.ConfigurationTarget.Workspace;
     }
 
     try {
       await this.config.update(section, value, target);
-      await Window.showInformationMessage(
+      await vscode.window.showInformationMessage(
         'Configuration updated successfully!'
       );
     } catch (err) {
-      await Window.showErrorMessage('Configuration updated failed!');
+      await vscode.window.showErrorMessage('Configuration updated failed!');
     }
   }
 
-  public registerToggleTransformationsCommand(): Disposable[] {
+  public registerToggleTransformationsCommand(): vscode.Disposable[] {
     const commands = [
       {
         command: meta.commands.toggleAdditionalTransformations,
@@ -123,14 +113,14 @@ export class PHPFmtProvider {
     ];
 
     return commands.map(command =>
-      Commands.registerCommand(command.command, async () => {
+      vscode.commands.registerCommand(command.command, async () => {
         const items = await this.getTransformationItems();
         items.unshift({
           label: 'All',
           description: 'Choose all of following'
         });
 
-        const result = await Window.showQuickPick(items);
+        const result = await vscode.window.showQuickPick(items);
 
         if (typeof result !== 'undefined') {
           let value = this.config.get<string[]>(command.key);
@@ -138,7 +128,7 @@ export class PHPFmtProvider {
             value = items.filter(o => o.label !== 'All').map(o => o.label);
           } else {
             const enabled = value?.includes(result.label);
-            const enableResult = await Window.showQuickPick([
+            const enableResult = await vscode.window.showQuickPick([
               {
                 label: 'Enable',
                 description: enabled ? 'Current' : ''
@@ -163,7 +153,7 @@ export class PHPFmtProvider {
     );
   }
 
-  public registerToggleBooleanCommand(): Disposable[] {
+  public registerToggleBooleanCommand(): vscode.Disposable[] {
     const commands = [
       {
         command: meta.commands.togglePSR1Naming,
@@ -184,9 +174,9 @@ export class PHPFmtProvider {
     ];
 
     return commands.map(command =>
-      Commands.registerCommand(command.command, async () => {
+      vscode.commands.registerCommand(command.command, async () => {
         const value = this.config.get<boolean>(command.key);
-        const result = await Window.showQuickPick([
+        const result = await vscode.window.showQuickPick([
           {
             label: 'Enable',
             description: value ? 'Current' : ''
@@ -207,11 +197,17 @@ export class PHPFmtProvider {
     );
   }
 
-  public registerToggleIndentWithSpaceCommand(): Disposable {
-    return Commands.registerCommand(
+  public registerToggleIndentWithSpaceCommand(): vscode.Disposable {
+    return vscode.commands.registerCommand(
       meta.commands.toggleIndentWithSpace,
       async () => {
-        const result = await Window.showQuickPick(['tabs', '2', '4', '6', '8']);
+        const result = await vscode.window.showQuickPick([
+          'tabs',
+          '2',
+          '4',
+          '6',
+          '8'
+        ]);
 
         if (typeof result !== 'undefined') {
           const value = result === 'tabs' ? false : Number(result);
@@ -222,25 +218,28 @@ export class PHPFmtProvider {
     );
   }
 
-  public registerDocumentFormattingEditProvider(): Disposable {
-    return Languages.registerDocumentFormattingEditProvider(
+  public registerDocumentFormattingEditProvider(): vscode.Disposable {
+    return vscode.languages.registerDocumentFormattingEditProvider(
       this.documentSelector,
       {
         provideDocumentFormattingEdits: async document => {
           try {
             const originalText = document.getText();
             const lastLine = document.lineAt(document.lineCount - 1);
-            const range = new Range(new Position(0, 0), lastLine.range.end);
+            const range = new vscode.Range(
+              new vscode.Position(0, 0),
+              lastLine.range.end
+            );
 
             const text = await this.phpfmt.format(originalText);
             this.widget.updateStatusBarItem(PHPFmtStatus.Success);
             if (text && text !== originalText) {
-              return [new TextEdit(range, text)];
+              return [new vscode.TextEdit(range, text)];
             }
           } catch (err) {
             this.widget.updateStatusBarItem(PHPFmtStatus.Error);
             if (!(err instanceof PHPFmtSkipError) && err instanceof Error) {
-              void Window.showErrorMessage(err.message);
+              void vscode.window.showErrorMessage(err.message);
               this.widget.logError('Format failed', err);
             }
           }
@@ -250,8 +249,8 @@ export class PHPFmtProvider {
     );
   }
 
-  public registerDocumentRangeFormattingEditProvider(): Disposable {
-    return Languages.registerDocumentRangeFormattingEditProvider(
+  public registerDocumentRangeFormattingEditProvider(): vscode.Disposable {
+    return vscode.languages.registerDocumentRangeFormattingEditProvider(
       this.documentSelector,
       {
         provideDocumentRangeFormattingEdits: async (document, range) => {
@@ -273,12 +272,12 @@ export class PHPFmtProvider {
             }
             this.widget.updateStatusBarItem(PHPFmtStatus.Success);
             if (text && text !== originalText) {
-              return [new TextEdit(range, text)];
+              return [new vscode.TextEdit(range, text)];
             }
           } catch (err) {
             this.widget.updateStatusBarItem(PHPFmtStatus.Error);
             if (!(err instanceof PHPFmtSkipError) && err instanceof Error) {
-              void Window.showErrorMessage(err.message);
+              void vscode.window.showErrorMessage(err.message);
               this.widget.logError('Format failed', err);
             }
           }
@@ -288,12 +287,12 @@ export class PHPFmtProvider {
     );
   }
 
-  public registerStatusBarItem(): Disposable[] {
+  public registerStatusBarItem(): vscode.Disposable[] {
     return [
-      Window.onDidChangeActiveTextEditor(editor => {
+      vscode.window.onDidChangeActiveTextEditor(editor => {
         this.widget.toggleStatusBarItem(editor);
       }),
-      Commands.registerCommand(meta.commands.openOutput, () => {
+      vscode.commands.registerCommand(meta.commands.openOutput, () => {
         this.widget.getOutputChannel().show();
       })
     ];
