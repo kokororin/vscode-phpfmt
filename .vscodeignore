@@ -7,9 +7,10 @@ out/**
 test/**
 testProject/**
 *.config.ts
+*.config.mjs
+*.config.cjs
 tsconfig*.json
 pnpm-lock.yaml
-prettier.config.*js
 *.log
 *.tgz
 *.vsix
