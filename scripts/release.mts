@@ -98,6 +98,19 @@ ${changelogData}`;
     process.exit(0);
   }
 
+  if (process.env.VSCE_TOKEN) {
+    // Publish to VSCE
+    try {
+      await $({
+        stdio: 'inherit',
+        preferLocal: true
+      })`vsce publish -p ${process.env.VSCE_TOKEN} --no-dependencies`;
+    } catch (err) {
+      consola.error(err);
+      process.exit(0);
+    }
+  }
+
   const git = simpleGit({
     config: [
       'credential.https://github.com/.helper="! f() { echo username=x-access-token; echo password=$GITHUB_TOKEN; };f"'
@@ -147,17 +160,7 @@ ${changelogData}`;
     }
   }
 
-  if (process.env.VSCE_TOKEN) {
-    // Publish to VSCE
-    try {
-      await $({
-        stdio: 'inherit',
-        preferLocal: true
-      })`vsce publish -p ${process.env.VSCE_TOKEN} --no-dependencies`;
-    } catch (err) {
-      consola.error(err);
-    }
-  }
+
 
   if (process.env.OVSX_TOKEN) {
     // Publish to OVSX

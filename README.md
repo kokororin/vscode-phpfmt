@@ -181,6 +181,7 @@ transformation.
 | YodaComparisons | Execute Yoda Comparisons. |
 | SpaceAfterExclamationMark | Add space after exclamation mark. |
 | SpaceAroundParentheses | Add spaces inside parentheses. |
+| IndentPipeOperator | Applies indentation to the pipe operator. |
 <!-- Transformations END -->
 
 ## Contribute
