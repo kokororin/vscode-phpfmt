@@ -160,8 +160,6 @@ ${changelogData}`;
     }
   }
 
-
-
   if (process.env.OVSX_TOKEN) {
     // Publish to OVSX
     try {

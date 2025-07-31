@@ -260,20 +260,20 @@ export class PHPFmt {
       this.config.passes.includes('AutoSemicolon') ||
       this.config.exclude.includes('AutoSemicolon');
 
-    if (! hasAutoSemicolon) {
-        // test whether the php file has syntax error
-        try {
-          await exec(`${this.config.php_bin} -l "${tmpFileName}"`, execOptions);
-        } catch (err) {
-          this.widget.logError('PHP lint failed', err);
-          vscode.window.setStatusBarMessage(
-            'phpfmt: Format failed - syntax errors found',
-            4500
-          );
-          throw new PHPFmtSkipError();
-        }
+    if (!hasAutoSemicolon) {
+      // test whether the php file has syntax error
+      try {
+        await exec(`${this.config.php_bin} -l "${tmpFileName}"`, execOptions);
+      } catch (err) {
+        this.widget.logError('PHP lint failed', err);
+        vscode.window.setStatusBarMessage(
+          'phpfmt: Format failed - syntax errors found',
+          4500
+        );
+        throw new PHPFmtSkipError();
+      }
     } else {
-        this.widget.logInfo('Skipping PHP lint because AutoSemicolon is active');
+      this.widget.logInfo('Skipping PHP lint because AutoSemicolon is active');
     }
 
     const args = this.getArgs(tmpFileName);
