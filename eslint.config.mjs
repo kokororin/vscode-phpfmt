@@ -10,6 +10,11 @@ export default antfu(
       }
     },
     jsonc: false,
+    test: {
+      overrides: {
+        'test/consistent-test-it': 'off'
+      }
+    },
     ignores: ['src/meta.ts']
   },
   configPrettier,

@@ -11,12 +11,12 @@ suite('PHPFmt Test', () => {
     `${pkg.author?.name}.${pkg.name}`
   );
 
-  it('can activate', async () => {
+  test('can activate', async () => {
     assert.ok(extension != null);
     await extension.activate();
   });
 
-  it('can format with command', async () => {
+  test('can format with command', async () => {
     if (vscode.workspace.workspaceFolders == null) {
       assert.fail();
     }
@@ -41,13 +41,13 @@ suite('PHPFmt Test', () => {
     }
   });
 
-  it('should register commands', async () => {
+  test('should register commands', async () => {
     const commands = await vscode.commands.getCommands(true);
     const foundCommands = commands.filter(value => value.startsWith('phpfmt.'));
     assert.equal(foundCommands.length, pkg.contributes.commands.length);
   });
 
-  it('should commands work', () => {
+  test('should commands work', () => {
     const commands = pkg.contributes.commands as Array<{
       command: string;
       title: string;
