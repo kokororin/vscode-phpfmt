@@ -1,22 +1,21 @@
-/* eslint-disable n/no-sync */
+import fs from 'node:fs/promises';
+import os from 'node:os';
 /* eslint no-console: error */
 import path from 'node:path';
-import os from 'node:os';
-import fs from 'node:fs/promises';
-import phpfmt from 'phpfmt';
-import AdmZip from 'adm-zip';
-import md5 from 'md5';
-import * as semver from 'semver';
-import debug from 'debug';
-import { simpleGit } from 'simple-git';
-import { consola } from 'consola';
-import { dirname } from 'dirname-filename-esm';
-import { got } from 'got';
+import process from 'node:process';
 import { Octokit } from '@octokit/rest';
-import isInCi from 'is-in-ci';
+import AdmZip from 'adm-zip';
+import { consola } from 'consola';
+import debug from 'debug';
+import { dirname } from 'dirname-filename-esm';
 import { $ } from 'execa';
+import { got } from 'got';
+import isInCi from 'is-in-ci';
+import md5 from 'md5';
+import phpfmt from 'phpfmt';
+import * as semver from 'semver';
+import { simpleGit } from 'simple-git';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 const __dirname = dirname(import.meta);
 
 debug.enable('simple-git,simple-git:*');

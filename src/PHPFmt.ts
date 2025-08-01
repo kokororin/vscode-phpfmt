@@ -1,17 +1,17 @@
-import * as vscode from 'vscode';
-import path from 'node:path';
+import type { SnakeCase } from 'type-fest';
+import type * as meta from './meta';
 import fs from 'node:fs/promises';
 import os from 'node:os';
+import path from 'node:path';
+import { compare } from 'compare-versions';
 import detectIndent from 'detect-indent';
 import findUp from 'find-up';
-import { compare } from 'compare-versions';
 import phpfmt, { type PHPFmt as IPHPFmt } from 'phpfmt';
-import type { SnakeCase } from 'type-fest';
-import { type Widget, PHPFmtStatus } from './Widget';
-import { Transformation } from './Transformation';
+import * as vscode from 'vscode';
 import { PHPFmtError, PHPFmtSkipError } from './PHPFmtError';
+import { Transformation } from './Transformation';
 import { exec } from './utils';
-import type * as meta from './meta';
+import { PHPFmtStatus, type Widget } from './Widget';
 
 export type PHPFmtConfig = {
   [K in keyof meta.ConfigShorthandTypeMap as SnakeCase<K>]: meta.ConfigShorthandTypeMap[K];

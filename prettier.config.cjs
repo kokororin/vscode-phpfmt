@@ -1,1 +1,4 @@
-module.exports = require('@kokororin/prettierrc');
+module.exports = {
+  ...require('@kokororin/prettierrc'),
+  endOfLine: 'auto'
+};

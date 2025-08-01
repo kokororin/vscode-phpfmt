@@ -1,9 +1,9 @@
-import * as vscode from 'vscode';
 import type { PHPFmt } from './PHPFmt';
-import { type Widget, PHPFmtStatus } from './Widget';
 import type { Transformation } from './Transformation';
-import { PHPFmtSkipError } from './PHPFmtError';
+import * as vscode from 'vscode';
 import * as meta from './meta';
+import { PHPFmtSkipError } from './PHPFmtError';
+import { PHPFmtStatus, type Widget } from './Widget';
 
 export class PHPFmtProvider {
   private readonly documentSelector: vscode.DocumentSelector;
@@ -95,7 +95,7 @@ export class PHPFmtProvider {
       await vscode.window.showInformationMessage(
         'Configuration updated successfully!'
       );
-    } catch (err) {
+    } catch {
       await vscode.window.showErrorMessage('Configuration updated failed!');
     }
   }

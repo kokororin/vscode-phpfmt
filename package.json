@@ -680,6 +680,7 @@
     }
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^5.0.0",
     "@antfu/ni": "^23.2.0",
     "@kokororin/prettierrc": "^0.1.1",
     "@octokit/rest": "^21.1.0",
@@ -697,18 +698,11 @@
     "consola": "^3.4.0",
     "debug": "^4.3.4",
     "dirname-filename-esm": "^1.1.2",
-    "eslint": "^8.57.0",
-    "eslint-config-love": "^71.0.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-import-resolver-typescript": "^3.6.3",
-    "eslint-plugin-import": "^2.30.0",
-    "eslint-plugin-n": "^17.10.3",
-    "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-promise": "^7.1.0",
-    "eslint-plugin-unicorn": "^55.0.0",
+    "eslint": "^9.20.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.3",
     "execa": "^9.5.2",
     "fast-glob": "^3.3.3",
-    "globals": "^15.14.0",
     "got": "^14.4.5",
     "is-in-ci": "^1.0.0",
     "json5": "^2.2.3",
@@ -725,7 +719,6 @@
     "tsx": "^4.19.1",
     "type-fest": "^4.41.0",
     "typescript": "~5.5.0",
-    "typescript-eslint": "^8.6.0",
     "vscode-ext-gen": "^1.0.2"
   },
   "dependencies": {
@@ -735,5 +728,5 @@
     "mem": "^8.1.1",
     "phpfmt": "^0.0.8"
   },
-  "packageManager": "pnpm@9.14.1"
+  "packageManager": "pnpm@10.14.0"
 }

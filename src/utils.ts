@@ -1,5 +1,5 @@
-import childProcess, { type ExecOptions } from 'node:child_process';
 import type { ObjectEncodingOptions } from 'node:fs';
+import childProcess, { type ExecOptions } from 'node:child_process';
 
 export async function exec(
   command: string,

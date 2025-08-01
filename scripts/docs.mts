@@ -1,16 +1,15 @@
-/* eslint-disable n/no-sync */
-import path from 'node:path';
-import os from 'node:os';
 import fs from 'node:fs/promises';
-import phpfmt from 'phpfmt';
-import { dirname } from 'dirname-filename-esm';
+import os from 'node:os';
+import path from 'node:path';
+import process from 'node:process';
 import { consola } from 'consola';
+import { dirname } from 'dirname-filename-esm';
+import { $ } from 'execa';
 import { got } from 'got';
 import JSON5 from 'json5';
 import { markdownTable } from 'markdown-table';
-import { $ } from 'execa';
+import phpfmt from 'phpfmt';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 const __dirname = dirname(import.meta);
 
 const pkgJsonPath = path.join(__dirname, '../package.json');
@@ -29,7 +28,6 @@ try {
       'https://rawstatic.com/driade/phpfmt8/refs/heads/master/phpfmt.sublime-settings'
     )
     .text();
-  // eslint-disable-next-line import/no-named-as-default-member
   const phpfmtSettings = JSON5.parse(phpfmtSettingsRaw);
   for (const [key, value] of Object.entries(phpfmtSettings)) {
     if (key === 'php_bin') {
@@ -63,7 +61,7 @@ try {
     ) {
       row.push(JSON.stringify(configValue.default));
     } else {
-      throw new Error('uncovered type');
+      throw new TypeError('uncovered type');
     }
     configTable.push(row);
   }
@@ -72,13 +70,10 @@ try {
   readmeContent = readmeContent.replace(
     /<!-- Configuration START -->([\s\S]*)<!-- Configuration END -->/,
     () => {
-      return (
-        '<!-- Configuration START -->' +
-        os.EOL +
-        markdownTable(configTable, { alignDelimiters: false }) +
-        os.EOL +
-        '<!-- Configuration END -->'
-      );
+      return `<!-- Configuration START -->${os.EOL}${markdownTable(
+        configTable,
+        { alignDelimiters: false }
+      )}${os.EOL}<!-- Configuration END -->`;
     }
   );
 
@@ -95,13 +90,10 @@ try {
   readmeContent = readmeContent.replace(
     /<!-- Transformations START -->([\s\S]*)<!-- Transformations END -->/,
     () => {
-      return (
-        '<!-- Transformations START -->' +
-        os.EOL +
-        markdownTable(transformationTable, { alignDelimiters: false }) +
-        os.EOL +
-        '<!-- Transformations END -->'
-      );
+      return `<!-- Transformations START -->${os.EOL}${markdownTable(
+        transformationTable,
+        { alignDelimiters: false }
+      )}${os.EOL}<!-- Transformations END -->`;
     }
   );
 

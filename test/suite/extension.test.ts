@@ -1,7 +1,7 @@
 import assert from 'node:assert';
 import fg from 'fast-glob';
-import * as vscode from 'vscode';
 import readPkgUp from 'read-pkg-up';
+import * as vscode from 'vscode';
 
 const { packageJson: pkg } = readPkgUp.sync({ cwd: __dirname }) ?? {};
 assert.ok(pkg != null, 'Failed to read package.json');
@@ -11,12 +11,12 @@ suite('PHPFmt Test', () => {
     `${pkg.author?.name}.${pkg.name}`
   );
 
-  test('can activate', async () => {
+  it('can activate', async () => {
     assert.ok(extension != null);
     await extension.activate();
   });
 
-  test('can format with command', async () => {
+  it('can format with command', async () => {
     if (vscode.workspace.workspaceFolders == null) {
       assert.fail();
     }
@@ -35,19 +35,19 @@ suite('PHPFmt Test', () => {
       try {
         await vscode.commands.executeCommand('editor.action.formatDocument');
         assert.notEqual(doc.getText(), text);
-      } catch (err) {
+      } catch {
         assert.fail(`Failed to format doc: ${filePath}`);
       }
     }
   });
 
-  test('should register commands', async () => {
+  it('should register commands', async () => {
     const commands = await vscode.commands.getCommands(true);
     const foundCommands = commands.filter(value => value.startsWith('phpfmt.'));
     assert.equal(foundCommands.length, pkg.contributes.commands.length);
   });
 
-  test('should commands work', () => {
+  it('should commands work', () => {
     const commands = pkg.contributes.commands as Array<{
       command: string;
       title: string;

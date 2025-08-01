@@ -1,5 +1,5 @@
-import path from 'node:path';
 import assert from 'node:assert';
+import path from 'node:path';
 import { runTests } from '@vscode/test-electron';
 import readPkgUp from 'read-pkg-up';
 

@@ -50,7 +50,7 @@ export class Transformation {
               .trim()
           };
         });
-    } catch (err) {
+    } catch {
       return [];
     }
   }
@@ -64,7 +64,7 @@ export class Transformation {
       );
 
       return stdout;
-    } catch (err) {
+    } catch {
       return '';
     }
   }

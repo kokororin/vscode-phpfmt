@@ -1,6 +1,6 @@
 import type * as vscode from 'vscode';
-import { PHPFmtProvider } from './PHPFmtProvider';
 import { PHPFmt } from './PHPFmt';
+import { PHPFmtProvider } from './PHPFmtProvider';
 import { Widget } from './Widget';
 
 export function activate(context: vscode.ExtensionContext): void {
