@@ -6,12 +6,13 @@ import phpfmt from 'phpfmt';
 
 const __dirname = dirname(import.meta);
 
+const pkgPath = path.join(__dirname, '..');
+const distPath = path.join(pkgPath, 'dist');
+const destPath = path.join(distPath, phpfmt.v2.pharName);
+
 try {
-  const pkgPath = path.join(__dirname, '..');
-  const distPath = path.join(pkgPath, 'dist');
-  const destPath = path.join(distPath, phpfmt.v2.pharName);
-  const pharContent = await fs.readFile(phpfmt.v2.pharPath, 'binary');
-  await fs.writeFile(destPath, pharContent);
+  await fs.mkdir(distPath, { recursive: true });
+  await fs.copyFile(phpfmt.v2.pharPath, destPath);
 } catch (err) {
   console.error(err);
   process.exit(1);

@@ -1,14 +1,14 @@
+/* eslint no-console: error */
 import fs from 'node:fs/promises';
 import os from 'node:os';
-/* eslint no-console: error */
 import path from 'node:path';
 import process from 'node:process';
 import { Octokit } from '@octokit/rest';
-import AdmZip from 'adm-zip';
 import { consola } from 'consola';
 import debug from 'debug';
 import { dirname } from 'dirname-filename-esm';
 import { $ } from 'execa';
+import * as fflate from 'fflate';
 import { got } from 'got';
 import isInCi from 'is-in-ci';
 import md5 from 'md5';
@@ -50,16 +50,22 @@ try {
     throw new Error('Download vsix failed');
   }
 
-  const zip = new AdmZip(currentVsix);
-  const zipEntries = zip.getEntries();
-  const entry = zipEntries.find(
-    o => o.entryName === `extension/dist/${phpfmt.v2.pharName}`
-  );
-  if (entry == null) {
+  const zipData = await new Promise<fflate.Unzipped>((resolve, reject) => {
+    fflate.unzip(new Uint8Array(currentVsix), (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+
+  const entryPath = `extension/dist/${phpfmt.v2.pharName}`;
+  if (!(entryPath in zipData)) {
     throw new Error('Not found phar in vsix');
   }
 
-  const currentPharData = String(entry.getData());
+  const currentPharData = new TextDecoder().decode(zipData[entryPath]);
   const currentMd5 = md5(currentPharData);
   consola.info(`Current md5: ${currentMd5}`);
 

@@ -1,6 +1,6 @@
 import * as path from 'node:path';
-import { sync as globSync } from 'fast-glob';
 import Mocha from 'mocha';
+import { globSync } from 'tinyglobby';
 
 export function run(
   testsRoot: string,

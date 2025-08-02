@@ -1,6 +1,6 @@
 import assert from 'node:assert';
-import fg from 'fast-glob';
 import readPkgUp from 'read-pkg-up';
+import { glob } from 'tinyglobby';
 import * as vscode from 'vscode';
 
 const { packageJson: pkg } = readPkgUp.sync({ cwd: __dirname }) ?? {};
@@ -22,7 +22,7 @@ suite('PHPFmt Test', () => {
     }
 
     const workspaceFolder = vscode.workspace.workspaceFolders[0].uri.fsPath;
-    const phpFiles = await fg(['**/*.php'], {
+    const phpFiles = await glob(['**/*.php'], {
       cwd: workspaceFolder,
       absolute: true
     });
