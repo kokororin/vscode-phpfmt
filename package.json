@@ -725,7 +725,7 @@
     "detect-indent": "^6.0.0",
     "find-up": "^5.0.0",
     "mem": "^8.1.1",
-    "phpfmt": "^0.0.9"
+    "phpfmt": "^0.0.10"
   },
-  "packageManager": "pnpm@10.14.0"
+  "packageManager": "pnpm@10.15.1"
 }

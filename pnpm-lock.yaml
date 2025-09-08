@@ -21,8 +21,8 @@ importers:
         specifier: ^8.1.1
         version: 8.1.1
       phpfmt:
-        specifier: ^0.0.9
-        version: 0.0.9
+        specifier: ^0.0.10
+        version: 0.0.10
     devDependencies:
       '@antfu/eslint-config':
         specifier: ^5.0.0
@@ -2575,8 +2575,8 @@ packages:
   pend@1.2.0:
     resolution: {integrity: sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==}
 
-  phpfmt@0.0.9:
-    resolution: {integrity: sha512-RvpZPPU2ecY/ZhwZXfvuo4X3gtt5yqlNjtimCPOk5EDXDr4dJ+NF0DNT8GeE4XjkpvUEECpN2GmWxpBEczLgAw==}
+  phpfmt@0.0.10:
+    resolution: {integrity: sha512-LPEKRHPlYb6ZTfTNIkKQE05xPF6t2suUPhaMNQK4Dv/Gakkkeb4v3PJAoW7xT0qpEB4ubKtAMRxWpDjQIA5ZZA==}
 
   picocolors@1.1.0:
     resolution: {integrity: sha512-TQ92mBOW0l3LeMeyLV6mzy/kWr8lkd/hp3mTg7wYK7zJhuBStmGMBG0BdeDZS/dZx1IukaX6Bk11zcln25o1Aw==}
@@ -5902,7 +5902,7 @@ snapshots:
 
   pend@1.2.0: {}
 
-  phpfmt@0.0.9: {}
+  phpfmt@0.0.10: {}
 
   picocolors@1.1.0: {}
 
