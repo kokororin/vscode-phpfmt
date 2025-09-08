@@ -25,7 +25,6 @@ const changelogPath = path.join(__dirname, '../CHANGELOG.md');
 
 try {
   const pkg = JSON.parse(String(await fs.readFile(pkgJsonPath)));
-  const currentVersion = pkg.version;
 
   const { stdout: versionListOut } = await $({
     preferLocal: true
@@ -64,6 +63,12 @@ try {
   if (!(entryPath in zipData)) {
     throw new Error('Not found phar in vsix');
   }
+  const manifestPath = `extension/package.json`;
+  if (!(manifestPath in zipData)) {
+    throw new Error('Not found manifest in vsix');
+  }
+
+  const manifest = JSON.parse(new TextDecoder().decode(zipData[manifestPath]));
 
   const currentPharData = new TextDecoder().decode(zipData[entryPath]);
   const currentMd5 = md5(currentPharData);
@@ -82,7 +87,7 @@ try {
     process.exit(0);
   }
 
-  const newVersion = semver.inc(currentVersion, 'patch');
+  const newVersion = semver.inc(manifest.version, 'patch');
   consola.info(`New version: ${newVersion}`);
 
   let changelogData = String(await fs.readFile(changelogPath));
