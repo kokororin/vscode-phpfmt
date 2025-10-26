@@ -4,7 +4,7 @@
 // Meta info
 export const publisher = "kokororin"
 export const name = "vscode-phpfmt"
-export const version = "1.2.52"
+export const version = "1.2.54"
 export const displayName = "phpfmt - PHP formatter"
 export const description = "Integrates phpfmt into VS Code"
 export const extensionId = `${publisher}.${name}`
@@ -285,12 +285,12 @@ export const configs = {
   /**
    * call specific compiler pass
    * @key `phpfmt.passes`
-   * @default `["AlignDoubleArrow","AlignPHPCode","SpaceAfterExclamationMark","AlignConstVisibilityEquals","AutoSemicolon","ConvertOpenTagWithEcho","AlignEquals","MergeNamespaceWithOpenTag","RemoveSemicolonAfterCurly","RestoreComments","ShortArray","ExtraCommaInArray","AlignDoubleSlashComments"]`
+   * @default `["AlignDoubleArrow","AlignPHPCode","SpaceAfterExclamationMark","AlignConstVisibilityEquals","AutoSemicolon","ConvertOpenTagWithEcho","AlignEquals","MergeNamespaceWithOpenTag","RemoveSemicolonAfterCurly","RestoreComments","ShortArray","ExtraCommaInArray","AlignDoubleSlashComments","IndentTernaryConditions","IndentPipeOperator"]`
    * @type `array`
    */
   passes: {
     key: "phpfmt.passes",
-    default: ["AlignDoubleArrow","AlignPHPCode","SpaceAfterExclamationMark","AlignConstVisibilityEquals","AutoSemicolon","ConvertOpenTagWithEcho","AlignEquals","MergeNamespaceWithOpenTag","RemoveSemicolonAfterCurly","RestoreComments","ShortArray","ExtraCommaInArray","AlignDoubleSlashComments"],
+    default: ["AlignDoubleArrow","AlignPHPCode","SpaceAfterExclamationMark","AlignConstVisibilityEquals","AutoSemicolon","ConvertOpenTagWithEcho","AlignEquals","MergeNamespaceWithOpenTag","RemoveSemicolonAfterCurly","RestoreComments","ShortArray","ExtraCommaInArray","AlignDoubleSlashComments","IndentTernaryConditions","IndentPipeOperator"],
   } as ConfigItem<"phpfmt.passes">,
   /**
    * disable specific passes
@@ -378,7 +378,7 @@ export const scopedConfigs = {
     "enable_auto_align": false,
     "visibility_order": false,
     "ignore": [],
-    "passes": ["AlignDoubleArrow","AlignPHPCode","SpaceAfterExclamationMark","AlignConstVisibilityEquals","AutoSemicolon","ConvertOpenTagWithEcho","AlignEquals","MergeNamespaceWithOpenTag","RemoveSemicolonAfterCurly","RestoreComments","ShortArray","ExtraCommaInArray","AlignDoubleSlashComments"],
+    "passes": ["AlignDoubleArrow","AlignPHPCode","SpaceAfterExclamationMark","AlignConstVisibilityEquals","AutoSemicolon","ConvertOpenTagWithEcho","AlignEquals","MergeNamespaceWithOpenTag","RemoveSemicolonAfterCurly","RestoreComments","ShortArray","ExtraCommaInArray","AlignDoubleSlashComments","IndentTernaryConditions","IndentPipeOperator"],
     "exclude": [],
     "smart_linebreak_after_curly": false,
     "yoda": false,
