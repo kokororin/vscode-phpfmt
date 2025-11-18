@@ -25,7 +25,7 @@ try {
   consola.info('Downloading phpfmt.sublime-settings...');
   const phpfmtSettingsRaw = await got
     .get(
-      'https://rawstatic.com/driade/phpfmt8/refs/heads/master/phpfmt.sublime-settings'
+      'https://raw.githubusercontent.com/driade/phpfmt8/refs/heads/master/phpfmt.sublime-settings'
     )
     .text();
   const phpfmtSettings = JSON5.parse(phpfmtSettingsRaw);
