@@ -91,7 +91,7 @@ A: We now use `fmt.stub.php` from driade's [phpfmt8](https://github.com/driade/p
 | phpfmt.enable_auto_align | `boolean` | enable auto align of ST_EQUAL and T_DOUBLE_ARROW | false |
 | phpfmt.visibility_order | `boolean` | fixes visibiliy order for method in classes - PSR-2 4.2 | false |
 | phpfmt.ignore | `array` | ignore file names whose names contain any pattern that could be matched with `.match` JS string method | [] |
-| phpfmt.passes | `array` | call specific compiler pass | ["AlignDoubleArrow","AlignPHPCode","SpaceAfterExclamationMark","AlignConstVisibilityEquals","AutoSemicolon","ConvertOpenTagWithEcho","AlignEquals","MergeNamespaceWithOpenTag","RemoveSemicolonAfterCurly","RestoreComments","ShortArray","ExtraCommaInArray","AlignDoubleSlashComments","IndentTernaryConditions","IndentPipeOperator"] |
+| phpfmt.passes | `array` | call specific compiler pass | ["AlignDoubleArrow","AlignPHPCode","SpaceAfterExclamationMark","AlignConstVisibilityEquals","AutoSemicolon","ConvertOpenTagWithEcho","AlignEquals","MergeNamespaceWithOpenTag","RemoveSemicolonAfterCurly","RestoreComments","ShortArray","ExtraCommaInArray","AlignDoubleSlashComments","IndentTernaryConditions","IndentPipeOperator","AlignSuperEquals"] |
 | phpfmt.exclude | `array` | disable specific passes | [] |
 | phpfmt.smart_linebreak_after_curly | `boolean` | convert multistatement blocks into multiline blocks | false |
 | phpfmt.yoda | `boolean` | yoda-style comparisons | false |
