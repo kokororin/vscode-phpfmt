@@ -1,3 +1,4 @@
+// @ts-check
 import antfu from '@antfu/eslint-config';
 import configPrettier from 'eslint-config-prettier';
 import pluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
