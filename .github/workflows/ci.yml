@@ -44,7 +44,7 @@ jobs:
         if: ${{ matrix.os == 'macos-latest' && matrix.php-version == '7.0' }}
 
       - name: Run Tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
