@@ -4,7 +4,7 @@
 // Meta info
 export const publisher = "kokororin"
 export const name = "vscode-phpfmt"
-export const version = "1.2.61"
+export const version = "1.2.62"
 export const displayName = "phpfmt - PHP formatter"
 export const description = "Integrates phpfmt into VS Code"
 export const extensionId = `${publisher}.${name}`
@@ -12,7 +12,7 @@ export const extensionId = `${publisher}.${name}`
 /**
  * Type union of all commands
  */
-export type CommandKey = 
+export type CommandKey =
   | "phpfmt.format"
   | "phpfmt.listTransformations"
   | "phpfmt.toggleAdditionalTransformations"
@@ -25,7 +25,7 @@ export type CommandKey =
   | "phpfmt.openOutput"
 
 /**
- * Commands map registed by `kokororin.vscode-phpfmt`
+ * Commands map registered by `kokororin.vscode-phpfmt`
  */
 export const commands = {
   /**
@@ -83,7 +83,7 @@ export const commands = {
 /**
  * Type union of all configs
  */
-export type ConfigKey = 
+export type ConfigKey =
   | "phpfmt.php_bin"
   | "phpfmt.use_old_phpfmt"
   | "phpfmt.detect_indent"
