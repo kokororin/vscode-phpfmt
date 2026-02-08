@@ -4,7 +4,7 @@
 // Meta info
 export const publisher = "kokororin"
 export const name = "vscode-phpfmt"
-export const version = "1.2.63"
+export const version = "1.2.64"
 export const displayName = "phpfmt - PHP formatter"
 export const description = "Integrates phpfmt into VS Code"
 export const extensionId = `${publisher}.${name}`
