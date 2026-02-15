@@ -47,7 +47,7 @@ A: Wrap your path with quotes like:
 ```
 
 It is recommended to add the directory of the `php.exe` to the PATH environment variable on Windows.  
-If it still not working, refer to [#1](https://github.com/kokororin/vscode-phpfmt/issues/1) and [Stack Overflow Related](https://stackoverflow.com/a/45765854).
+If it is still not working, refer to [#1](https://github.com/kokororin/vscode-phpfmt/issues/1) and [Stack Overflow Related](https://stackoverflow.com/a/45765854).
 
 
 Q: How use tabs instead of spaces with PSR2 enabled ?  
@@ -89,7 +89,7 @@ A: We now use `fmt.stub.php` from driade's [phpfmt8](https://github.com/driade/p
 | phpfmt.wp | `boolean` | activate WP style | false |
 | phpfmt.indent_with_space | `integer \| boolean` | use spaces instead of tabs for indentation. Default 4 | 4 |
 | phpfmt.enable_auto_align | `boolean` | enable auto align of ST_EQUAL and T_DOUBLE_ARROW | false |
-| phpfmt.visibility_order | `boolean` | fixes visibiliy order for method in classes - PSR-2 4.2 | false |
+| phpfmt.visibility_order | `boolean` | fixes visibility order for method in classes - PSR-2 4.2 | false |
 | phpfmt.ignore | `array` | ignore file names whose names contain any pattern that could be matched with `.match` JS string method | [] |
 | phpfmt.passes | `array` | call specific compiler pass | ["AlignDoubleArrow","AlignPHPCode","SpaceAfterExclamationMark","AlignConstVisibilityEquals","AutoSemicolon","ConvertOpenTagWithEcho","AlignEquals","MergeNamespaceWithOpenTag","RemoveSemicolonAfterCurly","RestoreComments","ShortArray","ExtraCommaInArray","AlignDoubleSlashComments","IndentTernaryConditions","IndentPipeOperator","AlignSuperEquals"] |
 | phpfmt.exclude | `array` | disable specific passes | [] |
@@ -122,7 +122,7 @@ transformation.
 | AllmanStyleBraces | Transform all curly braces into Allman-style. |
 | AutoPreincrement | Automatically convert postincrement to preincrement. |
 | AutoSemicolon | Add semicolons in statements ends. |
-| CakePHPStyle | Applies CakePHP Coding Style |
+| CakePHPStyle | Applies CakePHP Coding Style. |
 | ClassToSelf | "self" is preferred within class, trait or interface. |
 | ClassToStatic | "static" is preferred within class, trait or interface. |
 | ConvertOpenTagWithEcho | Convert from "<?=" to "<?php echo ". |
